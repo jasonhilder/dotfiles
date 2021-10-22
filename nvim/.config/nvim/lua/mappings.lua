@@ -25,8 +25,8 @@ map("i", "<C-J> <esc>", ":m .+1<CR>==")
 map("i", "<C-K <esc>", ":m .-2<CR>==")
 
 -- commentor maps (vim registers _ as /)
-map("n", "<C-_>", ":CommentToggle<CR>", opt)
-map("v", "<C-_>", ":CommentToggle<CR>", opt)
+map("n", "<C-c>", ":CommentToggle<CR>", opt)
+map("v", "<C-c>", ":CommentToggle<CR>", opt)
 
 -- Telescope options
 map("n", "<Leader>pp", [[<Cmd> Telescope builtin <CR>]], opt)
@@ -79,4 +79,5 @@ map("n", "[d", [[<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>]], opts)
 map("n", "]d", [[<cmd>lua vim.lsp.diagnostic.goto_next()<CR>]], opts)
 map("n", "<space>q", [[<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]], opts)
 
-map("n", "<leader>g", "[[<cmd> lua _lazygit_toggle()<CR>]]", opts)
+-- lazygit
+map("n", "<leader>g", ":LazyGit<CR>]]", opts)
