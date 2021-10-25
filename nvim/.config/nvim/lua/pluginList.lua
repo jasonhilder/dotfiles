@@ -23,7 +23,7 @@ return packer.startup(
             config = function()
                 require("lualine").setup {
                 options = {
-                    theme = "gruvbox",
+                    theme = "onedark",
                     section_separators = {''},
                     component_separators = {''}
                     -- ... your lualine config
@@ -33,8 +33,7 @@ return packer.startup(
         }
 
         use {
-            "ellisonleao/gruvbox.nvim",
-            requires = {"rktjmp/lush.nvim"},
+            "Th3Whit3Wolf/one-nvim",
             after = "lualine.nvim",
             config = function()
                 require "theme"
@@ -51,7 +50,7 @@ return packer.startup(
 
         use {
             "kyazdani42/nvim-web-devicons",
-            after = "gruvbox.nvim",
+            after = "one-nvim",
         }
 
         -- Treesitter

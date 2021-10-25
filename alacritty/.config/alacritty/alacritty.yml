@@ -18,53 +18,40 @@ font:
 
     size: 14.5
 
-
-
+# onedark Alacritty Colors
 colors:
   # Default colors
   primary:
-    background: '#252525'
-    foreground: '0xd6d6d6'
+    background: '0x282c34'
+    foreground: '0xabb2bf'
 
-    dim_foreground:    '0xdbdbdb'
-    bright_foreground: '0xd9d9d9'
-    dim_background:    '0x202020' # not sure
-    bright_background: '0x3a3a3a' # not sure
-
-  # Cursor colors
-  cursor:
-    text:   '0x2c2c2c'
-    cursor: '0xd9d9d9'
+  # Selection colors
+  selection:
+    text:       CellForeground
+    background: '0x393f4a'
 
   # Normal colors
   normal:
-    black:   '0x1c1c1c'
-    red:     '0xbc5653'
-    green:   '0x909d63'
-    yellow:  '0xebc17a'
-    blue:    '0x7eaac7'
-    magenta: '0xaa6292'
-    cyan:    '0x86d3ce'
-    white:   '0xcacaca'
+    black:   '0x20232A'
+    red:     '0xe86671'
+    green:   '0x98c379'
+    yellow:  '0xe0af68'
+    blue:    '0x61afef'
+    magenta: '0xc678dd'
+    cyan:    '0x56b6c2'
+    white:   '0x798294'
 
   # Bright colors
   bright:
-    black:   '0x636363'
-    red:     '0xbc5653'
-    green:   '0x909d63'
-    yellow:  '0xebc17a'
-    blue:    '0x7eaac7'
-    magenta: '0xaa6292'
-    cyan:    '0x86d3ce'
-    white:   '0xf7f7f7'
+    black:   '0x21252b'
+    red:     '0xe86671'
+    green:   '0x98c379'
+    yellow:  '0xe0af68'
+    blue:    '0x61afef'
+    magenta: '0xc678dd'
+    cyan:    '0x56b6c2'
+    white:   '0xabb2bf'
 
-  # Dim colors
-  dim:
-    black:   '0x232323'
-    red:     '0x74423f'
-    green:   '0x5e6547'
-    yellow:  '0x8b7653'
-    blue:    '0x556b79'
-    magenta: '0x6e4962'
-    cyan:    '0x5c8482'
-    white:   '0x828282'
+  indexed_colors:
+    - { index: 16, color: '0xd19a66' }
+    - { index: 17, color: '0xf65866' }
