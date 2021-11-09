@@ -18,40 +18,35 @@ font:
 
     size: 14.5
 
-# onedark Alacritty Colors
+# gruvbox Alacritty Colors
 colors:
   # Default colors
   primary:
-    background: '0x282c34'
-    foreground: '0xabb2bf'
-
-  # Selection colors
-  selection:
-    text:       CellForeground
-    background: '0x393f4a'
+    background: '0x1d2021'
+    foreground: '0xd4be98'
 
   # Normal colors
   normal:
-    black:   '0x20232A'
-    red:     '0xe86671'
-    green:   '0x98c379'
-    yellow:  '0xe0af68'
-    blue:    '0x61afef'
-    magenta: '0xc678dd'
-    cyan:    '0x56b6c2'
-    white:   '0x798294'
+    black:   '0x1D2021'
+    red:     '0xea6962'
+    green:   '0xa9b665'
+    yellow:  '0xd8a657'
+    blue:    '0x7daea3'
+    magenta: '0xd3869b'
+    aqua:    '0x89b482'
+    white:   '0xd4be98'
 
   # Bright colors
   bright:
-    black:   '0x21252b'
-    red:     '0xe86671'
-    green:   '0x98c379'
-    yellow:  '0xe0af68'
-    blue:    '0x61afef'
-    magenta: '0xc678dd'
-    cyan:    '0x56b6c2'
-    white:   '0xabb2bf'
+    black:   '0x17191a'
+    red:     '0xea6962'
+    green:   '0xa9b665'
+    yellow:  '0xd8a657'
+    blue:    '0x7daea3'
+    magenta: '0xd3869b'
+    aqua:    '0x89b482'
+    white:   '0xd4be98'
 
   indexed_colors:
-    - { index: 16, color: '0xd19a66' }
-    - { index: 17, color: '0xf65866' }
+    - { index: 16, color: '0xe78a4e' }
+    - { index: 17, color: '0xc14a4a' }

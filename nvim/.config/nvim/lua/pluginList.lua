@@ -17,13 +17,20 @@ return packer.startup(
         }
 
         -- color/ui related stuff
+        use {
+            "eddyekofo94/gruvbox-flat.nvim",
+            config = function()
+                require "theme"
+            end
+        }
 
         use {
             "nvim-lualine/lualine.nvim",
+            after = "gruvbox-flat.nvim",
             config = function()
                 require("lualine").setup {
                 options = {
-                    theme = "onedark",
+                    theme = "gruvbox-flat",
                     section_separators = {''},
                     component_separators = {''}
                     -- ... your lualine config
@@ -32,13 +39,6 @@ return packer.startup(
           end
         }
 
-        use {
-            "Th3Whit3Wolf/one-nvim",
-            after = "lualine.nvim",
-            config = function()
-                require "theme"
-            end
-        }
 
         use {
             "norcalli/nvim-colorizer.lua",
@@ -50,7 +50,7 @@ return packer.startup(
 
         use {
             "kyazdani42/nvim-web-devicons",
-            after = "one-nvim",
+            after = "gruvbox-flat.nvim",
         }
 
         -- Treesitter

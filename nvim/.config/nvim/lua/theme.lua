@@ -1,6 +1,7 @@
 vim.o.background = "dark"
+vim.g.gruvbox_flat_style = "hard"
 vim.cmd([[
-    colorscheme one-nvim
+    colorscheme gruvbox-flat
     syntax on
     filetype on
     filetype plugin indent on
