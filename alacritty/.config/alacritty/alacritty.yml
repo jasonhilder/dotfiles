@@ -14,10 +14,8 @@ window:
 
 font:
     normal:
-      family: Monoid Nerd Font Mono
-    size: 13
-    offset:
-      x: 1
+      family: FiraCode Nerd Font Mono
+    size: 14
 
 cursor:
   style: Beam
