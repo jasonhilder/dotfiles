@@ -8,7 +8,7 @@ export ZSH="/home/jason/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="eastwood"
 
 #NODE JS
 export PATH=/home/jason/.nodejs/bin:$PATH
@@ -18,14 +18,17 @@ export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:~/go/bin
 
 #Flutter
-export PATH="$PATH:`pwd`/flutter/bin"
+export PATH="~/flutter/bin:$PATH"
 
-export ANDROID_HOME=$HOME/Android/Sdk
+export ANDROID_HOME=/Users/jasonhilder/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+
+#terminal background
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#7a7a7a'
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -64,7 +67,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 # Uncomment the following line to display red dots whilst waiting for completion.
 # Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
 # See https://github.com/ohmyzsh/ohmyzsh/issues/5765
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -116,6 +119,17 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias vim="nvim"
+alias nvim="~/.nvim-app/nvim.appimage"
 alias vscode="code . && exit"
 alias strongbox="~/.strongbox/strongbox"
 alias zola="~/.zola"
+alias lazygit="~/.lazygit"
+alias lg="~/.lazygit"
+alias work="cd ~/work/"
+
+# Function to copy alias's to zshenv file (for nvim/vim cmd to use)
+function zshalias()
+{
+  grep "^alias" ~/.zshrc > ~/.zshenv
+}

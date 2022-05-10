@@ -15,6 +15,9 @@ vim.g.mapleader = " "
 cmd([[autocmd BufWritePre * %s/\s\+$//e]])
 cmd([[autocmd BufWritePre * %s/\n\+\%$//e]])
 
+-- for the corne keyboard
+map("i", "jk", "<Esc>")
+
 -- Quality of life stuff
 map("n", "Y", "y$")
 map("v", "J", ":m '>+1<CR>gv=gv")
@@ -37,9 +40,9 @@ map("n", ";", [[<Cmd> Telescope buffers <CR>]], opt)
 -- Find in current buffer
 map("n", "<Leader>/", [[<Cmd> Telescope current_buffer_fuzzy_find <CR>]], opt)
 -- git files
-map("n", "<Leader>gf", [[<Cmd> Telescope git_files <CR>]], opt)
+map("n", "<Leader><leader>", [[<Cmd> Telescope git_files <CR>]], opt)
 -- Folders files
-map("n", "<Leader>ff", [[ <Cmd> Telescope file_browser <CR>]], opt)
+map("n", "<Leader>fb", [[ <Cmd> Telescope file_browser <CR>]], opt)
 -- All Files
 map("n", "<Leader>bfs", [[<Cmd> Telescope find_files <CR>]], opt)
 -- ripgrep like grep through directory
@@ -53,7 +56,7 @@ map("n", "<Leader>gc", [[<Cmd> Telescope git_commits <CR>]], opt)
 -- Help Tags
 map("n", "<Leader>fh", [[<Cmd> Telescope help_tags <CR>]], opt)
 -- Kill Current buffer
-map("n", "<Leader>bd", ":bd!<CR>", opt)
+map("n", "<Leader>bk", ":bd!<CR>", opt)
 -- Disable highlighting
 map("n", "<Leader>h", ":noh<CR>", opt)
 
@@ -80,4 +83,7 @@ map("n", "]d", [[<cmd>lua vim.lsp.diagnostic.goto_next()<CR>]], opts)
 map("n", "<space>q", [[<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]], opts)
 
 -- lazygit
-map("n", "<leader>g", ":LazyGit<CR>]]", opts)
+map("n", "<leader>gg", ":LazyGit<CR>", opts)
+
+-- toggleterm
+map("n", "<C-j>", ":ToggleTerm<CR>", opt)

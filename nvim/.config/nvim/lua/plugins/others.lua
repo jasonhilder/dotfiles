@@ -3,7 +3,9 @@ local M = {}
 M.colorizer = function()
     local present, colorizer = pcall(require, "colorizer")
     if present then
-        colorizer.setup()
+        colorizer.setup({
+            md = { names = false; }
+        })
         vim.cmd("ColorizerReloadAllBuffers")
     end
 end
@@ -16,12 +18,16 @@ M.comment = function()
 end
 
 M.better_escape = function()
-    require("better_escape").setup {
-        mapping = {"jk", "jj"},
-        timeout = vim.o.timeoutlen,
-        clear_empty_lines = false, -- clear line after escaping if there is only whitespace
-        keys = "<Esc>",
-    }
+    local present, better_escape = pcall(require, "better_escape")
+    if present then
+        better_escape.setup {
+            mapping = {"jk", "jj"},
+            timeout = vim.o.timeoutlen,
+            -- clear line after escaping if there is only whitespace
+            clear_empty_lines = false,
+            keys = "<Esc>",
+        }
+    end
 end
 
 M.lspkind = function()
@@ -40,6 +46,40 @@ M.blankline = function()
 
     vim.g.indent_blankline_show_trailing_blankline_indent = false
     vim.g.indent_blankline_show_first_indent_level = false
+end
+
+M.lualine = function ()
+    local present, lualine = pcall(require, "lualine")
+    if present then
+        lualine.setup {
+            options = {
+                theme = "catppuccin",
+                section_separators = {''},
+                component_separators = {''}
+                -- ... your lualine config
+            },
+            sections = {
+                lualine_c = {
+                    {
+                      'filename',
+                      path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
+                    }
+                }
+            }
+        }
+    end
+end
+
+M.bufferline = function()
+    local present, bufferline = pcall(require, "bufferline")
+    if present then
+        bufferline.setup{
+            options = {
+                modified_icon = '•',
+                close_icon = ''
+            }
+        }
+    end
 end
 
 return M

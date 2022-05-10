@@ -17,28 +17,35 @@ return packer.startup(
         }
 
         -- color/ui related stuff
-        use {
-            "eddyekofo94/gruvbox-flat.nvim",
+        use({
+            "catppuccin/nvim",
+            as = "catppuccin",
             config = function()
                 require "theme"
+                require('catppuccin').setup({
+                   integrations = {
+                         nivmtree = {
+                            enabled = true,
+                            show_root = true
+                        },
+                        lsp_saga = true
+                   }
+                })
+            end
+        })
+
+        use {
+            "nvim-lualine/lualine.nvim",
+            after = "catppuccin",
+            config = function()
+                require("plugins.others").lualine()
             end
         }
 
         use {
-            "nvim-lualine/lualine.nvim",
-            after = "gruvbox-flat.nvim",
-            config = function()
-                require("lualine").setup {
-                options = {
-                    theme = "gruvbox-flat",
-                    section_separators = {''},
-                    component_separators = {''}
-                    -- ... your lualine config
-                }
-            }
-          end
+            "kyazdani42/nvim-web-devicons",
+            after = "catppuccin",
         }
-
 
         use {
             "norcalli/nvim-colorizer.lua",
@@ -46,11 +53,6 @@ return packer.startup(
             config = function()
                 require("plugins.others").colorizer()
             end
-        }
-
-        use {
-            "kyazdani42/nvim-web-devicons",
-            after = "gruvbox-flat.nvim",
         }
 
         -- Treesitter
@@ -69,13 +71,13 @@ return packer.startup(
 
         -- LSP
         use {
-            "kabouzeid/nvim-lspinstall",
-            event = "BufRead"
+            "williamboman/nvim-lsp-installer",
+            event = "VimEnter"
         }
 
         use {
             "neovim/nvim-lspconfig",
-            after = "nvim-lspinstall",
+            after = "nvim-lsp-installer",
             config = function()
                 require "plugins.lspconfig"
             end
@@ -124,13 +126,19 @@ return packer.startup(
             cmd = "Telescope"
         }
 
-        -- Compe completion
-        -- load compe in insert mode only
+        -- Cmp completion dependencies
+        use 'hrsh7th/cmp-nvim-lsp'
+        use 'hrsh7th/cmp-buffer'
+        use 'hrsh7th/cmp-path'
+        use 'hrsh7th/cmp-cmdline'
+        -- For luasnip users.
+        use 'saadparwaiz1/cmp_luasnip'
+
+        -- cmp for compeletion
         use {
-            "hrsh7th/nvim-compe",
-            event = "InsertEnter",
+            'hrsh7th/nvim-cmp',
             config = function()
-                require "plugins.compe"
+                require "plugins.cmp"
             end,
             wants = "LuaSnip",
             requires = {
@@ -148,6 +156,7 @@ return packer.startup(
                 }
             },
         }
+
 
         -- file tree
         use {
@@ -183,9 +192,10 @@ return packer.startup(
                 require("plugins.others").better_escape()
             end
         }
+
         use {
             "windwp/nvim-autopairs",
-            after = "nvim-compe",
+            event = "BufRead",
             config = function()
                 require "plugins.autopairs"
             end
@@ -203,62 +213,7 @@ return packer.startup(
             "akinsho/nvim-toggleterm.lua",
             event = "VimEnter",
             config = function()
-                require('toggleterm').setup{
-                      -- size can be a number or function which is passed the current terminal
-                      size = 15,
-                      open_mapping = [[<c-\>]],
-                      hide_numbers = true, -- hide the number column in toggleterm buffers
-                      shade_filetypes = {},
-                      shade_terminals = true,
-                      shading_factor = '<number>', -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
-                      start_in_insert = true,
-                      insert_mappings = true, -- whether or not the open mapping applies in insert mode
-                      persist_size = true,
-                      direction = 'horizontal',
-                      close_on_exit = true, -- close the terminal window when the process exits
-                      --shell = vim.o.shell, -- change the default shell
-                      -- This field is only relevant if direction is set to 'float'
-                      float_opts = {
-                        -- The border key is *almost* the same as 'nvim_win_open'
-                        -- see :h nvim_win_open for details on borders however
-                        -- the 'curved' border is a custom border type
-                        -- not natively supported but implemented in this plugin.
-                        border = 'single',
-                        width = 200,
-                        height = 50,
-                        winblend = 3,
-                        highlights = {
-                          border = "Normal",
-                          background = "Normal",
-                        }
-                    }
-                }
-                -- Lazygit + toggleterm
-                local Terminal = require('toggleterm.terminal').Terminal
-                local lazygit = Terminal:new({
-                    cmd = "lazygit",
-                    dir = "git_dir",
-                    hidden = true,
-                    -- direction = "float",
-                    float_opts = {
-                        border = "single",
-                        width = 200,
-                        height = 50,
-                    },
-                      -- function to run on opening the terminal
-                    on_open = function(term)
-                        vim.cmd("startinsert!")
-                        vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
-                    end,
-                    -- function to run on closing the terminal
-                    on_close = function(term)
-                        vim.cmd("Closing terminal")
-                    end,
-                })
-
-                function _lazygit_toggle()
-                    lazygit:toggle()
-                end
+                require "plugins.toggleterm"
             end
         }
 
@@ -268,9 +223,19 @@ return packer.startup(
             requires = 'kyazdani42/nvim-web-devicons',
             event = "VimEnter",
             config = function()
-                require("bufferline").setup{
-                    options = {
-                        modified_icon = '•'
+                require("plugins.others").bufferline()
+            end
+        }
+
+        -- Vim-wiki
+        use {
+            'vimwiki/vimwiki',
+            config = function()
+                vim.g.vimwiki_list = {
+                    {
+                        path = '~/Mega/docs',
+                        syntax = 'markdown',
+                        ext = '.md',
                     }
                 }
             end
@@ -280,7 +245,8 @@ return packer.startup(
         use {'kdheepak/lazygit.nvim'}
 
         -- Twig
-        use { 'nelsyeung/twig.vim' }
+        -- use { 'nelsyeung/twig.vim' }
+        use { 'lumiliet/vim-twig' }
 
         -- Golang
         -- use { 'fatih/vim-go' }

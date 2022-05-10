@@ -7,7 +7,9 @@ vim.cmd([[
     filetype off
     filetype plugin indent off
     set noshowmode
+    set nowrap
     let g:nvim_tree_icons = {'git': {'unstaged': "!", 'untracked': "*"}}
+    let g:syntastic_auto_jump = 0
 ]])
 
 -- netrw settings
@@ -35,7 +37,8 @@ vim.opt.shadafile = "NONE"
 vim.o.termguicolors = true
 
 --fish slows things down
--- vim.opt.shell = "/bin/bash"
+vim.opt.shell = "zsh"
+
 g.seoul256_background = 234
 
 opt.mouse = "a"
@@ -69,9 +72,6 @@ g.indentLine_setConseal = 0
 opt.number = true
 opt.relativenumber = true
 opt.numberwidth = 2
-
--- shortmess options
-opt.shortmess:append("asI") --disable intro
 
 -- disable tilde on end of buffer:
 vim.cmd("let &fcs='eob: '")

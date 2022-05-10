@@ -4,7 +4,7 @@
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     virtual_text = {
-      prefix = "",
+      prefix = "✗",
       spacing = 0,
     },
     signs = true,
@@ -12,6 +12,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     update_in_insert = false
   }
 )
+
 -- symbols for autocomplete
 vim.lsp.protocol.CompletionItemKind = {
     "   (Text) ",
@@ -82,36 +83,63 @@ local function documentHighlight(client, bufnr)
     end
 end
 
-local lsp_config = {}
+local lspconfig = require("lspconfig")
+local configs = require("lspconfig.configs")
 
 local cfg = {
     use_lspsaga = true,
 }
 
-function lsp_config.common_on_attach(client, bufnr)
+function lspconfig.common_on_attach(client, bufnr)
     documentHighlight(client, bufnr)
 end
-function lsp_config.tsserver_on_attach(client, bufnr)
+function lspconfig.tsserver_on_attach(client, bufnr)
     lsp_config.common_on_attach(client, bufnr)
     client.resolved_capabilities.document_formatting = false
 end
 
 local function setup_servers()
-  require'lspinstall'.setup()
-  local servers = require'lspinstall'.installed_servers()
-  for _, server in pairs(servers) do
-    require'lspconfig'[server].setup{
-        on_attach = function(client, bufnr)
-            require'lsp_signature'.on_attach(cfg)
+    local lsp_installer_servers = require'nvim-lsp-installer.servers'
+
+    local rust_server, requested_server = lsp_installer_servers.get_server("rust_analyzer")
+    if rust_server then
+        requested_server:on_ready(function ()
+            local opts = {}
+            requested_server:setup(opts)
+        end)
+        if not requested_server:is_installed() then
+            -- Queue the server to be installed
+            requested_server:install()
         end
-    }
-  end
+    end
+
+    local ts_server, requested_server = lsp_installer_servers.get_server("tsserver")
+    if ts_server then
+        requested_server:on_ready(function ()
+            local opts = {
+                use_lspsaga = true,
+            }
+            requested_server:setup(opts)
+        end)
+        if not requested_server:is_installed() then
+            -- Queue the server to be installed
+            requested_server:install()
+        end
+    end
+
+    local html_server, requested_server = lsp_installer_servers.get_server("html")
+    if html_server then
+        requested_server:on_ready(function ()
+            local opts = {
+                use_lspsaga = true,
+            }
+            requested_server:setup(opts)
+        end)
+        if not requested_server:is_installed() then
+            -- Queue the server to be installed
+            requested_server:install()
+        end
+    end
 end
 
 setup_servers()
-
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require'lspinstall'.post_install_hook = function ()
-  setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-end
