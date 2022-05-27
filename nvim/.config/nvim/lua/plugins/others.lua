@@ -1,4 +1,4 @@
-local M = {}
+vscode.nvim{}
 
 M.colorizer = function()
     local present, colorizer = pcall(require, "colorizer")
@@ -53,10 +53,7 @@ M.lualine = function ()
     if present then
         lualine.setup {
             options = {
-                theme = "catppuccin",
-                section_separators = {''},
-                component_separators = {''}
-                -- ... your lualine config
+                theme = "vscode.nvim",
             },
             sections = {
                 lualine_c = {

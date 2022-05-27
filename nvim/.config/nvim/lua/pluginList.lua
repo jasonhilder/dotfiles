@@ -17,26 +17,12 @@ return packer.startup(
         }
 
         -- color/ui related stuff
-        use({
-            "catppuccin/nvim",
-            as = "catppuccin",
-            config = function()
-                require "theme"
-                require('catppuccin').setup({
-                   integrations = {
-                         nivmtree = {
-                            enabled = true,
-                            show_root = true
-                        },
-                        lsp_saga = true
-                   }
-                })
-            end
-        })
+        -- Packer:
+        use 'Mofiqul/vscode.nvim'
 
         use {
             "nvim-lualine/lualine.nvim",
-            after = "catppuccin",
+            after = "vscode.nvim",
             config = function()
                 require("plugins.others").lualine()
             end
@@ -44,7 +30,7 @@ return packer.startup(
 
         use {
             "kyazdani42/nvim-web-devicons",
-            after = "catppuccin",
+            after = "vscode.nvim",
         }
 
         use {

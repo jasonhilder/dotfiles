@@ -1,6 +1,6 @@
-vim.o.background = "dark"
+vim.g.vscode_style = "dark"
 vim.cmd([[
-    colorscheme catppuccin
+    colorscheme vscode
     syntax on
     filetype on
     filetype plugin indent on
