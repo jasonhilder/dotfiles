@@ -69,14 +69,9 @@ cd ~ && ./dotfiles/system_install.sh
     - Set specific shortcuts
     - dconf write /org/gnome/desktop/wm/keybindings/switch-to-workspace-5 "['<Alt>p']"
     - dconf write /org/gnome/desktop/wm/keybindings/move-to-workspace-5 "['<Shift><Alt>p']"
-    - gsettings set org.gnome.desktop.interface enable-animations false
 
 ### Set up browser and add extensions
     - bitwarden
     - gnome shell integration 
     - simply workspaces
     - disable workspace switcher
-
-## Additional notes on setup
-
-* I try to keep as little programs, tools installed on the actual OS and make use of docker to setup reproducible environments for each project, specifically using Vscode with the dev containers extension.
