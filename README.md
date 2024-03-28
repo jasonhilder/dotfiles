@@ -9,6 +9,7 @@ Steps To Reproduce
 
 ### :warning: 
 ### Note this is intended for a fresh install of Pop_Os
+*Most of this should (no guarantee) work on any ubuntu/debian based distros that use the apt package manager*
 
 ### Generate ssh key 
 ```
