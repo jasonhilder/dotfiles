@@ -7,7 +7,8 @@ Dotfiles :)
 Steps To Reproduce
 ---
 
-### :warning: Note this is intended for a fresh install of Pop_Os
+### :warning: 
+### Note this is intended for a fresh install of Pop_Os
 
 ### Generate ssh key 
 ```
