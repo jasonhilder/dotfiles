@@ -30,6 +30,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 ---------------------------------------------------------------------------------
 require('lspconfig').clangd.setup {}
 require('lspconfig').gopls.setup {}
+require('lspconfig').ols.setup {}
 
 ---------------------------------------------------------------------------------
 -- Auto complete basic setup
