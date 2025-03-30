@@ -22,6 +22,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
         vim.keymap.set('n', 'cr', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
         vim.keymap.set('n', 'ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+
+        --j
     end,
 })
 
@@ -39,6 +41,7 @@ local cmp = require('cmp')
 
 cmp.setup({
     sources = {
+        {name = 'buffer'},
         {name = 'nvim_lsp'},
     },
     snippet = {
@@ -49,6 +52,7 @@ cmp.setup({
     mapping = cmp.mapping.preset.insert({
         -- confirm completion
         ['<CR>'] = cmp.mapping.confirm({select = false}),
+        ['<C-Space>'] = cmp.mapping.complete(),
     }),
 })
 

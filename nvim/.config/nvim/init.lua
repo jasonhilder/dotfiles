@@ -68,7 +68,7 @@ vim.keymap.set("v", "<Tab>", ">gv", { desc = "indent line" })
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "move selection down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "move selection up" })
 -- Code management
-vim.keymap.set("n", "<leader>c", "<cmd>!make<CR>", { desc = "Run makefile" })
+-- vim.keymap.set("n", "<leader>c", "<cmd>!make<CR>", { desc = "Run makefile" })
 vim.keymap.set("n", "<leader>d", ":vsplit | lua vim.lsp.buf.definition()<CR>", { desc = "split def" })
 
 ---------------------------------------------------------------------------------

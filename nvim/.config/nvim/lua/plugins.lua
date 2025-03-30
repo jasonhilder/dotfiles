@@ -96,13 +96,8 @@ require("lazy").setup({
             end
         },
         ---------------------------------------------------------------------------------
-        -- Make neovim and all its ui transparent
+        -- WTF 
         ---------------------------------------------------------------------------------
-        {
-            'tribela/transparent.nvim',
-            event = 'VimEnter',
-            config = true,
-        },
         {
             'brenoprata10/nvim-highlight-colors',
             event = 'BufEnter',
@@ -138,24 +133,23 @@ require("lazy").setup({
         ---------------------------------------------------------------------------------
         -- Colorscheme
         ---------------------------------------------------------------------------------
-       {
-            "rebelot/kanagawa.nvim",
-            priority = 1000 ,
+        { 
+            "ellisonleao/gruvbox.nvim", 
+            priority = 1000, 
             config = function()
-                require('kanagawa').setup({
-                    commentStyle = {italic = false},
-                    keywordStyle = {italic = false},
-                    transparent = true
+                require("gruvbox").setup({
+                    inverse = false,
+                    transparent_mode = true,
+                    italic = {
+                        strings = false,
+                        emphasis = false,
+                        comments = false,
+                        operators = false,
+                    },
                 })
-
-                vim.cmd("colorscheme kanagawa")
-                vim.cmd [[ 
-                    hi SignColumn guibg=NONE ctermbg=NONE 
-                    hi LineNr guibg=NONE ctermbg=NONE
-                    hi WinSeparator guifg=#DCD7BA
-                ]]
-            end
-       },
+                vim.cmd.colorscheme('gruvbox')
+            end,
+        },
        { 
            'alexghergh/nvim-tmux-navigation', 
 
@@ -192,6 +186,7 @@ require("lazy").setup({
             }
        },
        {'hrsh7th/nvim-cmp'},
+       {'hrsh7th/cmp-buffer'},
        {'hrsh7th/cmp-nvim-lsp'},
 	}
 })

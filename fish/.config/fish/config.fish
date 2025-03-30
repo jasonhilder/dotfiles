@@ -30,9 +30,7 @@ set --export PATH $BUN_INSTALL/bin $PATH
 set -x PATH $HOME/.local/share/odin-lang $PATH
 
 # C3
-# set -x PATH $HOME/.local/bin/c3 $PATH
-# Zig
-# set -x PATH $HOME/.local/share/zig $PATH
+set -x PATH $HOME/.local/share/c3 $PATH
 
 # FZF 
 set -x FZF_DEFAULT_COMMAND "fdfind --exclude={.git,.cache,.xmake,.zig-cache,build,tmp} --type f -H"
