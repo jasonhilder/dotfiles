@@ -22,17 +22,31 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
         vim.keymap.set('n', 'cr', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
         vim.keymap.set('n', 'ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
-
-        --j
     end,
 })
 
 ---------------------------------------------------------------------------------
 -- Language servers
 ---------------------------------------------------------------------------------
-require('lspconfig').clangd.setup {}
-require('lspconfig').gopls.setup {}
-require('lspconfig').ols.setup {}
+local border = {
+    { '┌', 'FloatBorder' },
+    { '─', 'FloatBorder' },
+    { '┐', 'FloatBorder' },
+    { '│', 'FloatBorder' },
+    { '┘', 'FloatBorder' },
+    { '─', 'FloatBorder' },
+    { '└', 'FloatBorder' },
+    { '│', 'FloatBorder' },
+}
+
+local handlers = {
+    ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+    ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+}
+
+require('lspconfig').clangd.setup {handlers = handlers}
+require('lspconfig').gopls.setup {handlers = handlers}
+require('lspconfig').ols.setup {handlers = handlers}
 
 ---------------------------------------------------------------------------------
 -- Auto complete basic setup
@@ -56,3 +70,11 @@ cmp.setup({
     }),
 })
 
+vim.diagnostic.config {
+    virtual_text = false,
+    float = {
+        header = false,
+        border = border,
+        focusable = true,
+    },
+}
