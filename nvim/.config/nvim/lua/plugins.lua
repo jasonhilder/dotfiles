@@ -17,6 +17,21 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     spec = {
+        {
+            "folke/tokyonight.nvim",
+            lazy = false,
+            priority = 1000,
+            config = function()
+                require("tokyonight").setup({
+                    styles = {
+                        comments = { italic = false },
+                        keywords = { italic = false },
+                    },
+                })
+                vim.cmd.colorscheme('tokyonight-moon')
+                vim.cmd("highlight WinSeparator guifg='#828bb8' guibg=NONE")
+            end
+        },
         ---------------------------------------------------------------------------------
         -- Multiple fzf pickers
         ---------------------------------------------------------------------------------
@@ -36,24 +51,26 @@ require("lazy").setup({
             }
         },
         ---------------------------------------------------------------------------------
-        -- Yazi file manager in neovim
+        -- Git client
         ---------------------------------------------------------------------------------
-        {
-            "mikavilpas/yazi.nvim",
-            event = "VeryLazy",
-            keys = {
-                {
-                    "<leader>e",
-                    "<cmd>Yazi cwd<cr>",
-                    desc = "Open the file manager in nvim's working directory",
-                },
-            }
-        },
         {
             'tpope/vim-fugitive',
             keys = {
                 { "<leader>gg", "<cmd>Git<cr>", desc = "Open status manager", },
             }
+        },
+        ---------------------------------------------------------------------------------
+        -- Mini filemanager
+        ---------------------------------------------------------------------------------
+        { 
+            'echasnovski/mini.files', 
+            version = '*',
+            keys = {
+                { "<leader>e", "<cmd>lua MiniFiles.open()<cr>", desc = "Open status manager", },
+            },
+            config = function()
+                require('mini.files').setup()
+            end
         },
         ---------------------------------------------------------------------------------
         -- Mini comment: Comment code blocks
@@ -113,25 +130,8 @@ require("lazy").setup({
             end
         },
         ---------------------------------------------------------------------------------
-        -- Colorscheme
+        -- tmux in vim
         ---------------------------------------------------------------------------------
-        { 
-            "ellisonleao/gruvbox.nvim", 
-            priority = 1000, 
-            config = function()
-                require("gruvbox").setup({
-                    inverse = false,
-                    transparent_mode = true,
-                    italic = {
-                        strings = false,
-                        emphasis = false,
-                        comments = false,
-                        operators = false,
-                    },
-                })
-                vim.cmd.colorscheme('gruvbox')
-            end,
-        },
         { 
             'alexghergh/nvim-tmux-navigation', 
 
@@ -151,7 +151,7 @@ require("lazy").setup({
             end
         },
         ---------------------------------------------------------------------------------
-        -- highlighting text 
+        -- highlighting text (colors,comments)
         ---------------------------------------------------------------------------------
         {
             'brenoprata10/nvim-highlight-colors',

@@ -12,7 +12,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 ---------------------------------------------------------------------------------
 -- [[ OPTIONS ]]
 ---------------------------------------------------------------------------------
-vim.cmd("colorscheme habamax")
 vim.g.loaded_netrw = 1                 -- Disables the default Netrw file browser
 vim.g.loaded_netrwPlugin = 1           -- Disables the Netrw plugin
 vim.opt.mouse = 'a'                    -- Enables mouse support in all modes
@@ -31,7 +30,7 @@ vim.opt.smartcase = true               -- Makes searches case sensitive if there
 vim.opt.hlsearch = true                -- Highlights all matches of the search pattern
 vim.opt.incsearch = true               -- Starts searching before typing is finished
 vim.opt.termguicolors = true           -- Enables true color support
-vim.opt.scrolloff = 8                  -- Keeps 8 lines visible above/below the cursor
+vim.opt.scrolloff = 20                 -- Keeps 8 lines visible above/below the cursor
 vim.opt.signcolumn = "yes"             -- Always show the sign column
 vim.opt.isfname:append("@-@")          -- Allows '@' in filenames
 vim.opt.clipboard = "unnamedplus"      -- Uses the system clipboard for all yank, delete, change and put operations
@@ -69,6 +68,20 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "move selection down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "move selection up" })
 -- Diagnostics
 vim.keymap.set("n", "<leader>k", ":lua vim.diagnostic.open_float()<CR>", { desc = "Diagnostic Float" })
+
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
+
+---------------------------------------------------------------------------------
+-- [[ COLORS ]]
+---------------------------------------------------------------------------------
+vim.cmd("colorscheme habamax")
+-- darker background looks nicer with haba
+vim.api.nvim_set_hl(0, "Normal", { bg = "#181616" })
+vim.api.nvim_set_hl(0, "NonText", { bg = "#181616" })
+vim.api.nvim_set_hl(0, "VertSplit", { bg = "#181616" })
+vim.api.nvim_set_hl(0, "StatusLine", { bg = "#181616", fg = "white" })
+vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#181616", fg = "white" })
 
 ---------------------------------------------------------------------------------
 -- [[ CONFIGS ]]
