@@ -1,8 +1,19 @@
 ---------------------------------------------------------------------------------
--- Language servers
+-- Vim settings
 ---------------------------------------------------------------------------------
 vim.o.winborder = 'rounded'
 
+vim.diagnostic.config {
+    virtual_text = false,
+    float = {
+        header = false,
+        border = 'rounded',
+        focusable = true,
+    },
+}
+---------------------------------------------------------------------------------
+-- Language servers
+---------------------------------------------------------------------------------
 vim.lsp.config.clangd = {
   cmd = { 
       '/home/jason/.local/share/nvim/mason/bin/clangd', 
@@ -45,7 +56,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 ---------------------------------------------------------------------------------
--- Auto complete basic setup
+-- Auto complete nvim-cmp
 ---------------------------------------------------------------------------------
 local cmp = require('cmp')
 
@@ -66,12 +77,3 @@ cmp.setup({
         ['<C-Space>'] = cmp.mapping.complete(),
     }),
 })
-
-vim.diagnostic.config {
-    virtual_text = false,
-    float = {
-        header = false,
-        border = 'rounded',
-        focusable = true,
-    },
-}
