@@ -73,17 +73,6 @@ vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
 
 ---------------------------------------------------------------------------------
--- [[ COLORS ]]
----------------------------------------------------------------------------------
-vim.cmd("colorscheme habamax")
--- darker background looks nicer with haba
-vim.api.nvim_set_hl(0, "Normal", { bg = "#181616" })
-vim.api.nvim_set_hl(0, "NonText", { bg = "#181616" })
-vim.api.nvim_set_hl(0, "VertSplit", { bg = "#181616" })
-vim.api.nvim_set_hl(0, "StatusLine", { bg = "#181616", fg = "white" })
-vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#181616", fg = "white" })
-
----------------------------------------------------------------------------------
 -- [[ CONFIGS ]]
 ---------------------------------------------------------------------------------
 require("plugins")
