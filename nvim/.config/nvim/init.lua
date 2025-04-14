@@ -38,9 +38,9 @@ vim.opt.undofile = true                -- Enables persistent undo
 vim.opt.updatetime = 50                -- Sets the time after which the swap file is written (in milliseconds)
 vim.o.breakindent = true               -- Makes wrapped lines visually indented
 vim.o.termguicolors = true             -- Enables true color support (duplicated setting)
-vim.o.completeopt = 'menuone,noselect' -- Configures how the completion menu works
 vim.o.splitright = true                -- Set horizontal splits to the right as default
 vim.o.splitbelow = true                -- Set vertical splits to the bottom as default 
+vim.o.completeopt = 'menuone,noselect' -- Configures how the completion menu works
 ---------------------------------------------------------------------------------
 -- [[ KEYMAPS ]]
 ---------------------------------------------------------------------------------

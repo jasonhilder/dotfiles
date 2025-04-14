@@ -22,21 +22,16 @@ set -x PATH /usr/local/go/bin $PATH
 set -x PATH $HOME/.local/go/bin $PATH
 set -x PATH $HOME/.local/go/bin/gopls $PATH
 
-# BUN(JS)
-set --export BUN_INSTALL "$HOME/.bun"
-set --export PATH $BUN_INSTALL/bin $PATH
-
 # Odin
-set -x PATH $HOME/.local/share/odin-lang $PATH
-
+# set -x PATH $HOME/.local/share/odin-lang $PATH
 # C3
-set -x PATH $HOME/.local/share/c3 $PATH
+# set -x PATH $HOME/.local/share/c3 $PATH
 
 # FZF 
 set -x FZF_DEFAULT_COMMAND "fdfind --exclude={.git,.cache,.xmake,.zig-cache,build,tmp} --type f -H"
 
 # add usr/local/lib to path for shared libraries i.e SDL3 etc
-set -x  LD_LIBRARY_PATH "$LD_LIBRARY_PATH:/usr/local/lib"
+# set -x  LD_LIBRARY_PATH "$LD_LIBRARY_PATH:/usr/local/lib"
 
 # ------------------------
 # ALIASES
@@ -46,7 +41,6 @@ alias :q exit
 alias lg lazygit
 alias dotfiles "cd ~/dotfiles; vim"
 alias wiki "cd ~/github/reimagined_barnacle; vim"
-alias yz "yazi"
 alias vim "nvim"
 
 set -l foreground bcbcbc

@@ -162,13 +162,7 @@ require("lazy").setup({
                 HighlightColors Toggle
                 ]]
             end,
-            keys = {
-                {
-                    "<leader>tc",
-                    "<cmd>HighlightColors Toggle<cr>",
-                    desc = "Toggle color code highlighting",
-                },
-            }
+            keys = {{ "<leader>tc", "<cmd>HighlightColors Toggle<cr>", desc = "Toggle color highlighting" }}
         },
         { 
             "Djancyp/better-comments.nvim",
@@ -179,20 +173,7 @@ require("lazy").setup({
         ---------------------------------------------------------------------------------
         -- LSP Dependencies
         ---------------------------------------------------------------------------------
-        {
-            "neovim/nvim-lspconfig",
-            lazy = true,
-            dependencies = {
-                { "williamboman/mason.nvim", config = true },
-                'williamboman/mason-lspconfig.nvim',
-                {
-                    'j-hui/fidget.nvim',
-                    config = function()
-                        require("fidget").setup {}
-                    end,
-                }
-            }
-        },
+        { "williamboman/mason.nvim" },
         {'hrsh7th/nvim-cmp'},
         {'hrsh7th/cmp-buffer'},
         {'hrsh7th/cmp-nvim-lsp'},

@@ -1,13 +1,30 @@
-local lspconfig_defaults = require('lspconfig').util.default_config
+---------------------------------------------------------------------------------
+-- Language servers
+---------------------------------------------------------------------------------
+vim.o.winborder = 'rounded'
 
-lspconfig_defaults.capabilities = vim.tbl_deep_extend(
-    'force',
-    lspconfig_defaults.capabilities,
-    require('cmp_nvim_lsp').default_capabilities()
-)
+vim.lsp.config.clangd = {
+  cmd = { 
+      '/home/jason/.local/share/nvim/mason/bin/clangd', 
+      '--background-index' 
+  },
+  root_markers = { 'compile_commands.json', 'compile_flags.txt' },
+  filetypes = { 'c', 'cpp' },
+}
 
--- This is where you enable features that only work
--- if there is a language server active in the file
+vim.lsp.config.gopls = {
+  cmd = { '/home/jason/.local/share/nvim/mason/bin/gopls', },
+  root_markers = { 'go.mod' },
+  filetypes = { 'go' },
+}
+
+--vim.lsp.enable({'clangd', 'gopls'})
+vim.lsp.enable({'clangd'})
+
+---------------------------------------------------------------------------------
+-- Language server Keybinds
+---------------------------------------------------------------------------------
+-- if there is a language server active
 vim.api.nvim_create_autocmd('LspAttach', {
     desc = 'LSP actions',
     callback = function(event)
@@ -22,31 +39,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
         vim.keymap.set('n', 'cr', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
         vim.keymap.set('n', 'ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+        -- Map Ctrl-Space to trigger omni-completion in Insert mode
+        vim.api.nvim_set_keymap('i', '<C-Space>', '<C-X><C-O>', { noremap = true, silent = true })
     end,
 })
-
----------------------------------------------------------------------------------
--- Language servers
----------------------------------------------------------------------------------
-local border = {
-    { '┌', 'FloatBorder' },
-    { '─', 'FloatBorder' },
-    { '┐', 'FloatBorder' },
-    { '│', 'FloatBorder' },
-    { '┘', 'FloatBorder' },
-    { '─', 'FloatBorder' },
-    { '└', 'FloatBorder' },
-    { '│', 'FloatBorder' },
-}
-
-local handlers = {
-    ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-    ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
-}
-
-require('lspconfig').clangd.setup {handlers = handlers}
-require('lspconfig').gopls.setup {handlers = handlers}
-require('lspconfig').ols.setup {handlers = handlers}
 
 ---------------------------------------------------------------------------------
 -- Auto complete basic setup
@@ -54,17 +50,18 @@ require('lspconfig').ols.setup {handlers = handlers}
 local cmp = require('cmp')
 
 cmp.setup({
-    sources = {
-        {name = 'buffer'},
-        {name = 'nvim_lsp'},
-    },
+    sources = cmp.config.sources(
+        -- Use nvim_lsp if LSP is active
+        {{ name = 'nvim_lsp' }}, 
+        -- Only include buffer source if no LSP is active
+        {{ name = 'buffer' }}
+    ),
     snippet = {
         expand = function(args)
             vim.snippet.expand(args.body)
         end,
     },
     mapping = cmp.mapping.preset.insert({
-        -- confirm completion
         ['<CR>'] = cmp.mapping.confirm({select = false}),
         ['<C-Space>'] = cmp.mapping.complete(),
     }),
@@ -74,7 +71,7 @@ vim.diagnostic.config {
     virtual_text = false,
     float = {
         header = false,
-        border = border,
+        border = 'rounded',
         focusable = true,
     },
 }
