@@ -73,6 +73,24 @@ vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
 
 ---------------------------------------------------------------------------------
+-- [[ TERMINAL ]]
+---------------------------------------------------------------------------------
+local set = vim.opt_local
+
+-- Set local settings for terminal buffers
+vim.api.nvim_create_autocmd("TermOpen", {
+    group = vim.api.nvim_create_augroup("custom-term-open", {}),
+    callback = function()
+        set.number = false
+        set.relativenumber = false
+        set.scrolloff = 0
+    end,
+})
+
+-- Easily hit escape in terminal mode.
+vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
+
+---------------------------------------------------------------------------------
 -- [[ CONFIGS ]]
 ---------------------------------------------------------------------------------
 require("plugins")
