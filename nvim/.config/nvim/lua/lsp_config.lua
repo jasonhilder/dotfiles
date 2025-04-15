@@ -14,6 +14,20 @@ vim.diagnostic.config {
 ---------------------------------------------------------------------------------
 -- Language servers
 ---------------------------------------------------------------------------------
+vim.diagnostic.config {
+    virtual_text = false,
+    float = {
+        header = false,
+        border = 'rounded',
+        focusable = true,
+    },
+}
+---------------------------------------------------------------------------------
+-- Language servers
+---------------------------------------------------------------------------------
+vim.o.winborder = 'rounded'
+
+>>>>>>> 736c9fe (Latest updates.)
 vim.lsp.config.clangd = {
   cmd = { 
       '/home/jason/.local/share/nvim/mason/bin/clangd', 
@@ -29,8 +43,7 @@ vim.lsp.config.gopls = {
   filetypes = { 'go' },
 }
 
---vim.lsp.enable({'clangd', 'gopls'})
-vim.lsp.enable({'clangd'})
+vim.lsp.enable({'clangd', 'gopls'})
 
 ---------------------------------------------------------------------------------
 -- Language server Keybinds

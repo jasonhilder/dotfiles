@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Setup compile commands for lsp 
-
-current_dir=$(pwd)
-cd "$current_dir" || exit 1 
-
-xmake project -k compile_commands --lsp=clangd
