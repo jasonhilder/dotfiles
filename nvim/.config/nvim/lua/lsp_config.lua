@@ -27,7 +27,6 @@ vim.diagnostic.config {
 ---------------------------------------------------------------------------------
 vim.o.winborder = 'rounded'
 
->>>>>>> 736c9fe (Latest updates.)
 vim.lsp.config.clangd = {
   cmd = { 
       '/home/jason/.local/share/nvim/mason/bin/clangd', 

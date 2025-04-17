@@ -29,13 +29,6 @@ set -x PATH $HOME/.local/go/bin/gopls $PATH
 # set -x PATH $HOME/.local/share/odin-lang $PATH
 # C3
 # set -x PATH $HOME/.local/share/c3 $PATH
-<<<<<<< HEAD
-
-# FZF 
-set -x FZF_DEFAULT_COMMAND "fdfind --exclude={.git,.cache,.xmake,.zig-cache,build,tmp} --type f -H"
-
-=======
->>>>>>> 736c9fe (Latest updates.)
 # add usr/local/lib to path for shared libraries i.e SDL3 etc
 # set -x  LD_LIBRARY_PATH "$LD_LIBRARY_PATH:/usr/local/lib"
 
