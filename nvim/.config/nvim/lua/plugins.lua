@@ -18,17 +18,12 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
     spec = {
         {
-            "folke/tokyonight.nvim",
+            "wtfox/jellybeans.nvim",
             lazy = false,
             priority = 1000,
             config = function()
-                require("tokyonight").setup({
-                    styles = {
-                        comments = { italic = false },
-                        keywords = { italic = false },
-                    },
-                })
-                vim.cmd.colorscheme('tokyonight-moon')
+                require("jellybeans").setup({ })
+                vim.cmd.colorscheme('jellybeans')
                 vim.cmd("highlight WinSeparator guifg='#828bb8' guibg=NONE")
             end
         },
