@@ -42,6 +42,7 @@ alias dotfiles "cd ~/dotfiles; vim"
 alias wiki "cd ~/github/reimagined_barnacle; vim"
 alias vim "nvim"
 alias rmdir "safe_delete"
+alias gs "git status"
 
 set -l foreground bcbcbc
 set -l selection 5f87af
