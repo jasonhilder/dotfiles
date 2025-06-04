@@ -27,6 +27,7 @@ set -x PATH $HOME/.local/go/bin/gopls $PATH
 
 # Odin
 # set -x PATH $HOME/.local/share/odin-lang $PATH
+
 # C3
 # set -x PATH $HOME/.local/share/c3 $PATH
 # add usr/local/lib to path for shared libraries i.e SDL3 etc
@@ -37,13 +38,15 @@ set -x PATH $HOME/.local/go/bin/gopls $PATH
 # ------------------------
 alias .. "cd .."
 alias :q exit
-alias lg lazygit
 alias dotfiles "cd ~/dotfiles; vim"
 alias wiki "cd ~/github/reimagined_barnacle; vim"
 alias vim "nvim"
 alias rmdir "safe_delete"
 alias gs "git status"
 
+# ------------------------
+#  COLOR THEME
+# ------------------------
 set -l foreground bcbcbc
 set -l selection 5f87af
 set -l comment 767676
