@@ -158,7 +158,6 @@ require("lazy").setup({
         ---------------------------------------------------------------------------------
         -- LSP Dependencies
         ---------------------------------------------------------------------------------
-        { "williamboman/mason.nvim" },
         {'hrsh7th/nvim-cmp'},
         {'hrsh7th/cmp-buffer'},
         {'hrsh7th/cmp-nvim-lsp'},

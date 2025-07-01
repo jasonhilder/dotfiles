@@ -17,6 +17,9 @@ set -x PATH $HOME/bin /usr/local/bin $PATH
 # Add .local/bin
 set -x PATH $HOME/.local/bin $PATH
 
+# Add neovim 
+set -x PATH $HOME/.local/apps/nvim/bin $PATH
+
 # FZF 
 set -x FZF_DEFAULT_COMMAND "fdfind --exclude={.git,.cache,.xmake,.zig-cache,build,tmp} --type f -H"
 
@@ -24,6 +27,9 @@ set -x FZF_DEFAULT_COMMAND "fdfind --exclude={.git,.cache,.xmake,.zig-cache,buil
 set -x PATH /usr/local/go/bin $PATH
 set -x PATH $HOME/.local/go/bin $PATH
 set -x PATH $HOME/.local/go/bin/gopls $PATH
+
+# V Lang
+#set -x PATH $HOME/Programming/v_lang/v/
 
 # Odin
 # set -x PATH $HOME/.local/share/odin-lang $PATH
@@ -38,7 +44,7 @@ set -x PATH $HOME/.local/go/bin/gopls $PATH
 # ------------------------
 alias .. "cd .."
 alias :q exit
-alias dotfiles "cd ~/dotfiles; vim"
+alias dotfiles "cd ~/.dotfiles; vim"
 alias wiki "cd ~/github/reimagined_barnacle; vim"
 alias vim "nvim"
 alias rmdir "safe_delete"

@@ -29,20 +29,21 @@ vim.o.winborder = 'rounded'
 
 vim.lsp.config.clangd = {
   cmd = { 
-      '/home/jason/.local/share/nvim/mason/bin/clangd', 
+      '/usr/bin/clangd', 
       '--background-index' 
   },
   root_markers = { 'compile_commands.json', 'compile_flags.txt' },
   filetypes = { 'c', 'cpp' },
 }
 
-vim.lsp.config.gopls = {
-  cmd = { '/home/jason/.local/share/nvim/mason/bin/gopls', },
-  root_markers = { 'go.mod' },
-  filetypes = { 'go' },
-}
+-- vim.lsp.config.gopls = {
+--   cmd = { '/home/jason/.local/share/nvim/mason/bin/gopls', },
+--   root_markers = { 'go.mod' },
+--   filetypes = { 'go' },
+-- }
 
-vim.lsp.enable({'clangd', 'gopls'})
+-- vim.lsp.enable({'clangd', 'gopls'})
+vim.lsp.enable({'clangd'})
 
 ---------------------------------------------------------------------------------
 -- Language server Keybinds
