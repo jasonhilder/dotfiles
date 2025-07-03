@@ -21,7 +21,7 @@ set -x PATH $HOME/.local/bin $PATH
 set -x PATH $HOME/.local/apps/nvim/bin $PATH
 
 # FZF 
-set -x FZF_DEFAULT_COMMAND "fdfind --exclude={.git,.cache,.xmake,.zig-cache,build,tmp} --type f -H"
+set -x FZF_DEFAULT_COMMAND "fd --exclude={.git,.cache,.xmake,.zig-cache,build,tmp} --type f -H"
 
 # GOLANG
 set -x PATH /usr/local/go/bin $PATH
