@@ -49,6 +49,17 @@ alias vim "nvim"
 alias rmdir "safe_delete"
 
 # ------------------------
+# FUNCTIONS
+# ------------------------
+# pp (pick project)
+function pp
+    set dir (bash proj-select)
+    if test -n "$dir"
+        cd "$dir"
+    end
+end
+
+# ------------------------
 #  COLOR THEME
 # ------------------------
 set -l foreground bcbcbc

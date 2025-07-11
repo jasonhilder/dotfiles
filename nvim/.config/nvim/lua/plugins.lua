@@ -18,13 +18,24 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
     spec = {
         {
-            "wtfox/jellybeans.nvim",
-            lazy = false,
-            priority = 1000,
+            "vague2k/vague.nvim",
             config = function()
-                require("jellybeans").setup({ })
-                vim.cmd.colorscheme('jellybeans')
-                vim.cmd("highlight WinSeparator guifg='#828bb8' guibg=NONE")
+                vim.cmd("colorscheme vague")
+
+                -- Base background overrides
+                local bg = "#111111"
+                vim.api.nvim_set_hl(0, "Normal", { bg = bg })
+                vim.api.nvim_set_hl(0, "NormalNC", { bg = bg })
+                vim.api.nvim_set_hl(0, "SignColumn", { bg = bg })
+                vim.api.nvim_set_hl(0, "VertSplit", { bg = bg })
+                vim.api.nvim_set_hl(0, "StatusLine", { bg = bg })
+                -- Floating windows / pickers
+                vim.api.nvim_set_hl(0, "NormalFloat", { bg = bg })
+                vim.api.nvim_set_hl(0, "FloatBorder", { bg = bg })
+                -- fzf-lua specific
+                vim.api.nvim_set_hl(0, "FzfLuaBorder", { bg = bg })
+                vim.api.nvim_set_hl(0, "FzfLuaNormal", { bg = bg })
+                vim.api.nvim_set_hl(0, "FzfLuaTitle", { bg = bg, fg = "#aaaaaa" })
             end
         },
         ---------------------------------------------------------------------------------

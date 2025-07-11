@@ -90,11 +90,20 @@ vim.api.nvim_create_autocmd("TermOpen", {
 -- Easily hit escape in terminal mode.
 vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
 
-vim.keymap.set("n", "<leader>tt", function()
+vim.keymap.set("n", "<leader>tl", function()
     vim.cmd.vnew()  -- Open a vertical split
     local width = math.floor(vim.o.columns * 0.3)  -- 30% of total columns
     vim.api.nvim_win_set_width(0, width)
     vim.wo.winfixwidth = true
+    vim.cmd.term()
+    vim.cmd.startinsert()  -- Enter insert mode
+end)
+
+vim.keymap.set("n", "<leader>tj", function()
+    vim.cmd.new()  -- Open a horizontal split
+    local height = math.floor(vim.o.lines * 0.3)  -- 30% of total lines
+    vim.api.nvim_win_set_height(0, height)
+    vim.wo.winfixheight = true
     vim.cmd.term()
     vim.cmd.startinsert()  -- Enter insert mode
 end)
