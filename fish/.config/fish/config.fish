@@ -24,12 +24,11 @@ set -x PATH $HOME/.local/apps/nvim/bin $PATH
 set -x FZF_DEFAULT_COMMAND "fd --exclude={.git,.cache,.xmake,.zig-cache,build,tmp} --type f -H"
 
 # GOLANG
+set -x GOPATH $HOME/.go
+set -x GOCACHE $HOME/.go/cache
 set -x PATH /usr/local/go/bin $PATH
-set -x PATH $HOME/.local/go/bin $PATH
-set -x PATH $HOME/.local/go/bin/gopls $PATH
-
-# V Lang
-#set -x PATH $HOME/Programming/v_lang/v/
+set -x PATH $HOME/.go/bin $PATH
+set -x PATH $GOPATH/bin $PATH
 
 # Odin
 # set -x PATH $HOME/.local/share/odin-lang $PATH
@@ -48,7 +47,6 @@ alias dotfiles "cd ~/.dotfiles; vim"
 alias wiki "cd ~/github/reimagined_barnacle; vim"
 alias vim "nvim"
 alias rmdir "safe_delete"
-alias gs "git status"
 
 # ------------------------
 #  COLOR THEME

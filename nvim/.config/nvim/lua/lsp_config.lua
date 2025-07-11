@@ -36,14 +36,13 @@ vim.lsp.config.clangd = {
   filetypes = { 'c', 'cpp' },
 }
 
--- vim.lsp.config.gopls = {
---   cmd = { '/home/jason/.local/share/nvim/mason/bin/gopls', },
---   root_markers = { 'go.mod' },
---   filetypes = { 'go' },
--- }
+vim.lsp.config.gopls = {
+  cmd = { '/home/jason/.go/bin/gopls', },
+  root_markers = { 'go.mod', '.git' },
+  filetypes = { 'go' },
+}
 
--- vim.lsp.enable({'clangd', 'gopls'})
-vim.lsp.enable({'clangd'})
+vim.lsp.enable({'clangd', 'gopls'})
 
 ---------------------------------------------------------------------------------
 -- Language server Keybinds

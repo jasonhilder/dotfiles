@@ -106,11 +106,8 @@ require("lazy").setup({
             "nvim-treesitter/nvim-treesitter",
             config = function ()
                 require'nvim-treesitter.configs'.setup {
-                    -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-                    ensure_installed = { "c", "lua" },
-                    highlight = {
-                        enable = true
-                    }
+                    ensure_installed = { "c", "lua", "go" },
+                    highlight = { enable = true }
                 }
             end
         },

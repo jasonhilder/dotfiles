@@ -24,7 +24,7 @@
         "clock"
     ],
     "sway/window": {
-        "max-length": 50
+        "max-length": 200
     },
     "tray": {
         "spacing": 10,

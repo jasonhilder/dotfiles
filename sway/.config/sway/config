@@ -68,6 +68,9 @@ output HDMI-A-1 resolution 3840x2160 position 3840,0
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+    # Toggle mute audio
+    bindsym $mod+t exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 #
 # Moving around:
 #
@@ -126,10 +129,11 @@ output HDMI-A-1 resolution 3840x2160 position 3840,0
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
     # bindsym $mod+b splith
-    # bindsym $mod+v splitv
+    bindsym $mod+v splitv
+    bindsym $mod+c splith
 
     # Switch the current container between different layout styles
-    bindsym $mod+s layout stacking
+    # bindsym $mod+s layout stacking
     bindsym $mod+w layout tabbed
     bindsym $mod+e layout toggle split
 
@@ -156,24 +160,23 @@ output HDMI-A-1 resolution 3840x2160 position 3840,0
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
     bindsym $mod+minus scratchpad show
-#
+
 # Resizing containers:
-#
 mode "resize" {
     # left will shrink the containers width
     # right will grow the containers width
     # up will shrink the containers height
     # down will grow the containers height
-    bindsym $left resize shrink width 10px
-    bindsym $down resize grow height 10px
-    bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
+    bindsym $left resize shrink width 20px
+    bindsym $down resize grow height 20px
+    bindsym $up resize shrink height 20px
+    bindsym $right resize grow width 20px
 
     # Ditto, with arrow keys
-    bindsym Left resize shrink width 10px
-    bindsym Down resize grow height 10px
-    bindsym Up resize shrink height 10px
-    bindsym Right resize grow width 10px
+    bindsym Left resize shrink width 20px
+    bindsym Down resize grow height 20px
+    bindsym Up resize shrink height 20px
+    bindsym Right resize grow width 20px
 
     # Return to default mode
     bindsym Return mode "default"
@@ -182,33 +185,47 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+
+client.focused #9b8d7f #9b8d7f #000000 #9b8d7f #9b8d7f
+client.focused_inactive #202020 #202020 #9b8d7f #202020 #202020
+client.unfocused #202020 #202020 #9b8d7f #202020 #202020
+
+bar {
+    # swaybar_command swaybar
+    swaybar_command waybar
+
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    status_command while date +'%Y-%m-%d :: %X'; do sleep 1; done
+
+    #position top
+    separator_symbol "::"
+    colors {
+        background #222222
+            statusline #9b8d7f
+            separator #9b8d7f
+
+            focused_workspace #9b8d7f #9b8d7f #222222
+            inactive_workspace #222222 #222222 #9b8d7f
+            active_workspace #222222 #222222 #9b8d7f
+            urgent_workspace #222222 #222222 #9b8d7f
+            binding_mode #222222 #222222 #9b8d7f
+    }
+    font pango:Iosevka Term 12
+    tray_output HDMI-A-1
+}
+
+# Gaps and borders:
 default_border pixel 2
 default_floating_border pixel 2
-
 gaps vertical 3
 gaps horizontal 5
 gaps inner 5
 
-# Include configs from 3 locations:
-#  - /usr/share/sway/config.d
-#  - /etc/sway/config.d
-#  - $XDG_CONFIG_HOME/sway/config.d ($HOME/.config/sway/config.d)
-#
-# If multiple directories contain the files with the same name, the later
-# directory takes precedence; `$XDG_CONFIG_HOME/sway/config.d/20-swayidle.conf`
-# will always be loaded instead of `/usr/share/sway/config.d/20-swayidle.conf`
-# or `/etc/sway/config.d/20-swayidle.conf`
-#
-# This mechanism permits overriding our default configuration per-system
-# (/etc) or per-user ($XDG_CONFIG_HOME) basis. Just create the file you
-# want to modify/override in the higher-level directory.
-#
-# For example, to disable the default bar from Fedora configs, you'll need to
-#     $ echo -n > "$HOME/.config/sway/config.d/90-bar.conf"
-#
-# Note the quoting, the $() and the arguments quoting. All the parts are equally
-# important to make the magic work. And if you want to learn the secret behind
-# the trick, it's all in the `wordexp(3)`.
-#
+# Startup tools:
+exec --no-startup-id nm-applet
 
-include '$(/usr/libexec/sway/layered-include "/usr/share/sway/config.d/*.conf" "/etc/sway/config.d/*.conf" "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf")'
+include /etc/sway/config.d/*
