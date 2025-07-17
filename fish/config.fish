@@ -43,6 +43,7 @@ set -x PATH $HOME/.local/applications/aseprite/ $PATH
 # ------------------------
 # ALIASES
 # ------------------------
+
 alias .. "cd .."
 alias :q exit
 alias dotfiles "cd ~/.dotfiles; vim"
@@ -53,20 +54,18 @@ alias rmdir "safe_delete"
 # ------------------------
 # FUNCTIONS
 # ------------------------
-# pp (pick project)
-# function pp
-#     set dir (bash proj-select)
-#     if test -n "$dir"
-#         cd "$dir"
-#     end
-# end
+
+# pp [ project picker ]
+# Usage:
+# pp - opens fzf to read and select projects from $HOME/.projects
+# pp <directory/path> - adds project to $HOME/.projects
 function pp
     if test (count $argv) -ge 1
         # Pass the first argument to proj-select to add it
         bash proj-select $argv[1]
     else
         # Select a directory and cd into it
-        set dir (bash proj-select)
+        set dir (bash project-picker)
         if test -n "$dir"
             cd "$dir"
         end
@@ -120,5 +119,3 @@ set -g fish_pager_color_progress $comment
 set -g fish_pager_color_prefix $cyan
 set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
-
-
