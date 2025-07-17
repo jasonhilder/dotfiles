@@ -1,11 +1,18 @@
 #!/bin/bash
 
-# Check if RPM Fusion repos are already installed
-FREE_REPO="/etc/yum.repos.d/rpmfusion-free.repo"
-NONFREE_REPO="/etc/yum.repos.d/rpmfusion-nonfree.repo"
+# ---------------------------------------------------------------------------------
+## GLOBAL VARS
+# ---------------------------------------------------------------------------------
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+# RPM Fusion repo locations 
+FREE_REPO="/etc/yum.repos.d/rpmfusion-free.repo"
+NONFREE_REPO="/etc/yum.repos.d/rpmfusion-nonfree.repo"
+
+# ---------------------------------------------------------------------------------
+## LINK SYMLINKS IF NOT ALREADY THERE
+# ---------------------------------------------------------------------------------
 declare -A FILES_TO_SYMLINK=(
     ["$DOTFILES_DIR/tmux/.tmux.conf"]="$HOME/.tmux.conf"
     ["$DOTFILES_DIR/kitty"]="$HOME/.config/kitty"
@@ -14,6 +21,7 @@ declare -A FILES_TO_SYMLINK=(
     ["$DOTFILES_DIR/rofi"]="$HOME/.config/rofi"
     ["$DOTFILES_DIR/sway"]="$HOME/.config/sway"
     ["$DOTFILES_DIR/waybar"]="$HOME/.config/waybar"
+    ["$DOTFILES_DIR/scripts"]="$HOME/.local/bin"
 )
 
 read -p "❓ Do you want to create symlinks for your dotfiles? [y/N] " confirm
@@ -56,6 +64,9 @@ case "$confirm" in
     * ) ;;
 esac
 
+# ---------------------------------------------------------------------------------
+## Ensure Free and non Free repos are enabled
+# ---------------------------------------------------------------------------------
 echo "🔍 Checking for RPM repos..."
 echo ""
 if [[ -f "$FREE_REPO" && -f "$NONFREE_REPO" ]]; then
@@ -70,11 +81,23 @@ else
             echo ""
             echo "✅ Repos added."
             echo ""
+
+            echo "Updating system with new repos enabled..."
+            echo ""
+            sudo dnf check-update
+            sudo dnf update
+
+            echo ""
+            echo "✅ System updated."
+            echo ""
             ;;
         * ) ;;
     esac
 fi
 
+# ---------------------------------------------------------------------------------
+## Check and install system packages
+# ---------------------------------------------------------------------------------
 read -p "❓ Do you want to install system packages? [y/N] " confirm
 case "$confirm" in
     [Yy]* )
@@ -129,12 +152,26 @@ case "$confirm" in
     * ) ;;
 esac
 
-# read -p "❓ Do you want to install docker? [y/N] " confirm
-# case "$confirm" in
-#     [Yy]* )
-#         sudo dnf install docker-cli containerd docker-compose
-#         echo ""
-#         echo "✅ Docker installed."
-#         ;;
-#     * ) ;;
-# esac
+# ---------------------------------------------------------------------------------
+## TODO Check and install docker
+# ---------------------------------------------------------------------------------
+read -p "❓ Do you want to install docker? [y/N] " confirm
+case "$confirm" in
+    [Yy]* )
+        sudo dnf install docker-cli containerd docker-compose
+        echo ""
+        echo "✅ Docker installed."
+        ;;
+    * ) ;;
+esac
+
+# ---------------------------------------------------------------------------------
+## TODO golang
+# ---------------------------------------------------------------------------------
+# check and install golang
+# check and install gopls language server
+
+# ---------------------------------------------------------------------------------
+## TODO phpenv
+# ---------------------------------------------------------------------------------
+# check and install phpenv with all dependencies
