@@ -28,21 +28,28 @@ vim.diagnostic.config {
 vim.o.winborder = 'rounded'
 
 vim.lsp.config.clangd = {
-  cmd = { 
-      '/usr/bin/clangd', 
-      '--background-index' 
-  },
-  root_markers = { 'compile_commands.json', 'compile_flags.txt' },
-  filetypes = { 'c', 'cpp' },
+    cmd = { 
+        '/usr/bin/clangd', 
+        '--background-index' 
+    },
+    root_markers = { 'compile_commands.json', 'compile_flags.txt' },
+    filetypes = { 'c', 'cpp' },
 }
 
 vim.lsp.config.gopls = {
-  cmd = { '/home/jason/.go/bin/gopls', },
-  root_markers = { 'go.mod', '.git' },
-  filetypes = { 'go' },
+    cmd = { '/home/jason/.go/bin/gopls', },
+    root_markers = { 'go.mod', '.git' },
+    filetypes = { 'go' },
 }
 
-vim.lsp.enable({'clangd', 'gopls'})
+vim.lsp.config.gdscript = {
+    -- cmd = { "nc", "127.0.0.1", "6005" },
+    cmd = vim.lsp.rpc.connect("127.0.0.1", 6005),
+    root_markers = { 'project.godot' },
+    filetypes = { "gdscript", "gd" },
+}
+
+vim.lsp.enable({'clangd', 'gopls', 'gdscript'})
 
 ---------------------------------------------------------------------------------
 -- Language server Keybinds

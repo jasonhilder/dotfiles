@@ -77,18 +77,34 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
 ---------------------------------------------------------------------------------
 local set = vim.opt_local
 
--- Set local settings for terminal buffers
+-- Autocmd group for terminal behavior
+local term_group = vim.api.nvim_create_augroup("custom-term", { clear = true })
+
+-- When a terminal is opened
 vim.api.nvim_create_autocmd("TermOpen", {
-    group = vim.api.nvim_create_augroup("custom-term-open", {}),
-    callback = function()
-        set.number = false
-        set.relativenumber = false
-        set.scrolloff = 0
-    end,
+  group = term_group,
+  callback = function()
+    vim.wo.number = false
+    vim.wo.relativenumber = false
+    vim.o.scrolloff = 0
+    vim.cmd("startinsert")
+  end,
+})
+
+-- When re-entering a terminal buffer
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = term_group,
+  callback = function()
+    if vim.bo.buftype == "terminal" then
+      vim.cmd("startinsert")
+    end
+  end,
 })
 
 -- Easily hit escape in terminal mode.
 vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
+vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h")
+vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l")
 
 vim.keymap.set("n", "<leader>tl", function()
     vim.cmd.vnew()  -- Open a vertical split

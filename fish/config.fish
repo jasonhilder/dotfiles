@@ -30,13 +30,15 @@ set -x PATH /usr/local/go/bin $PATH
 set -x PATH $HOME/.go/bin $PATH
 set -x PATH $GOPATH/bin $PATH
 
+# PHP
+set -x PATH $HOME/.phpenv/bin $PATH
+set -x PATH $HOME/.phpenv/shims $PATH
+
 # Odin
 # set -x PATH $HOME/.local/share/odin-lang $PATH
 
-# C3
-# set -x PATH $HOME/.local/share/c3 $PATH
-# add usr/local/lib to path for shared libraries i.e SDL3 etc
-# set -x  LD_LIBRARY_PATH "$LD_LIBRARY_PATH:/usr/local/lib"
+# Test
+set -x PATH $HOME/.local/applications/aseprite/ $PATH
 
 # ------------------------
 # ALIASES
@@ -52,10 +54,22 @@ alias rmdir "safe_delete"
 # FUNCTIONS
 # ------------------------
 # pp (pick project)
+# function pp
+#     set dir (bash proj-select)
+#     if test -n "$dir"
+#         cd "$dir"
+#     end
+# end
 function pp
-    set dir (bash proj-select)
-    if test -n "$dir"
-        cd "$dir"
+    if test (count $argv) -ge 1
+        # Pass the first argument to proj-select to add it
+        bash proj-select $argv[1]
+    else
+        # Select a directory and cd into it
+        set dir (bash proj-select)
+        if test -n "$dir"
+            cd "$dir"
+        end
     end
 end
 
@@ -106,4 +120,5 @@ set -g fish_pager_color_progress $comment
 set -g fish_pager_color_prefix $cyan
 set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
+
 

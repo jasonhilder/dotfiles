@@ -160,7 +160,14 @@ require("lazy").setup({
         { 
             "Djancyp/better-comments.nvim",
             config = function()
-                require('better-comment').Setup()
+                require('better-comment').Setup({
+                    tags = {
+                        { name = "TODO", bg = "", fg = "#0a7aca" },
+                        { name = "NOTE", bg = "", fg = "#32cd36" },
+                        { name = "FIX", bg = "", fg = "#f44747" },
+                        { name = "WARN", bg = "", fg ="#FFA500" }
+                    }
+                })
             end,
         },
         ---------------------------------------------------------------------------------
