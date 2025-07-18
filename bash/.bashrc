@@ -100,9 +100,6 @@ export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/.phpenv/bin:$PATH"
 export PATH="$HOME/.phpenv/shims:$PATH"
 
-# Odin (uncomment if needed)
-# export PATH="$HOME/.local/share/odin-lang:$PATH"
-
 # Aseprite
 export PATH="$HOME/.local/applications/aseprite:$PATH"
 

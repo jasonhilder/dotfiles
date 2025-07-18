@@ -108,7 +108,7 @@ vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l")
 
 vim.keymap.set("n", "<leader>tl", function()
     vim.cmd.vnew()  -- Open a vertical split
-    local width = math.floor(vim.o.columns * 0.3)  -- 30% of total columns
+    local width = math.floor(vim.o.columns * 0.35)  
     vim.api.nvim_win_set_width(0, width)
     vim.wo.winfixwidth = true
     vim.cmd.term()
@@ -117,7 +117,7 @@ end)
 
 vim.keymap.set("n", "<leader>tj", function()
     vim.cmd.new()  -- Open a horizontal split
-    local height = math.floor(vim.o.lines * 0.3)  -- 30% of total lines
+    local height = math.floor(vim.o.lines * 0.35)
     vim.api.nvim_win_set_height(0, height)
     vim.wo.winfixheight = true
     vim.cmd.term()
