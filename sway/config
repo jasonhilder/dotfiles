@@ -30,9 +30,7 @@ set $menu $rofi_cmd -show combi -combi-modes drun#run -modes combi
 
 ### Output configuration
 
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # Requires: desktop-backgrounds-compat, swaybg, jxl-pixbuf-loader
-# output * bg /usr/share/backgrounds/default.jxl fill
 output * bg /home/jason/Pictures/wallpapers/ghibli_one.jpg fill
 
 ### Display
@@ -160,6 +158,14 @@ output HDMI-A-1 resolution 3840x2160 position 3840,0
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
     bindsym $mod+minus scratchpad show
+
+#
+# Screenshots:
+#
+# Screenshot of selected area
+bindsym $mod+Shift+s exec $HOME/.local/bin/screenshot area 
+# Screenshot of the entire output
+bindsym $mod+Shift+f exec $HOME/.local/bin/screenshot full
 
 # Resizing containers:
 mode "resize" {

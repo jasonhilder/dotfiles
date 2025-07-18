@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Set save directory
+SAVE_DIR="$HOME/Pictures/screenshots"
+mkdir -p "$SAVE_DIR"
+
+# Set filename
+FILENAME="$SAVE_DIR/$(date +'%Y-%m-%d_%H-%M-%S_grim.png')"
+
+# Check mode
+if [ "$1" == "area" ]; then
+    SELECTION=$(slurp)
+    if [ -z "$SELECTION" ]; then
+        # User cancelled the selection
+        exit 1
+    fi
+    grim -g "$SELECTION" "$FILENAME"
+else
+    grim "$FILENAME"
+fi
+
+# Notify user
+notify-send "Screenshot Taken" "🖥️ Screenshot saved!" -i camera-photo
