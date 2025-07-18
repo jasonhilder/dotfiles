@@ -66,9 +66,7 @@ parse_git_branch() {
     fi
 }
 
-
 # Custom prompt
-# PS1="${BOLD}${BLUE}\u@\h ${CYAN}\w${YELLOW}\$(parse_git_branch)${RESET}\n\$ "
 PS1="${BOLD}${BLUE}\u@\h ${CYAN}\w${YELLOW}\$(parse_git_branch)${exit_code_status}${RESET}\n\$ "
 
 # ------------------------

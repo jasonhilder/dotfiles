@@ -180,6 +180,11 @@ else
     esac
 fi
 
+echo ""
+echo "--------------------------------------------"
+echo "Install complete!"
+echo ""
+
 # ---------------------------------------------------------------------------------
 ## TODO golang
 # ---------------------------------------------------------------------------------
@@ -192,7 +197,8 @@ fi
 # check and install phpenv with all dependencies
 #
 
-echo ""
-echo "--------------------------------------------"
-echo "Install complete!"
-echo ""
+## Possible extras:
+# ---------------------------------------------------------------------------------
+# 1. Theme firefox
+# 2. Add minimal theme to sddm (system essentials?)
+# 3. Install nerdfont (system essentials?)
