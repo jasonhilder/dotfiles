@@ -14,6 +14,7 @@ NONFREE_REPO="/etc/yum.repos.d/rpmfusion-nonfree.repo"
 ## LINK SYMLINKS IF NOT ALREADY THERE
 # ---------------------------------------------------------------------------------
 declare -A FILES_TO_SYMLINK=(
+    ["$DOTFILES_DIR/bash/.bashrc"]="$HOME/.bashrc"
     ["$DOTFILES_DIR/tmux/.tmux.conf"]="$HOME/.tmux.conf"
     ["$DOTFILES_DIR/kitty"]="$HOME/.config/kitty"
     ["$DOTFILES_DIR/fish"]="$HOME/.config/fish"
@@ -103,7 +104,7 @@ case "$confirm" in
     [Yy]* )
         REQUIRED_PACKAGES=(
             curl ripgrep fzf mpv btop tree valgrind kitty
-            fish fastfetch direnv lazygit neovim fd-find
+            fastfetch direnv lazygit neovim fd-find bash-completion
         )
 
         GROUP_IDS=(
@@ -155,15 +156,29 @@ esac
 # ---------------------------------------------------------------------------------
 ## TODO Check and install docker
 # ---------------------------------------------------------------------------------
-read -p "❓ Do you want to install docker? [y/N] " confirm
-case "$confirm" in
-    [Yy]* )
-        sudo dnf install docker-cli containerd docker-compose
-        echo ""
-        echo "✅ Docker installed."
-        ;;
-    * ) ;;
-esac
+# Check if Docker is installed
+if command -v docker >/dev/null 2>&1; then
+    echo "✅ Docker is already installed."
+else
+    echo ""
+    echo "❌ Docker is not installed."
+    read -p "❓ Do you want to install Docker? [y/N] " confirm
+    case "$confirm" in
+        [Yy]* )
+            echo "🔧 Installing Docker..."
+            sudo dnf install -y docker-cli containerd docker-compose
+            sudo usermod -aG docker $USER
+
+            echo ""
+            echo "✅ Added $USER to the docker group. Please log out and log back in for this to take effect."
+            echo ""
+            echo "✅ Docker installed."
+            ;;
+        * )
+            echo "❌ Docker installation skipped."
+            ;;
+    esac
+fi
 
 # ---------------------------------------------------------------------------------
 ## TODO golang
@@ -175,3 +190,9 @@ esac
 ## TODO phpenv
 # ---------------------------------------------------------------------------------
 # check and install phpenv with all dependencies
+#
+
+echo ""
+echo "--------------------------------------------"
+echo "Install complete!"
+echo ""
