@@ -16,6 +16,7 @@ NONFREE_REPO="/etc/yum.repos.d/rpmfusion-nonfree.repo"
 declare -A FILES_TO_SYMLINK=(
     ["$DOTFILES_DIR/bash/.bashrc"]="$HOME/.bashrc"
     ["$DOTFILES_DIR/tmux/.tmux.conf"]="$HOME/.tmux.conf"
+    ["$DOTFILES_DIR/kanata/.keymap.kbd"]="$HOME/.keymap.kbd"
     ["$DOTFILES_DIR/kitty"]="$HOME/.config/kitty"
     ["$DOTFILES_DIR/fish"]="$HOME/.config/fish"
     ["$DOTFILES_DIR/nvim"]="$HOME/.config/nvim"
@@ -154,7 +155,7 @@ case "$confirm" in
 esac
 
 # ---------------------------------------------------------------------------------
-## TODO Check and install docker
+## Check and install docker
 # ---------------------------------------------------------------------------------
 # Check if Docker is installed
 if command -v docker >/dev/null 2>&1; then
@@ -180,7 +181,28 @@ else
     esac
 fi
 
-echo ""
+# ---------------------------------------------------------------------------------
+## Zig language
+# ---------------------------------------------------------------------------------
+if command -v zig >/dev/null 2>&1; then
+    echo""
+else
+    echo ""
+    read -p "❓ Do you want to install Zig lang? [y/N] " confirm
+    case "$confirm" in
+        [Yy]* )
+            echo "🔧 Installing zig..."
+            sudo dnf install zig 
+
+            echo ""
+            echo "✅ Zig installed."
+            ;;
+        * )
+            echo "❌ Zig installation skipped."
+            ;;
+    esac
+fi
+
 echo "--------------------------------------------"
 echo "Install complete!"
 echo ""

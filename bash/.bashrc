@@ -111,6 +111,7 @@ alias wiki='cd ~/github/reimagined_barnacle && vim'
 alias vim='nvim'
 alias rmdir='safe_delete'
 alias ll='ls -lah --color=auto'
+alias install-system='sh /home/jason/.dotfiles/install.sh'
 
 # ------------------------
 # FUNCTIONS
