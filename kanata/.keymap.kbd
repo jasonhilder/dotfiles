@@ -39,8 +39,8 @@
 
 
 (deflayermap (nav)
-  i up
-  j left
-  k down
+  k up
+  h left
+  j down
   l right
 )
