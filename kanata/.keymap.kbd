@@ -1,0 +1,46 @@
+(defcfg
+
+  concurrent-tap-hold yes
+)
+
+
+(defvar
+  tap-time 200
+  hold-time 150
+)
+
+(defalias
+  cap (tap-hold-press $tap-time $hold-time esc lctl)
+  tabn (tap-hold-press $tap-time $hold-time tab (layer-while-held nav))
+)
+
+;; defsrc defines the keys that will be intercepted by kanata. The order of the
+;; keys matches with deflayer declarations and all deflayer declarations must
+;; have the same number of keys as defsrc. Any keys not listed in defsrc will
+;; be passed straight to the operating system.
+
+(defsrc
+  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
+)
+
+;; The first layer defined is the layer that will be active by default when 
+;; kanata starts up. 
+(deflayer default
+  grv   1     2     3    4    5    6    7    8    9    0    -    =    bspc
+  @tabn q     w     e    r    t    y    u    i    o    p    [    ]    \
+  @cap  a     s     d    f    g    h    j    k    l    ;    '    ret
+  lsft  z     x     c    v    b    n    m    ,    .    /    rsft
+  lctl  lalt  lmet           spc             ralt rmet rctl
+)
+
+
+(deflayermap (nav)
+  i up
+  j left
+  k down
+  l right
+)
