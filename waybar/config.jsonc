@@ -9,6 +9,12 @@
         "interval": "once",
         "tooltip": false
     },
+    "custom/nightlight": {
+        "format": " {} ",
+        "exec": "~/.config/sway/nightlight status",
+        "on-click": "~/.config/sway/nightlight",
+        "interval": 5
+    },
     "modules-left": [
         "sway/workspaces",
         "sway/mode"
@@ -18,6 +24,8 @@
     ],
     "modules-right": [
         "tray",
+        "custom/separator",
+        "custom/nightlight",
         "custom/separator",
         "pulseaudio",
         "custom/separator",
@@ -54,13 +62,13 @@
     "pulseaudio": {
         "scroll-step": 5,
         "max-volume": 150,
-        "format": "vol {volume}%",
-        "format-bluetooth": "vol {volume}%",
+        "format": "{volume}%",
+        "format-bluetooth": "{volume}%",
         "nospacing": 1,
         "on-click": "pavucontrol",
         "tooltip": false
     },
     "clock": {
-        "format": "{:%a %d %b  %H:%M}"
+        "format": "{:%d %b | %H:%M}"
     }
 }

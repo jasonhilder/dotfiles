@@ -3,7 +3,8 @@
 
 ### Variables
 # Logo key. Use Mod1 for Alt.
-set $mod Mod1
+# set $mod Mod1
+set $mod Mod4
 
 # Home row direction keys, like vim
 set $left h
@@ -49,6 +50,7 @@ output HDMI-A-1 resolution 3840x2160 position 3840,0
 
     # Kill focused window
     bindsym $mod+Shift+q kill
+    bindsym $mod+q kill
     bindsym $mod+g kill
 
     # Start your launcher
@@ -93,6 +95,9 @@ output HDMI-A-1 resolution 3840x2160 position 3840,0
     bindsym $mod+Shift+Down move down
     bindsym $mod+Shift+Up move up
     bindsym $mod+Shift+Right move right
+
+    # Move back and forth between last 2 accessed workspaces
+    bindsym $mod+Tab workspace back_and_forth
 #
 # Workspaces:
 #
@@ -147,7 +152,7 @@ output HDMI-A-1 resolution 3840x2160 position 3840,0
     # Move focus to the parent container
     bindsym $mod+a focus parent
 #
-# Scratchpad:
+# scratchpad:
 #
     # Sway has a "scratchpad", which is a bag of holding for windows.
     # You can send windows there and get them back later.
@@ -234,5 +239,6 @@ gaps inner 5
 
 # Startup tools:
 exec --no-startup-id nm-applet
+exec --no-startup-id kanata --cfg /home/jason/.keymap.kbd 
 
 include /etc/sway/config.d/*
