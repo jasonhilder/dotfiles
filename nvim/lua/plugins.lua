@@ -99,6 +99,14 @@ require("lazy").setup({
                 require("mini.surround").setup({})
             end
         },
+        {
+            'echasnovski/mini.pairs',
+            event = "BufEnter",
+            version = "*",
+            config = function()
+                require("mini.pairs").setup({})
+            end
+        },
         ---------------------------------------------------------------------------------
         -- Add indentation guides
         ---------------------------------------------------------------------------------

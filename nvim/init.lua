@@ -71,6 +71,7 @@ vim.keymap.set("n", "<leader>k", ":lua vim.diagnostic.open_float()<CR>", { desc 
 
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
+vim.keymap.set('n', 'L', function() vim.api.nvim_feedkeys(':', 'n', true) end, { noremap = true, silent = true })
 
 ---------------------------------------------------------------------------------
 -- [[ TERMINAL ]]
@@ -128,3 +129,4 @@ end)
 ---------------------------------------------------------------------------------
 require("plugins")
 require("lsp_config")
+
