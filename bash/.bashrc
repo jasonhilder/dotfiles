@@ -106,6 +106,7 @@ export PATH="$HOME/.local/applications/aseprite:$PATH"
 # ------------------------
 alias ..='cd ..'
 alias :q='exit'
+alias lg='lazygit'
 alias dotfiles='cd ~/.dotfiles && vim'
 alias wiki='cd ~/github/reimagined_barnacle && vim'
 alias vim='nvim'
