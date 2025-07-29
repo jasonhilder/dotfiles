@@ -47,6 +47,9 @@ vim.o.completeopt = 'menuone,noselect' -- Configures how the completion menu wor
 vim.g.mapleader = " ";
 vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("i", "jj", "<Esc>")
+-- common binds
+vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
+vim.keymap.set("n", "<leader>q", ":quit<CR>", { desc = "Quit neovim" })
 -- clear search highlights
 vim.keymap.set("n", "<leader>h", ":noh<CR>", { desc = "Clear highlights" })
 -- Remap for dealing with word wrap
@@ -68,11 +71,9 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "move selection down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "move selection up" })
 -- Diagnostics
 vim.keymap.set("n", "<leader>k", ":lua vim.diagnostic.open_float()<CR>", { desc = "Diagnostic Float" })
-
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
 vim.keymap.set('n', 'L', function() vim.api.nvim_feedkeys(':', 'n', true) end, { noremap = true, silent = true })
-
 ---------------------------------------------------------------------------------
 -- [[ TERMINAL ]]
 ---------------------------------------------------------------------------------
