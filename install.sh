@@ -248,6 +248,7 @@ else
         * )
             echo "❌ Go installation skipped."
         ;;
+    esac
 fi
 
 # check and install gopls language server
