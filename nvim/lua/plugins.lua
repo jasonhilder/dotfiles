@@ -23,7 +23,8 @@ require("lazy").setup({
                 vim.cmd("colorscheme vague")
 
                 -- Base background overrides
-                local bg = "#111111"
+                -- local bg = "#111111"
+                local bg = "none"
                 vim.api.nvim_set_hl(0, "Normal", { bg = bg })
                 vim.api.nvim_set_hl(0, "NormalNC", { bg = bg })
                 vim.api.nvim_set_hl(0, "SignColumn", { bg = bg })
