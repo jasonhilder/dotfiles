@@ -15,14 +15,8 @@ NONFREE_REPO="/etc/yum.repos.d/rpmfusion-nonfree.repo"
 # ---------------------------------------------------------------------------------
 declare -A FILES_TO_SYMLINK=(
     ["$DOTFILES_DIR/bash/.bashrc"]="$HOME/.bashrc"
-    ["$DOTFILES_DIR/tmux/.tmux.conf"]="$HOME/.tmux.conf"
-    ["$DOTFILES_DIR/kanata/.keymap.kbd"]="$HOME/.keymap.kbd"
-    ["$DOTFILES_DIR/kitty"]="$HOME/.config/kitty"
-    ["$DOTFILES_DIR/fish"]="$HOME/.config/fish"
+    ["$DOTFILES_DIR/ghostty/"]="$HOME/.config/ghostty"
     ["$DOTFILES_DIR/nvim"]="$HOME/.config/nvim"
-    ["$DOTFILES_DIR/rofi"]="$HOME/.config/rofi"
-    ["$DOTFILES_DIR/sway"]="$HOME/.config/sway"
-    ["$DOTFILES_DIR/waybar"]="$HOME/.config/waybar"
     ["$DOTFILES_DIR/scripts"]="$HOME/.local/bin"
 )
 
@@ -158,32 +152,34 @@ esac
 ## Check and install docker
 # ---------------------------------------------------------------------------------
 # Check if Docker is installed
-if command -v docker >/dev/null 2>&1; then
-    echo "✅ Docker is already installed."
-else
-    echo ""
-    echo "❌ Docker is not installed."
-    read -p "❓ Do you want to install Docker? [y/N] " confirm
-    case "$confirm" in
-        [Yy]* )
-            echo "🔧 Installing Docker..."
-            sudo dnf install -y docker-cli containerd docker-compose
-            sudo usermod -aG docker $USER
 
-            echo ""
-            echo "✅ Added $USER to the docker group. Please log out and log back in for this to take effect."
-            echo ""
-            echo "✅ Docker installed."
-            ;;
-        * )
-            echo "❌ Docker installation skipped."
-            ;;
-    esac
-fi
+# if command -v docker >/dev/null 2>&1; then
+#     echo "✅ Docker is already installed."
+# else
+#     echo ""
+#     echo "❌ Docker is not installed."
+#     read -p "❓ Do you want to install Docker? [y/N] " confirm
+#     case "$confirm" in
+#         [Yy]* )
+#             echo "🔧 Installing Docker..."
+#             sudo dnf install -y docker-cli containerd docker-compose
+#             sudo usermod -aG docker $USER
+#
+#             echo ""
+#             echo "✅ Added $USER to the docker group. Please log out and log back in for this to take effect."
+#             echo ""
+#             echo "✅ Docker installed."
+#             ;;
+#         * )
+#             echo "❌ Docker installation skipped."
+#             ;;
+#     esac
+# fi
 
 # ---------------------------------------------------------------------------------
 ## Zig language
 # ---------------------------------------------------------------------------------
+
 if command -v zig >/dev/null 2>&1; then
     echo""
 else
@@ -204,9 +200,8 @@ else
 fi
 
 # ---------------------------------------------------------------------------------
-## TODO golang
+## Golang
 # ---------------------------------------------------------------------------------
-# check and install golang
 
 if command -v go >/dev/null 2>&1; then
     echo""
@@ -250,8 +245,6 @@ else
         ;;
     esac
 fi
-
-# check and install gopls language server
 
 echo "--------------------------------------------"
 echo "Install complete!"
