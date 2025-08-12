@@ -99,7 +99,7 @@ case "$confirm" in
     [Yy]* )
         REQUIRED_PACKAGES=(
             curl ripgrep fzf mpv btop tree valgrind kitty
-            fastfetch direnv lazygit neovim fd-find bash-completion
+            fastfetch direnv neovim fd-find bash-completion
         )
 
         GROUP_IDS=(
@@ -137,7 +137,7 @@ case "$confirm" in
                 echo "✅ Group '$group_id' is already installed."
             else
                 echo "📦 Need to install group '$group_id'..."
-                sudo dnf groupinstall -y "$group_id"
+                sudo dnf group install -y "$group_id"
             fi
         done
 
@@ -147,57 +147,6 @@ case "$confirm" in
         ;;
     * ) ;;
 esac
-
-# ---------------------------------------------------------------------------------
-## Check and install docker
-# ---------------------------------------------------------------------------------
-# Check if Docker is installed
-
-# if command -v docker >/dev/null 2>&1; then
-#     echo "✅ Docker is already installed."
-# else
-#     echo ""
-#     echo "❌ Docker is not installed."
-#     read -p "❓ Do you want to install Docker? [y/N] " confirm
-#     case "$confirm" in
-#         [Yy]* )
-#             echo "🔧 Installing Docker..."
-#             sudo dnf install -y docker-cli containerd docker-compose
-#             sudo usermod -aG docker $USER
-#
-#             echo ""
-#             echo "✅ Added $USER to the docker group. Please log out and log back in for this to take effect."
-#             echo ""
-#             echo "✅ Docker installed."
-#             ;;
-#         * )
-#             echo "❌ Docker installation skipped."
-#             ;;
-#     esac
-# fi
-
-# ---------------------------------------------------------------------------------
-## Zig language
-# ---------------------------------------------------------------------------------
-
-if command -v zig >/dev/null 2>&1; then
-    echo""
-else
-    echo ""
-    read -p "❓ Do you want to install Zig lang? [y/N] " confirm
-    case "$confirm" in
-        [Yy]* )
-            echo "🔧 Installing zig..."
-            sudo dnf install zig 
-
-            echo ""
-            echo "✅ Zig installed."
-            ;;
-        * )
-            echo "❌ Zig installation skipped."
-            ;;
-    esac
-fi
 
 # ---------------------------------------------------------------------------------
 ## Golang
@@ -251,10 +200,62 @@ echo "Install complete!"
 echo ""
 
 # ---------------------------------------------------------------------------------
+## Zig language
+# ---------------------------------------------------------------------------------
+
+if command -v zig >/dev/null 2>&1; then
+    echo""
+else
+    echo ""
+    read -p "❓ Do you want to install Zig lang? [y/N] " confirm
+    case "$confirm" in
+        [Yy]* )
+            echo "🔧 Installing zig..."
+            sudo dnf install zig 
+
+            echo ""
+            echo "✅ Zig installed."
+            ;;
+        * )
+            echo "❌ Zig installation skipped."
+            ;;
+    esac
+fi
+
+# ---------------------------------------------------------------------------------
 ## TODO phpenv
 # ---------------------------------------------------------------------------------
 # check and install phpenv with all dependencies
 #
+
+# ---------------------------------------------------------------------------------
+## Check and install docker
+# ---------------------------------------------------------------------------------
+# Check if Docker is installed
+
+# if command -v docker >/dev/null 2>&1; then
+#     echo "✅ Docker is already installed."
+# else
+#     echo ""
+#     echo "❌ Docker is not installed."
+#     read -p "❓ Do you want to install Docker? [y/N] " confirm
+#     case "$confirm" in
+#         [Yy]* )
+#             echo "🔧 Installing Docker..."
+#             sudo dnf install -y docker-cli containerd docker-compose
+#             sudo usermod -aG docker $USER
+#
+#             echo ""
+#             echo "✅ Added $USER to the docker group. Please log out and log back in for this to take effect."
+#             echo ""
+#             echo "✅ Docker installed."
+#             ;;
+#         * )
+#             echo "❌ Docker installation skipped."
+#             ;;
+#     esac
+# fi
+
 
 ## Possible extras:
 # ---------------------------------------------------------------------------------
