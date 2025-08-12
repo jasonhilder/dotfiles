@@ -121,18 +121,20 @@ alias install-system='sh /home/jason/.dotfiles/install.sh'
 # Project picker (pp)
 pp() {
     if [ $# -ge 1 ]; then
-        bash proj-select "$1"
+        bash project-picker "$1"
     else
         dir=$(bash project-picker)
         if [ -n "$dir" ]; then
-            cd "$dir" || return
+            cd "$dir" && nvim . || return
         fi
     fi
 }
 
 # Fuzzy change directory
-fcd() {
-    dir=$(find . -type d -not -path '*/\.*' | fzf)
+ccd() {
+    dir=$(find . -type d 2>/dev/null | sort | fzf \
+        --layout=reverse \
+        --preview="ls -la {}" \
+        --preview-window=down:30%)
     [ -n "$dir" ] && cd "$dir"
 }
-alias cdd=fcd

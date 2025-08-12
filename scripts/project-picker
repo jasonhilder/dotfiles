@@ -14,7 +14,7 @@ add_dir() {
 
 select_dir() {
     selected=$(cat "$BOOKMARK_FILE" | fzf \
-        --prompt="Favorites > " \
+        --prompt="Directories > " \
         --layout=reverse \
         --preview="ls -la {}" \
         --height=40%)
