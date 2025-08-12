@@ -1,34 +1,13 @@
+--------------------------------------------------------------------------------
+-- [[ AUTOCMDS ]]
 ---------------------------------------------------------------------------------
--- [[ PLUGINS ]]
----------------------------------------------------------------------------------
-require("paq")({
-	"savq/paq-nvim",
-    "ibhagwan/fzf-lua",
-    "vague2k/vague.nvim",
-    "nvim-treesitter/nvim-treesitter",
-    "lukas-reineke/indent-blankline.nvim",
-    "stevearc/oil.nvim",
-    "hrsh7th/nvim-cmp",         -- completion engine
-    "hrsh7th/cmp-nvim-lsp",     -- lsp source for cmp
-    "l3mon4d3/luasnip",         -- snippet engine
-    "saadparwaiz1/cmp_luasnip"  -- snippet completions
-})
-require("oil").setup()
-require("ibl").setup({
-    indent = { highlight = { "LineNr" }, char = "│" }, 
-    scope  = { enabled = false }
-})
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "c", "lua", "go" },
-    highlight = { enable = true }
-}
-local cmp = require("cmp")
-cmp.setup({
-    mapping = cmp.mapping.preset.insert({
-        ['<Tab>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-Space>'] = cmp.mapping.complete(),
-    }),
-    sources = {{ name = "nvim_lsp" }, { name = "luasnip" }}
+-- Highlight on Yank
+vim.api.nvim_create_autocmd('TextYankPost', {
+    group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
+    callback = function()
+        vim.highlight.on_yank()
+    end,
+    pattern = '*',
 })
 ---------------------------------------------------------------------------------
 -- [[ OPTIONS ]]
@@ -60,9 +39,8 @@ vim.opt.updatetime = 50                -- Sets the time after which the swap fil
 vim.o.breakindent = true               -- Makes wrapped lines visually indented
 vim.o.termguicolors = true             -- Enables true color support (duplicated setting)
 vim.o.splitright = true                -- Set horizontal splits to the right as default
-vim.o.splitbelow = true                -- Set vertical splits to the bottom as default
+vim.o.splitbelow = true                -- Set vertical splits to the bottom as default 
 vim.o.completeopt = 'menuone,noselect' -- Configures how the completion menu works
-vim.o.winborder = 'rounded'            -- LSP hover borders
 ---------------------------------------------------------------------------------
 -- [[ KEYMAPS ]]
 ---------------------------------------------------------------------------------
@@ -96,64 +74,35 @@ vim.keymap.set("n", "<leader>k", ":lua vim.diagnostic.open_float()<CR>", { desc 
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
 vim.keymap.set('n', 'L', function() vim.api.nvim_feedkeys(':', 'n', true) end, { noremap = true, silent = true })
--- FzfLua 
-vim.keymap.set("n", "<leader><leader>", function() require'fzf-lua'.files({ cmd = vim.env.FZF_DEFAULT_COMMAND }) end, { desc = "Fzf files" })
-vim.keymap.set("n", "<leader>b", "<cmd>FzfLua buffers<cr>", { desc = "Fzf buffers" })
-vim.keymap.set("n", "<leader>m", "<cmd>FzfLua keymaps<cr>", { desc = "Fzf keymaps" })
-vim.keymap.set("n", "<leader>s", "<cmd>FzfLua grep_project<cr>", { desc = "Fzf keymaps" })
-vim.keymap.set("n", "<leader>d", "<cmd>FzfLua diagnostics_document<cr>", { desc = "Buffer diagnostics" })
-vim.keymap.set("n", "<leader>D", "<cmd>FzfLua diagnostics_workspace<cr>", { desc = "Project diagnostics" })
--- Oil nvim
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
----------------------------------------------------------------------------------
--- [[ COLORSCHEME ]]
----------------------------------------------------------------------------------
-vim.cmd("colorscheme vague")
-local bg = "none"
-vim.api.nvim_set_hl(0, "Normal", { bg = bg })
-vim.api.nvim_set_hl(0, "NormalNC", { bg = bg })
-vim.api.nvim_set_hl(0, "SignColumn", { bg = bg })
-vim.api.nvim_set_hl(0, "VertSplit", { bg = bg })
-vim.api.nvim_set_hl(0, "StatusLine", { bg = bg })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = bg })
-vim.api.nvim_set_hl(0, "FloatBorder", { bg = bg })
-vim.api.nvim_set_hl(0, "FzfLuaBorder", { bg = bg })
-vim.api.nvim_set_hl(0, "FzfLuaNormal", { bg = bg })
-vim.api.nvim_set_hl(0, "FzfLuaTitle", { bg = bg, fg = "#aaaaaa" })
---------------------------------------------------------------------------------
--- [[ AUTOCMDS ]]
----------------------------------------------------------------------------------
--- Highlight on Yank
-vim.api.nvim_create_autocmd('TextYankPost', {
-    group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-    pattern = '*',
-})
 ---------------------------------------------------------------------------------
 -- [[ TERMINAL ]]
 ---------------------------------------------------------------------------------
 local set = vim.opt_local
+
+-- Autocmd group for terminal behavior
 local term_group = vim.api.nvim_create_augroup("custom-term", { clear = true })
 
+-- When a terminal is opened
 vim.api.nvim_create_autocmd("TermOpen", {
-    group = term_group,
-    callback = function()
-        vim.wo.number = false
-        vim.wo.relativenumber = false
-        vim.o.scrolloff = 0
-        vim.cmd("startinsert")
-    end,
+  group = term_group,
+  callback = function()
+    vim.wo.number = false
+    vim.wo.relativenumber = false
+    vim.o.scrolloff = 0
+    vim.cmd("startinsert")
+  end,
 })
+
+-- When re-entering a terminal buffer
 vim.api.nvim_create_autocmd("BufEnter", {
-    group = term_group,
-    callback = function()
-        if vim.bo.buftype == "terminal" then
-            vim.cmd("startinsert")
-        end
-    end,
+  group = term_group,
+  callback = function()
+    if vim.bo.buftype == "terminal" then
+      vim.cmd("startinsert")
+    end
+  end,
 })
+
 -- Easily hit escape in terminal mode.
 vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
 vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h")
@@ -161,7 +110,7 @@ vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l")
 
 vim.keymap.set("n", "<leader>tl", function()
     vim.cmd.vnew()  -- Open a vertical split
-    local width = math.floor(vim.o.columns * 0.35)
+    local width = math.floor(vim.o.columns * 0.35)  
     vim.api.nvim_win_set_width(0, width)
     vim.wo.winfixwidth = true
     vim.cmd.term()
@@ -177,34 +126,8 @@ vim.keymap.set("n", "<leader>tj", function()
     vim.cmd.startinsert()  -- Enter insert mode
 end)
 ---------------------------------------------------------------------------------
--- [[ LSP ]]
+-- [[ CONFIGS ]]
 ---------------------------------------------------------------------------------
-vim.diagnostic.config {
-    virtual_text = false,
-    float = { header = false, border = 'rounded', focusable = true, },
-}
+require("plugins")
+require("lsp_config")
 
-vim.lsp.config.gopls = {
-    cmd = { '/home/jason/.go/bin/gopls', },
-    root_markers = { 'go.mod', '.git' },
-    filetypes = { 'go' },
-}
-vim.lsp.enable({'gopls'})
-
-vim.api.nvim_create_autocmd('LspAttach', {
-    desc = 'LSP actions',
-    callback = function(event)
-        local opts = {buffer = event.buf}
-        vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
-        vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
-        vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
-        vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
-        vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts)
-        vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts)
-        vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
-        vim.keymap.set('n', 'cr', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
-        vim.keymap.set('n', 'ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
-        -- Map Ctrl-Space to trigger omni-completion in Insert mode
-        vim.api.nvim_set_keymap('i', '<C-Space>', '<C-X><C-O>', { noremap = true, silent = true })
-    end,
-})
