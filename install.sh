@@ -15,7 +15,7 @@ NONFREE_REPO="/etc/yum.repos.d/rpmfusion-nonfree.repo"
 # ---------------------------------------------------------------------------------
 declare -A FILES_TO_SYMLINK=(
     ["$DOTFILES_DIR/bash/.bashrc"]="$HOME/.bashrc"
-    ["$DOTFILES_DIR/ghostty/"]="$HOME/.config/ghostty"
+    ["$DOTFILES_DIR/kitty/"]="$HOME/.config/kitty"
     ["$DOTFILES_DIR/nvim"]="$HOME/.config/nvim"
     ["$DOTFILES_DIR/scripts"]="$HOME/.local/bin"
 )
@@ -100,11 +100,12 @@ case "$confirm" in
         REQUIRED_PACKAGES=(
             curl ripgrep fzf mpv btop tree valgrind kitty
             fastfetch direnv neovim fd-find bash-completion
+	    xdotool wmctrl
         )
 
         GROUP_IDS=(
-            "development-tools"
-            "c-development"
+            #"development-tools"
+            #"c-development"
         )
 
         MISSING_PACKAGES=()
@@ -200,29 +201,6 @@ echo "Install complete!"
 echo ""
 
 # ---------------------------------------------------------------------------------
-## Zig language
-# ---------------------------------------------------------------------------------
-
-if command -v zig >/dev/null 2>&1; then
-    echo""
-else
-    echo ""
-    read -p "❓ Do you want to install Zig lang? [y/N] " confirm
-    case "$confirm" in
-        [Yy]* )
-            echo "🔧 Installing zig..."
-            sudo dnf install zig 
-
-            echo ""
-            echo "✅ Zig installed."
-            ;;
-        * )
-            echo "❌ Zig installation skipped."
-            ;;
-    esac
-fi
-
-# ---------------------------------------------------------------------------------
 ## TODO phpenv
 # ---------------------------------------------------------------------------------
 # check and install phpenv with all dependencies
@@ -255,10 +233,3 @@ fi
 #             ;;
 #     esac
 # fi
-
-
-## Possible extras:
-# ---------------------------------------------------------------------------------
-# 1. Theme firefox
-# 2. Add minimal theme to sddm (system essentials?)
-# 3. Install nerdfont (system essentials?)

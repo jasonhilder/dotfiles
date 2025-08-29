@@ -1,0 +1,187 @@
+#!/bin/bash
+
+# Window selector script for directional window switching
+# Usage: window-selector.sh [left|right|up|down]
+
+# Check if direction argument is provided
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 [left|right|up|down]"
+    exit 1
+fi
+
+DIRECTION="$1"
+
+# Validate direction argument
+case "$DIRECTION" in
+    left|right|up|down)
+        ;;
+    *)
+        echo "Invalid direction. Use: left, right, up, or down"
+        exit 1
+        ;;
+esac
+
+# Get current active window
+current_window=$(xdotool getactivewindow 2>/dev/null)
+if [ -z "$current_window" ]; then
+    echo "No active window found"
+    exit 1
+fi
+
+# Get current window position and size
+current_info=$(xdotool getwindowgeometry --shell "$current_window")
+eval "$current_info"
+
+current_x=$X
+current_y=$Y
+current_width=$WIDTH
+current_height=$HEIGHT
+current_center_x=$((current_x + current_width / 2))
+current_center_y=$((current_y + current_height / 2))
+
+# Get current workspace
+current_workspace=$(xdotool get_desktop)
+
+# Get all visible windows with their positions (only on current workspace)
+windows_info=""
+while IFS= read -r line; do
+    # Skip empty lines
+    [ -z "$line" ] && continue
+    
+    # Extract window ID and workspace (first and second fields)
+    win_id=$(echo "$line" | awk '{print $1}')
+    win_workspace=$(echo "$line" | awk '{print $2}')
+    
+    # Skip if it's the current window
+    [ "$win_id" = "$current_window" ] && continue
+    
+    # Skip if window is not on current workspace (unless it's on all workspaces: -1)
+    [ "$win_workspace" != "$current_workspace" ] && [ "$win_workspace" != "-1" ] && continue
+    
+    # Check if window is visible and not minimized
+    if xdotool getwindowgeometry "$win_id" >/dev/null 2>&1; then
+        # Get window geometry
+        win_info=$(xdotool getwindowgeometry --shell "$win_id" 2>/dev/null)
+        if [ $? -eq 0 ]; then
+            eval "$win_info"
+            win_x=$X
+            win_y=$Y
+            win_width=$WIDTH
+            win_height=$HEIGHT
+            win_center_x=$((win_x + win_width / 2))
+            win_center_y=$((win_y + win_height / 2))
+            
+            # Store window info
+            windows_info="$windows_info$win_id $win_center_x $win_center_y $win_x $win_y $win_width $win_height\n"
+        fi
+    fi
+done < <(wmctrl -l)
+
+# Function to calculate distance between two points
+calculate_distance() {
+    local x1=$1 y1=$2 x2=$3 y2=$4
+    echo $(( (x2-x1)*(x2-x1) + (y2-y1)*(y2-y1) ))
+}
+
+# Find the best window in the specified direction
+best_window=""
+best_distance=999999999
+
+echo -e "$windows_info" | while IFS= read -r window_line; do
+    [ -z "$window_line" ] && continue
+    
+    read -r win_id win_center_x win_center_y win_x win_y win_width win_height <<< "$window_line"
+    
+    valid_direction=false
+    
+    case "$DIRECTION" in
+        left)
+            # Window should be to the left (center_x < current_center_x)
+            # and within reasonable vertical range
+            if [ "$win_center_x" -lt "$current_center_x" ]; then
+                # Check if there's vertical overlap or reasonable proximity
+                win_top=$win_y
+                win_bottom=$((win_y + win_height))
+                current_top=$current_y
+                current_bottom=$((current_y + current_height))
+                
+                # Allow some tolerance for vertical alignment
+                tolerance=$((current_height / 2))
+                if [ "$win_bottom" -gt $((current_top - tolerance)) ] && 
+                   [ "$win_top" -lt $((current_bottom + tolerance)) ]; then
+                    valid_direction=true
+                fi
+            fi
+            ;;
+        right)
+            # Window should be to the right
+            if [ "$win_center_x" -gt "$current_center_x" ]; then
+                win_top=$win_y
+                win_bottom=$((win_y + win_height))
+                current_top=$current_y
+                current_bottom=$((current_y + current_height))
+                
+                tolerance=$((current_height / 2))
+                if [ "$win_bottom" -gt $((current_top - tolerance)) ] && 
+                   [ "$win_top" -lt $((current_bottom + tolerance)) ]; then
+                    valid_direction=true
+                fi
+            fi
+            ;;
+        up)
+            # Window should be above
+            if [ "$win_center_y" -lt "$current_center_y" ]; then
+                win_left=$win_x
+                win_right=$((win_x + win_width))
+                current_left=$current_x
+                current_right=$((current_x + current_width))
+                
+                tolerance=$((current_width / 2))
+                if [ "$win_right" -gt $((current_left - tolerance)) ] && 
+                   [ "$win_left" -lt $((current_right + tolerance)) ]; then
+                    valid_direction=true
+                fi
+            fi
+            ;;
+        down)
+            # Window should be below
+            if [ "$win_center_y" -gt "$current_center_y" ]; then
+                win_left=$win_x
+                win_right=$((win_x + win_width))
+                current_left=$current_x
+                current_right=$((current_x + current_width))
+                
+                tolerance=$((current_width / 2))
+                if [ "$win_right" -gt $((current_left - tolerance)) ] && 
+                   [ "$win_left" -lt $((current_right + tolerance)) ]; then
+                    valid_direction=true
+                fi
+            fi
+            ;;
+    esac
+    
+    if [ "$valid_direction" = true ]; then
+        distance=$(calculate_distance "$current_center_x" "$current_center_y" "$win_center_x" "$win_center_y")
+        
+        # Use a temporary file to store the best result since we're in a subshell
+        if [ -z "$best_window" ] || [ "$distance" -lt "$best_distance" ]; then
+            echo "$win_id $distance" > /tmp/window_selector_result
+        fi
+    fi
+done
+
+# Read the result from the temporary file
+if [ -f /tmp/window_selector_result ]; then
+    read -r best_window best_distance < /tmp/window_selector_result
+    rm -f /tmp/window_selector_result
+    
+    if [ -n "$best_window" ]; then
+        # Switch to the selected window
+        xdotool windowactivate "$best_window"
+        echo "Switched to window $best_window in direction: $DIRECTION"
+    else
+        echo "No window found in direction: $DIRECTION"
+    fi
+else
+    echo "No window found in direction: $DIRECTION"
+fi
