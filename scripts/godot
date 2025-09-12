@@ -1,3 +1,0 @@
-#!/bin/bash
-
-/home/jason/.local/applications/godot --display-driver wayland
