@@ -107,11 +107,13 @@ export PATH="$HOME/.local/applications/aseprite:$PATH"
 alias ..='cd ..'
 alias :q='exit'
 alias lg='lazygit'
+alias uz='7z'
 alias dotfiles='cd ~/.dotfiles && vim'
 alias wiki='cd ~/github/reimagined_barnacle && vim'
 alias vim='nvim'
 alias rmdir='safe_delete'
 alias ll='ls -lah --color=auto'
+alias ls='ls -lh --color=auto'
 alias install-system='sh /home/jason/.dotfiles/install.sh'
 
 # ------------------------

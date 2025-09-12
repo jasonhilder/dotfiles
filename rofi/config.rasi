@@ -1,0 +1,177 @@
+configuration {
+    font: "JetbrainsMono Nerd Font Mono 16";
+    timeout {
+        action: "kb-cancel";
+        delay:  0;
+    }
+    filebrowser {
+        directories-first: true;
+        sorting-method:    "name";
+    }
+}
+
+* {
+    foreground:                  #c1c1c1;
+    background:                  #202020;
+    border-color:                #444444;
+    separatorcolor:              #444444;
+
+    normal-foreground:           #c1c1c1;
+    normal-background:           #202020;
+    
+    active-foreground:           #202020;
+    active-background:           #202020;
+    
+    urgent-foreground:           #5f8787;
+    urgent-background:           #202020;
+
+    selected-normal-foreground:  #c1c1c1;
+    selected-normal-background:  #202020;
+    
+    selected-active-foreground:  #202020;
+    selected-active-background:  #888888;
+    
+    selected-urgent-foreground:  #202020;
+    selected-urgent-background:  #5f8787;
+
+    alternate-normal-foreground: #c1c1c1;
+    alternate-normal-background: #121212;
+
+    alternate-active-foreground: #999999;
+    alternate-active-background: #202020;
+
+    alternate-urgent-foreground: #5f8787;
+    alternate-urgent-background: #121212;
+
+    spacing:                     2;
+}
+
+window {
+    background-color: #202020;
+    border:           0;
+    padding:          0px;
+}
+
+mainbox {
+    border:           0;
+    padding:          0;
+}
+
+message {
+    border:           1px dash 0px 0px;
+    padding:          1px;
+}
+
+textbox {
+    text-color:       #c1c1c1;
+}
+
+listview {
+    fixed-height:     0;
+    border:           0px solid 0px 0px;
+    spacing:          2px;
+    scrollbar:        true;
+    padding:          2px 0px 0px;
+}
+
+element normal.normal {
+    background-color: #202020;
+    text-color:       #9b8d7f;
+}
+
+element normal.urgent {
+    background-color: #202020;
+    text-color:       #5f8787;
+}
+
+element normal.active {
+    background-color: #202020;
+    text-color:       #999999;
+}
+
+element selected.normal {
+    background-color: #000000;
+    text-color:       #c1c1c1;
+}
+
+element selected.urgent {
+    background-color: #5f8787;
+    text-color:       #000000;
+}
+
+element selected.active {
+    background-color: #000000;
+    text-color:       #9b8d7f;
+}
+
+element alternate.normal {
+    background-color: #202020;
+    text-color:       #9b8d7f;
+}
+
+element alternate.urgent {
+    background-color: #202020;
+    text-color:       #5f8787;
+}
+
+element alternate.active {
+    background-color: #121212;
+    text-color:       #999999;
+}
+
+element-text {
+  highlight: underline #9b8d7f;
+}
+
+scrollbar {
+    width:            4px;
+    border:           0;
+    handle-color:     #444444;
+    handle-width:     8px;
+    padding:          0;
+}
+
+sidebar {
+    border:           0px dash 0px 0px;
+}
+
+button {
+    spacing:          0;
+    text-color:       #c1c1c1;
+}
+
+button selected {
+    background-color: #202020;
+    text-color:       #c1c1c1;
+}
+
+inputbar {
+    spacing:          0px;
+    text-color:       #c1c1c1;
+    padding:          1px;
+    children:         [ prompt, textbox-prompt-colon, entry, case-indicator ];
+}
+
+case-indicator {
+    spacing:          0;
+    text-color:       #c1c1c1;
+}
+
+entry {
+    spacing:          0;
+    text-color:       #c1c1c1;
+    cursor-width: 1ch;
+}
+
+prompt {
+    spacing:          0;
+    text-color:       #c1c1c1;
+}
+
+textbox-prompt-colon {
+    expand:           false;
+    str:              ":";
+    margin:           0px 0.3em 0px 0px;
+    text-color:       inherit;
+}
+
