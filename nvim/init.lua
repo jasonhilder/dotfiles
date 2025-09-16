@@ -13,7 +13,11 @@ require("paq")({
     "l3mon4d3/luasnip",         -- snippet engine
     "saadparwaiz1/cmp_luasnip"  -- snippet completions
 })
-require("oil").setup()
+require("oil").setup({
+    view_options = {
+        show_hidden = true,
+    }
+})
 require("ibl").setup({
     indent = { highlight = { "LineNr" }, char = "│" }, 
     scope  = { enabled = false }

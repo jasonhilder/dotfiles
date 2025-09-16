@@ -116,7 +116,7 @@ case "$confirm" in
         REQUIRED_PACKAGES=(
             curl ripgrep fzf mpv btop tree valgrind kitty
             fastfetch direnv neovim fd bash-completion
-            xdotool wmctrl rofi lazygit
+            xdotool wmctrl rofi lazygit redshift-gtk
         )
 
         # Development packages (equivalent to Fedora's development groups)
