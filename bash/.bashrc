@@ -242,10 +242,9 @@ alias :q='exit'
 # Custom shortcuts
 alias uz='7z'
 alias dotfiles='cd ~/.dotfiles && nvim'
-alias wiki='cd ~/github/reimagined_barnacle && nvim'
 alias install-system='bash ~/.dotfiles/install.sh'
 alias reload='source ~/.bashrc'
-alias myip='curl ipinfo.io/ip'
+alias myip='curl ipinfo.io/ip && echo ""'
 
 # ==============================================================================
 # FUNCTIONS

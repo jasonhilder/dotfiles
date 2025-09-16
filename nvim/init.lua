@@ -7,6 +7,7 @@ require("paq")({
     "vague2k/vague.nvim",
     "nvim-treesitter/nvim-treesitter",
     "lukas-reineke/indent-blankline.nvim",
+    "nvim-lualine/lualine.nvim",
     "stevearc/oil.nvim",
     "hrsh7th/nvim-cmp",         -- completion engine
     "hrsh7th/cmp-nvim-lsp",     -- lsp source for cmp
@@ -14,14 +15,13 @@ require("paq")({
     "saadparwaiz1/cmp_luasnip"  -- snippet completions
 })
 require("oil").setup({
-    view_options = {
-        show_hidden = true,
-    }
+    view_options = { show_hidden = true, }
 })
 require("ibl").setup({
     indent = { highlight = { "LineNr" }, char = "│" }, 
     scope  = { enabled = false }
 })
+require'lualine'.setup({options = { theme = 'vague' }})
 require'nvim-treesitter.configs'.setup {
     ensure_installed = { "c", "lua", "go" },
     highlight = { enable = true }
@@ -67,6 +67,7 @@ vim.o.splitright = true                -- Set horizontal splits to the right as 
 vim.o.splitbelow = true                -- Set vertical splits to the bottom as default
 vim.o.completeopt = 'menuone,noselect' -- Configures how the completion menu works
 vim.o.winborder = 'rounded'            -- LSP hover borders
+vim.opt.showmode = false
 ---------------------------------------------------------------------------------
 -- [[ KEYMAPS ]]
 ---------------------------------------------------------------------------------
