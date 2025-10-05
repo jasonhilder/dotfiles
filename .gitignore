@@ -1,0 +1,13 @@
+/nvim/.config/nvim/lazy-lock.json
+/vim/.vim/plugged
+/vim/.vim/autoload
+/fish/.config/fish/fish_variables
+
+/emacs/.emacs.d/elpa
+/emacs/.emacs.d/auto-save-list
+/emacs/.emacs.d/backups
+/emacs/.emacs.d/eln-cache
+/emacs/.emacs.d/history
+/emacs/.emacs.d/places
+/emacs/.emacs.d/recentf
+/emacs/.emacs.d/transient

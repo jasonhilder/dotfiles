@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Check if a path is provided
+if [ -z "$1" ]; then
+  echo "Usage: $0 /path/to/directory"
+  exit 1
+fi
+
+TARGET_PATH="$1"
+
+# Confirm before deleting
+echo "WARNING: You are about to permanently delete: $TARGET_PATH"
+read -p "Are you sure you want to proceed? [y/N] " confirm
+
+# Convert input to lowercase
+confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
+
+if [[ "$confirm" == "y" || "$confirm" == "yes" ]]; then
+  rm -rf "$TARGET_PATH"
+  echo "Deleted: $TARGET_PATH"
+else
+  echo "Aborted."
+fi
