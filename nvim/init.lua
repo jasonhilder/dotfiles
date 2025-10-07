@@ -3,8 +3,9 @@
 ---------------------------------------------------------------------------------
 require("paq")({
 	"savq/paq-nvim",
-    "ibhagwan/fzf-lua",
+    "nvim-telescope/telescope.nvim",
     "vague2k/vague.nvim",
+    "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
     "lukas-reineke/indent-blankline.nvim",
     "nvim-lualine/lualine.nvim",
@@ -28,7 +29,6 @@ require'nvim-treesitter.configs'.setup {
     ensure_installed = { "c", "lua", "go" },
     highlight = { enable = true }
 }
-
 local cmp = require("cmp")
 cmp.setup({
     mapping = cmp.mapping.preset.insert({
@@ -36,6 +36,40 @@ cmp.setup({
         ['<C-Space>'] = cmp.mapping.complete(),
     }),
     sources = {{ name = "nvim_lsp" }, { name = "luasnip" }}
+})
+require("telescope").setup({
+    defaults = {
+        preview = true,
+        sorting_strategy = "ascending",
+        borderchars = { "", "", "", "", "", "", "", "" },
+        path_displays = "smart",
+        layout_strategy = "horizontal",
+        layout_config = {
+            height = 100,
+            width = 400,
+            prompt_position = "top",
+            preview_cutoff = 0,
+        },
+        file_ignore_patterns = { 
+            "^.git/",  -- Ignore .git directory
+        },
+        -- Make sure hidden files are shown
+        vimgrep_arguments = {
+            "rg",
+            "--color=never",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--smart-case",
+            "--hidden",  -- Add this flag
+        },
+    },
+    pickers = {
+        find_files = {
+            hidden = true,  -- Show hidden files in find_files
+        },
+    },
 })
 ---------------------------------------------------------------------------------
 -- [[ OPTIONS ]]
@@ -104,13 +138,16 @@ vim.keymap.set("n", "<leader>k", ":lua vim.diagnostic.open_float()<CR>", { desc 
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
 vim.keymap.set('n', 'L', function() vim.api.nvim_feedkeys(':', 'n', true) end, { noremap = true, silent = true })
--- FzfLua 
-vim.keymap.set("n", "<leader><leader>", function() require'fzf-lua'.files({ cmd = vim.env.FZF_DEFAULT_COMMAND }) end, { desc = "Fzf files" })
-vim.keymap.set("n", "<leader>b", "<cmd>FzfLua buffers<cr>", { desc = "Fzf buffers" })
-vim.keymap.set("n", "<leader>m", "<cmd>FzfLua keymaps<cr>", { desc = "Fzf keymaps" })
-vim.keymap.set("n", "<leader>s", "<cmd>FzfLua grep_project<cr>", { desc = "Fzf keymaps" })
-vim.keymap.set("n", "<leader>d", "<cmd>FzfLua diagnostics_document<cr>", { desc = "Buffer diagnostics" })
-vim.keymap.set("n", "<leader>D", "<cmd>FzfLua diagnostics_workspace<cr>", { desc = "Project diagnostics" })
+-- Telescope
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>g', builtin.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = 'Telescope buffers' })
+vim.keymap.set('n', '<leader>si', builtin.grep_string, { desc = 'Telescope live string' })
+vim.keymap.set('n', '<leader>so', builtin.oldfiles, { desc = 'Telescope old files' })
+vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = 'Telescope help tags' })
+vim.keymap.set('n', '<leader>sm', builtin.man_pages, { desc = 'Telescope man pages' })
+vim.keymap.set('n', '<leader>sc', builtin.colorscheme, { desc = 'Telescope colorscheme' })
 -- Oil nvim
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 ---------------------------------------------------------------------------------
