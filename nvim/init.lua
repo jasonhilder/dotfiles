@@ -19,16 +19,21 @@ require("paq")({
 require("oil").setup({
     view_options = { show_hidden = true, }
 })
+
 require("ibl").setup({
     indent = { highlight = { "LineNr" }, char = "│" }, 
     scope  = { enabled = false }
 })
+
 require("vague").setup({ style = { comments = "none", strings = "none", }}) 
+
 require'lualine'.setup({options = { theme = 'vague' }})
+
 require'nvim-treesitter.configs'.setup {
     ensure_installed = { "c", "lua", "go" },
     highlight = { enable = true }
 }
+
 local cmp = require("cmp")
 cmp.setup({
     mapping = cmp.mapping.preset.insert({
@@ -37,6 +42,7 @@ cmp.setup({
     }),
     sources = {{ name = "nvim_lsp" }, { name = "luasnip" }}
 })
+
 require("telescope").setup({
     defaults = {
         preview = true,
