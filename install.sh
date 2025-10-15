@@ -13,6 +13,7 @@ declare -A FILES_TO_SYMLINK=(
     ["$DOTFILES_DIR/bash/.bashrc"]="$HOME/.bashrc"
     ["$DOTFILES_DIR/kitty"]="$HOME/.config/kitty"
     ["$DOTFILES_DIR/nvim"]="$HOME/.config/nvim"
+    ["$DOTFILES_DIR/tmux"]="$HOME/.config/tmux"
     ["$DOTFILES_DIR/scripts"]="$HOME/.local/bin"
 )
 
@@ -154,9 +155,9 @@ else
             URL=$(curl -s https://go.dev/dl/ \
                   | grep -Eo 'go[0-9]+\.[0-9]+\.[0-9]+\.linux-amd64\.tar\.gz' \
                   | head -1)
-            
+
             LATEST_URL="https://go.dev/dl/$URL"
-            
+
             if [ -z "$URL" ]; then
               echo "Failed to fetch the Go download URL. Exiting."
               echo ""
@@ -166,18 +167,18 @@ else
                 echo ""
                 echo "Downloading $FILENAME..."
                 curl -LO "$LATEST_URL"
-                
+
                 echo "Removing previous Go installation (if any)..."
                 echo ""
                 sudo rm -rf /usr/local/go
-                
+
                 echo "Extracting Go archive to /usr/local..."
                 echo ""
                 sudo tar -C /usr/local -xzf "$FILENAME"
 
                 echo "Go installation complete!"
                 echo "Add '/usr/local/go/bin' to your PATH if not already done."
-                
+
                 # Clean up downloaded archive
                 rm -f "$FILENAME"
             fi
