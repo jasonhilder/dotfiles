@@ -20,8 +20,6 @@ if ! shopt -oq posix; then
     fi
 fi
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
 # ==============================================================================
 # SHELL OPTIONS & BEHAVIOR
 # ==============================================================================
@@ -43,7 +41,7 @@ bind "set menu-complete-display-prefix on"
 bind "TAB:menu-complete"
 bind "set colored-stats on"
 bind "set visible-stats on"
-bind "set mark-symlinked-directories on" 
+bind "set mark-symlinked-directories on"
 
 # ==============================================================================
 # HISTORY CONFIGURATION
@@ -156,14 +154,14 @@ readonly C_BRIGHT_CYAN='\033[96m'
 # Git status function
 git_prompt() {
     local branch status_color=""
-    
+
     # Check if we're in a git repository
     if ! git rev-parse --git-dir &>/dev/null; then
         return
     fi
-    
+
     branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null)
-    
+
     # Determine git status color (use raw escape codes, not prompt-escaped ones)
     if [[ -n $(git status --porcelain 2>/dev/null) ]]; then
         if [[ -n $(git diff --cached --name-only 2>/dev/null) ]]; then
@@ -174,7 +172,7 @@ git_prompt() {
     else
         status_color="$C_BRIGHT_GREEN"      # Bright green for clean
     fi
-    
+
     printf " %s(%s) " "$status_color" "$branch"
 }
 
@@ -190,20 +188,20 @@ update_prompt() {
     local host_color="$BLUE"
     local path_color="$CYAN"
     local prompt_symbol="❯"
-    
+
     # Change colors based on user
     [[ $EUID -eq 0 ]] && {
         user_color="$BRIGHT_RED"
         prompt_symbol="#"
     }
-    
+
     # Change colors based on SSH connection
     [[ -n $SSH_CONNECTION ]] && host_color="$MAGENTA"
-    
+
     PS1="${BOLD}${user_color}\u${WHITE}@${host_color}\h ${path_color}\w$(git_prompt)$(exit_status)${RESET}\n${BLUE}${prompt_symbol}${RESET} "
 }
 
-# Real-time history sharing between sessions 
+# Real-time history sharing between sessions
 # Set PROMPT_COMMAND to combine history sharing and prompt update
 PROMPT_COMMAND="history -a; history -n; update_prompt"
 
@@ -254,19 +252,19 @@ pp() {
     clear
 
     local project_script="$HOME/.local/bin/project-picker"
-    
+
     if [[ ! -x "$project_script" ]]; then
         echo "Error: project-picker script not found or not executable" >&2
         return 1
     fi
-    
+
     if [[ $# -ge 1 ]]; then
         bash "$project_script" "$1"
     else
         local dir
         dir=$(bash "$project_script")
         if [[ -n "$dir" && -d "$dir" ]]; then
-            cd "$dir" && nvim . || return 1
+            cd "$dir" && hx . || return 1
         fi
     fi
 }
@@ -285,14 +283,14 @@ build() {
         echo "The arguments are passed directly to ./build.sh"
         return 0
     fi
-    
+
     # Check if build.sh exists in current directory
     if [[ ! -f "./build.sh" ]]; then
         echo "Error: No build.sh found in current directory" >&2
         echo "Make sure you're in a project directory with a build.sh file" >&2
         return 1
     fi
-    
+
     # Check if build.sh is executable and make it so if needed
     if [[ ! -x "./build.sh" ]]; then
         echo "Warning: build.sh is not executable. Making it executable..."
@@ -302,7 +300,7 @@ build() {
             return 1
         fi
     fi
-    
+
     # Execute build.sh with all provided arguments
     ./build.sh "$@"
 }
@@ -311,7 +309,7 @@ build() {
 extract() {
     [[ $# -ne 1 ]] && { echo "Usage: extract <archive>"; return 1; }
     [[ ! -f "$1" ]] && { echo "Error: '$1' is not a valid file"; return 1; }
-    
+
     case "$1" in
         *.tar.bz2)   tar xjf "$1"    ;;
         *.tar.gz)    tar xzf "$1"    ;;
@@ -334,7 +332,7 @@ extract() {
 safe_delete() {
     local trash_dir="$HOME/.trash"
     [[ ! -d "$trash_dir" ]] && mkdir -p "$trash_dir"
-    
+
     for item in "$@"; do
         [[ ! -e "$item" ]] && { echo "Error: '$item' does not exist"; continue; }
         local basename_item=$(basename "$item")
