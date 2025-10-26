@@ -235,6 +235,7 @@ alias lg='lazygit'
 alias vim='nvim'
 alias v='nvim'
 alias :q='exit'
+alias files='nautilus .'
 
 # Custom shortcuts
 alias uz='7z'
@@ -264,7 +265,7 @@ pp() {
         local dir
         dir=$(bash "$project_script")
         if [[ -n "$dir" && -d "$dir" ]]; then
-            cd "$dir" && hx . || return 1
+            cd "$dir" && vim . || return 1
         fi
     fi
 }
@@ -347,6 +348,7 @@ safe_delete() {
 # ==============================================================================
 # Welcome message
 # fastfetch
+# [ -z "$TMUX" ] && [ -n "$PS1" ] && tmux attach || tmux new
 echo -e "${C_GREEN}Welcome back, ${USER}!${C_RESET}"
 echo -e "${C_DIM}$(date '+%A, %B %d, %Y - %H:%M:%S')${C_RESET}"
 echo -e "---------------------------------------------------------------"

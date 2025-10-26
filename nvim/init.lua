@@ -1,82 +1,8 @@
 ---------------------------------------------------------------------------------
 -- [[ PLUGINS ]]
 ---------------------------------------------------------------------------------
-require("paq")({
-	"savq/paq-nvim",
-    "nvim-telescope/telescope.nvim",
-    "vague2k/vague.nvim",
-    "nvim-lua/plenary.nvim",
-    "nvim-treesitter/nvim-treesitter",
-    "lukas-reineke/indent-blankline.nvim",
-    "nvim-lualine/lualine.nvim",
-    "stevearc/oil.nvim",
-    "hrsh7th/nvim-cmp",
-    "hrsh7th/cmp-nvim-lsp",
-    "l3mon4d3/luasnip",
-    "saadparwaiz1/cmp_luasnip"
-})
+require "plugins"
 
-require("oil").setup({
-    view_options = { show_hidden = true, }
-})
-
-require("ibl").setup({
-    indent = { highlight = { "LineNr" }, char = "│" }, 
-    scope  = { enabled = false }
-})
-
-require("vague").setup({ style = { comments = "none", strings = "none", }}) 
-
-require'lualine'.setup({options = { theme = 'vague' }})
-
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "c", "lua", "go" },
-    highlight = { enable = true }
-}
-
-local cmp = require("cmp")
-cmp.setup({
-    mapping = cmp.mapping.preset.insert({
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-Space>'] = cmp.mapping.complete(),
-    }),
-    sources = {{ name = "nvim_lsp" }, { name = "luasnip" }}
-})
-
-require("telescope").setup({
-    defaults = {
-        preview = true,
-        sorting_strategy = "ascending",
-        borderchars = { "", "", "", "", "", "", "", "" },
-        path_displays = "smart",
-        layout_strategy = "horizontal",
-        layout_config = {
-            height = 100,
-            width = 400,
-            prompt_position = "top",
-            preview_cutoff = 0,
-        },
-        file_ignore_patterns = { 
-            "^.git/",  -- Ignore .git directory
-        },
-        -- Make sure hidden files are shown
-        vimgrep_arguments = {
-            "rg",
-            "--color=never",
-            "--no-heading",
-            "--with-filename",
-            "--line-number",
-            "--column",
-            "--smart-case",
-            "--hidden",  -- Add this flag
-        },
-    },
-    pickers = {
-        find_files = {
-            hidden = true,  -- Show hidden files in find_files
-        },
-    },
-})
 ---------------------------------------------------------------------------------
 -- [[ OPTIONS ]]
 ---------------------------------------------------------------------------------
@@ -111,6 +37,7 @@ vim.o.splitbelow = true                -- Set vertical splits to the bottom as d
 vim.o.completeopt = 'menuone,noselect' -- Configures how the completion menu works
 vim.o.winborder = 'rounded'            -- LSP hover borders
 vim.opt.showmode = false
+
 ---------------------------------------------------------------------------------
 -- [[ KEYMAPS ]]
 ---------------------------------------------------------------------------------
@@ -154,8 +81,11 @@ vim.keymap.set('n', '<leader>so', builtin.oldfiles, { desc = 'Telescope old file
 vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = 'Telescope help tags' })
 vim.keymap.set('n', '<leader>sm', builtin.man_pages, { desc = 'Telescope man pages' })
 vim.keymap.set('n', '<leader>sc', builtin.colorscheme, { desc = 'Telescope colorscheme' })
--- Oil nvim
-vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+-- File manager
+vim.keymap.set("n", "-", "<CMD>Yazi<CR>", { desc = "Open parent directory" })
+-- Lazygit
+vim.keymap.set("n", "<leader>tg", "<CMD>LazyGit<CR>", { desc = "Open parent directory" })
+
 ---------------------------------------------------------------------------------
 -- [[ COLORSCHEME ]]
 ---------------------------------------------------------------------------------
@@ -171,6 +101,7 @@ vim.api.nvim_set_hl(0, "FloatBorder", { bg = bg })
 vim.api.nvim_set_hl(0, "FzfLuaBorder", { bg = bg })
 vim.api.nvim_set_hl(0, "FzfLuaNormal", { bg = bg })
 vim.api.nvim_set_hl(0, "FzfLuaTitle", { bg = bg, fg = "#aaaaaa" })
+
 --------------------------------------------------------------------------------
 -- [[ AUTOCMDS ]]
 ---------------------------------------------------------------------------------
@@ -227,6 +158,7 @@ vim.keymap.set("n", "<leader>tj", function()
     vim.cmd.term()
     vim.cmd.startinsert()  -- Enter insert mode
 end)
+
 ---------------------------------------------------------------------------------
 -- [[ LSP ]]
 ---------------------------------------------------------------------------------
@@ -255,6 +187,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', opts)
         vim.keymap.set('n', 'cr', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
         vim.keymap.set('n', 'ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+
         -- Map Ctrl-Space to trigger omni-completion in Insert mode
         vim.api.nvim_set_keymap('i', '<C-Space>', '<C-X><C-O>', { noremap = true, silent = true })
     end,

@@ -14,7 +14,9 @@ declare -A FILES_TO_SYMLINK=(
     ["$DOTFILES_DIR/kitty"]="$HOME/.config/kitty"
     ["$DOTFILES_DIR/nvim"]="$HOME/.config/nvim"
     ["$DOTFILES_DIR/tmux"]="$HOME/.config/tmux"
+    ["$DOTFILES_DIR/lazygit"]="$HOME/.config/lazygit"
     ["$DOTFILES_DIR/scripts"]="$HOME/.local/bin"
+    ["$DOTFILES_DIR/emacs/.emacs.d"]="$HOME/.emacs.d"
 )
 
 read -p "Do you want to create symlinks for your dotfiles? [y/N] " confirm
@@ -106,6 +108,8 @@ case "$confirm" in
             curl ripgrep fzf mpv btop tree valgrind kitty
             direnv fd-find bash-completion xclip gnome-tweaks
         )
+
+        # Manually, lazygit, neovim, paq plugin manager, difftastic
 
         # Development packages (equivalent to Fedora's development groups)
         DEV_PACKAGES=(
