@@ -144,8 +144,8 @@
 (require 'dired-x)
 
 ;; Git client
-;; (use-package magit
-;;   :ensure t)
+(use-package magit
+  :ensure t)
 
 ;; Programming modes
 ;; Go mode

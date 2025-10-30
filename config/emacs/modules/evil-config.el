@@ -63,8 +63,7 @@
     ;; Buffers
     "b b" 'consult-buffer
     "b d" 'kill-buffer
-    "b n" 'next-buffer
-    "b p" 'previous-buffer
+    "b p" 'mode-line-other-buffer
     "b k" 'kill-this-buffer
     "b i" 'ibuffer
     
@@ -113,7 +112,6 @@
     "t t" 'my/eat-current
     "t h" 'my/eat-horizontal
     "t v" 'my/eat-vertical
-    "t p" 'my/eat-project
 
     ;; Other
     "SPC" 'execute-extended-command
