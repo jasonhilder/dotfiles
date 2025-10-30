@@ -1,0 +1,146 @@
+# i3 config file (v4)
+# Kanagawa Theme Configuration
+
+# Set mod key (Mod1=Alt, Mod4=Super/Windows)
+set $mod Mod4
+
+# Font for window titles and bar
+font pango:RobotoMono Nerd Font 11
+
+# Kanagawa Color Palette
+set $fujiWhite #DCD7BA
+set $oldWhite #C8C093
+set $sumiInk0 #16161D
+set $sumiInk1 #1F1F28
+set $sumiInk3 #363646
+set $sumiInk4 #54546D
+set $waveBlue1 #223249
+set $waveBlue2 #2D4F67
+set $winterGreen #2B3328
+set $winterYellow #49443C
+set $winterRed #43242B
+set $winterBlue #252535
+set $autumnGreen #76946A
+set $autumnRed #C34043
+set $autumnYellow #DCA561
+set $samuraiRed #E82424
+set $roninYellow #FF9E3B
+set $waveAqua1 #6A9589
+set $dragonBlue #658594
+set $fujiGray #727169
+set $springViolet1 #938AA9
+set $oniViolet #957FB8
+set $crystalBlue #7E9CD8
+set $springViolet2 #9CABCA
+set $springBlue #7FB4CA
+set $lightBlue #A3D4D5
+set $waveAqua2 #7AA89F
+set $springGreen #98BB6C
+
+# Window colors          border       background   text         indicator    child_border
+client.focused          $waveBlue2   $waveBlue2   $fujiWhite   $crystalBlue $waveBlue2
+client.focused_inactive $sumiInk3    $sumiInk3    $oldWhite    $sumiInk3    $sumiInk3
+client.unfocused        $sumiInk1    $sumiInk1    $fujiGray    $sumiInk1    $sumiInk1
+client.urgent           $autumnRed   $autumnRed   $fujiWhite   $samuraiRed  $autumnRed
+client.placeholder      $sumiInk0    $sumiInk0    $fujiWhite   $sumiInk0    $sumiInk0
+client.background       $sumiInk1
+
+# Use Mouse+$mod to drag floating windows
+floating_modifier $mod
+
+# Start a terminal
+#bindsym $mod+Return exec kitty
+bindsym $mod+Return exec --no-startup-id emacs
+
+# Kill focused window
+bindsym $mod+x kill
+
+# Start rofi (program launcher)
+bindsym $mod+d exec --no-startup-id rofi -show drun -theme ~/.config/rofi/kanagawa.rasi
+
+# Change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Split in horizontal orientation
+# bindsym $mod+b split h
+# Split in vertical orientation
+# bindsym $mod+v split v
+
+# Enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# Change container layout (stacked, tabbed, toggle split)
+# bindsym $mod+s layout stacking
+bindsym $mod+a layout tabbed
+bindsym $mod+s layout toggle split
+
+# Toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# Define names for workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+
+# Switch to workspace
+bindsym $mod+q workspace number $ws1
+bindsym $mod+w workspace number $ws2
+bindsym $mod+e workspace number $ws3
+bindsym $mod+p workspace number $ws4
+
+# Move focused container to workspace
+bindsym $mod+Shift+q move container to workspace number $ws1
+bindsym $mod+Shift+w move container to workspace number $ws2
+bindsym $mod+Shift+e move container to workspace number $ws3
+bindsym $mod+Shift+p move container to workspace number $ws4
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+# Restart i3 inplace (preserves layout/session)
+bindsym $mod+Shift+r restart
+
+# Resize window mode
+mode "resize" {
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym j resize grow height 10 px or 10 ppt
+    bindsym k resize shrink height 10 px or 10 ppt
+    bindsym l resize grow width 10 px or 10 ppt
+
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Window border settings
+default_border pixel 5
+default_floating_border pixel 5
+hide_edge_borders smart
+
+# Gaps (requires i3-gaps)
+gaps inner 10
+gaps outer 5
+
+# Startup applications
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id ~/.dotfiles/scripts/i3_startup.sh
+

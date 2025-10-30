@@ -1,0 +1,130 @@
+/**
+ * Rofi Kanagawa Theme
+ * Based on the Kanagawa color scheme
+ */
+
+* {
+	font: "RobotoMono Nerd Font 14";
+
+    /* Kanagawa Colors */
+    bg0:     #1F1F28;
+    bg1:     #16161D;
+    bg2:     #223249;
+    bg3:     #363646;
+    bg4:     #54546D;
+    
+    fg0:     #DCD7BA;
+    fg1:     #C8C093;
+    fg2:     #727169;
+    
+    blue:    #7E9CD8;
+    cyan:    #7FB4CA;
+    green:   #98BB6C;
+    red:     #C34043;
+    yellow:  #DCA561;
+    magenta: #957FB8;
+    
+    accent:  #2D4F67;
+    urgent:  #E82424;
+    
+    background-color:   transparent;
+    text-color:         @fg0;
+    
+    margin:     0;
+    padding:    0;
+    spacing:    0;
+}
+
+window {
+	font: inherit;
+    location:           center;
+    width:              640;
+    background-color:   @bg0;
+    border:             2;
+    border-color:       @bg2;
+}
+
+mainbox {
+    padding:    12;
+}
+
+inputbar {
+    background-color:   @bg1;
+    border-color:       @bg3;
+    border:             2;
+    border-radius:      4;
+    padding:            8 12;
+    spacing:            12;
+    children:           [ prompt, entry ];
+}
+
+prompt {
+    text-color: @blue;
+}
+
+entry {
+    placeholder:        "Search...";
+    placeholder-color:  @fg2;
+}
+
+message {
+    margin:             12 0 0;
+    border-radius:      4;
+    border-color:       @bg3;
+    background-color:   @bg1;
+}
+
+textbox {
+    padding:    8 12;
+}
+
+listview {
+    background-color:   transparent;
+    margin:             12 0 0;
+    lines:              8;
+    columns:            1;
+    fixed-height:       false;
+}
+
+element {
+    padding:            8 12;
+    spacing:            8;
+    border-radius:      4;
+}
+
+element normal normal {
+    text-color: @fg0;
+}
+
+element normal urgent {
+    text-color: @urgent;
+}
+
+element normal active {
+    text-color: @cyan;
+}
+
+element selected normal {
+    background-color:   @bg2;
+    text-color:         @fg0;
+}
+
+element selected urgent {
+    background-color:   @urgent;
+    text-color:         @bg0;
+}
+
+element selected active {
+    background-color:   @bg2;
+    text-color:         @cyan;
+}
+
+element-icon {
+    size:   1em;
+    vertical-align: 0.5;
+}
+
+element-text {
+    text-color: inherit;
+    vertical-align: 0.5;
+}
