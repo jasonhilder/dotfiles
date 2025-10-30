@@ -19,7 +19,8 @@ feh --bg-scale ~/Pictures/wallpapers/kanagawa.jpg &
 
 # Start applications
 picom -b &
-volumeicon &
 nm-applet &
+sleep 1
+volumeicon &
 dunst &
 autotiling &

@@ -1,6 +1,21 @@
 #!/bin/bash
 
-# sudo xbps-install void-repo-nonfree void-repo-multilib
+# ---------------------------------------------------------------------------------
+## Steps taken before running this script
+# ---------------------------------------------------------------------------------
+
+# * sudo xbps-install xbps -u
+# * sudo xbps-install -Su
+# * sudo xbps-install git
+# * sudo xbps-install void-repo-nonfree void-repo-multilib
+# * Run ssh script on usb
+# * Download fonts (RobotoMono Nerd Font)
+# * Download Blue icons (https://www.xfce-look.org/p/1273372)
+# * Download cursor icons (https://www.xfce-look.org/p/1607387)
+# * stop xfce4 notifyd
+#   - sudo mv /usr/share/dbus-1/services/org.xfce.xfce4-notifyd.Notifyd.service /usr/share/dbus-1/services/org.xfce.xfce4-notifyd.Notifyd.service.disabled
+# * Clone dotfiles
+# * Run this install script (symlinks configs, install software, install programming languages)
 
 # ---------------------------------------------------------------------------------
 ## GLOBAL VARS
