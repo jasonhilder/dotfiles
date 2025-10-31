@@ -3,13 +3,11 @@
 # Kill existing processes
 pkill picom
 pkill nm-applet
-pkill volumeicon
 pkill dunst
 pkill autotiling
 
 # Wait for processes to terminate
 while pgrep -x picom >/dev/null; do sleep 0.1; done
-while pgrep -x volumeicon >/dev/null; do sleep 0.5; done
 while pgrep -x nm-applet >/dev/null; do sleep 0.1; done
 while pgrep -x dunst >/dev/null; do sleep 0.1; done
 while pgrep -x autotiling >/dev/null; do sleep 0.1; done
@@ -20,7 +18,5 @@ feh --bg-scale ~/Pictures/wallpapers/kanagawa.jpg &
 # Start applications
 picom -b &
 nm-applet &
-sleep 1
-volumeicon &
 dunst &
 autotiling &

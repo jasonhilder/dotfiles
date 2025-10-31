@@ -58,6 +58,12 @@ bindsym $mod+x kill
 # Start rofi (program launcher)
 bindsym $mod+d exec --no-startup-id rofi -show drun -theme ~/.config/rofi/kanagawa.rasi
 
+# Power menu
+bindsym $mod+Shift+m exec --no-startup-id ~/.config/rofi/powermenu.sh
+
+# Screenshot menu
+bindsym Print exec --no-startup-id ~/.config/rofi/screenshot.sh
+
 # Change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -75,7 +81,7 @@ bindsym $mod+f fullscreen toggle
 
 # Change container layout (stacked, tabbed, toggle split)
 # bindsym $mod+s layout stacking
-bindsym $mod+a layout tabbed
+bindsym $mod+t layout tabbed
 bindsym $mod+s layout toggle split
 
 # Toggle tiling / floating
