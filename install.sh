@@ -110,11 +110,10 @@ read -p "❓ Do you want to install system packages? [y/N] " confirm
 case "$confirm" in
     [Yy]* )
         REQUIRED_PACKAGES=(
-            curl ripgrep mpv btop tree valgrind kitty
-            fastfetch direnv fd bash-completion
-			go emacs-x11 rofi i3 polybar picom
-			pasystray volumeicon feh dunst autotiling
-			slurp grim
+            curl ripgrep mpv btop tree valgrind kitty fastfetch
+			direnv fd bash-completion go emacs-x11 rofi i3
+			polybar picom pasystray feh dunst autotiling
+			slurp grim maim xclip
         )
 
         # Development packages (equivalent to Fedora's development groups)
