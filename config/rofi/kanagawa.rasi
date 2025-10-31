@@ -40,8 +40,8 @@ window {
     location:           center;
     width:              640;
     background-color:   @bg0;
-    border:             2;
-    border-color:       @bg2;
+    border:             5;
+    border-color:       @blue;
 }
 
 mainbox {

@@ -1,0 +1,12 @@
+/**
+ * Rofi Kanagawa Screenshot Menu Theme
+ */
+@import "kanagawa.rasi"
+
+window {
+    width: 640px;
+}
+
+listview {
+    lines: 4;
+}
