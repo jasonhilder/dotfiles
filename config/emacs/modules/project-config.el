@@ -1,18 +1,15 @@
-;; project-config.el --- Project management configuration
-
-;;; Commentary:
-;; This file configures project management with Projectile
-;; for fuzzy finding files, searching, and navigating projects
-;; Uses Vertico for completions
-
-;;; Code:
-
 ;; Projectile - project management
 (use-package projectile
   :ensure t
   :init
   (projectile-mode +1)
   :config
+  ;; Organize cache files
+  (setq projectile-cache-file 
+        (expand-file-name "var/projectile.cache" user-emacs-directory))
+  (setq projectile-known-projects-file
+        (expand-file-name "var/projectile-bookmarks.eld" user-emacs-directory))
+  
   ;; Use default completion system (works with Vertico)
   (setq projectile-completion-system 'default)
   
@@ -30,16 +27,14 @@
         '(".projectile" ".git" ".hg" ".svn" ".bzr" "_darcs"))
   
   ;; Windows-specific: use native indexing to avoid Unix command dependencies
-    (when (eq system-type 'windows-nt)
+  (when (eq system-type 'windows-nt)
     ;; Use ripgrep for finding project files if available
     (if (executable-find "rg")
-	(setq projectile-git-command "rg --files --hidden -0 --no-ignore-vcs"
-		projectile-generic-command "rg --files --hidden -0 --no-ignore-vcs")
-	;; Fallback to native indexing if rg not installed
-	(setq projectile-indexing-method 'native
-	    projectile-generic-command "dir /s /b"))
-    ;; Enable caching for better performance
-    (setq projectile-enable-caching t))
+        (setq projectile-git-command "rg --files --hidden -0 --no-ignore-vcs"
+              projectile-generic-command "rg --files --hidden -0 --no-ignore-vcs")
+      ;; Fallback to native indexing if rg not installed
+      (setq projectile-indexing-method 'native
+            projectile-generic-command "dir /s /b")))
   
   ;; Unix/Mac: Use fd for faster file finding if available
   (when (and (not (eq system-type 'windows-nt))
@@ -52,7 +47,7 @@
   :ensure t
   :after (projectile consult)
   :config
-  ;; Optional: Add projectile to consult-buffer sources
+  ;; Add projectile to consult-buffer sources
   (setq consult-projectile-sources
         '(consult-projectile--source-projectile-buffer
           consult-projectile--source-projectile-file
@@ -74,7 +69,7 @@
 ;; (use-package rg
 ;;   :ensure t
 ;;   :config
-;;   (rg-enable-efault-bindings))
+;;   (rg-enable-default-bindings))
 
 (provide 'project-config)
 ;;; project-config.el ends here
