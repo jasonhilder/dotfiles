@@ -51,18 +51,23 @@ floating_modifier $mod
 # Start a terminal
 #bindsym $mod+Return exec kitty
 bindsym $mod+Return exec --no-startup-id emacs
+bindsym $mod+Shift+Return exec --no-startup-id kitty
 
 # Kill focused window
 bindsym $mod+x kill
 
 # Start rofi (program launcher)
 bindsym $mod+d exec --no-startup-id rofi -show drun -theme ~/.config/rofi/kanagawa.rasi
-
 # Power menu
-bindsym $mod+Shift+m exec --no-startup-id ~/.config/rofi/powermenu.sh
-
+bindsym $mod+Shift+x exec --no-startup-id ~/.config/rofi/powermenu.sh
 # Screenshot menu
-bindsym Print exec --no-startup-id ~/.config/rofi/screenshot.sh
+bindsym $mod+Shift+m exec --no-startup-id ~/.config/rofi/screenshot.sh
+
+# File Manager
+bindsym $mod+shift+f exec kitty yazi
+
+# Browser
+bindsym $mod+shift+b exec firefox
 
 # Change focus
 bindsym $mod+h focus left
@@ -135,7 +140,7 @@ bindsym $mod+r mode "resize"
 # Window border settings
 default_border pixel 5
 default_floating_border pixel 5
-hide_edge_borders smart
+# hide_edge_borders smart
 
 # Gaps (requires i3-gaps)
 gaps inner 10
@@ -143,5 +148,5 @@ gaps outer 5
 
 # Startup applications
 exec_always --no-startup-id ~/.config/polybar/launch.sh
-exec_always --no-startup-id ~/.dotfiles/scripts/i3_startup.sh
+exec_always --no-startup-id ~/.dotfiles/config/i3/i3_startup.sh
 

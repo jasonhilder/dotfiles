@@ -12,6 +12,7 @@
 # * Download fonts (RobotoMono Nerd Font)
 # * Download Blue icons (https://www.xfce-look.org/p/1273372)
 # * Download cursor icons (https://www.xfce-look.org/p/1607387)
+# * Download kanagawa gtk theme 
 # * stop xfce4 notifyd
 #   - sudo mv /usr/share/dbus-1/services/org.xfce.xfce4-notifyd.Notifyd.service /usr/share/dbus-1/services/org.xfce.xfce4-notifyd.Notifyd.service.disabled
 # * Clone dotfiles
@@ -28,7 +29,6 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # ---------------------------------------------------------------------------------
 declare -A FILES_TO_SYMLINK=(
     ["$DOTFILES_DIR/bash/.bashrc"]="$HOME/.bashrc"
-    ["$DOTFILES_DIR/scripts"]="$HOME/.local/bin"
 )
 
 read -p "❓ Do you want to create symlinks for your dotfiles? [y/N] " confirm
@@ -112,8 +112,8 @@ case "$confirm" in
         REQUIRED_PACKAGES=(
             curl ripgrep mpv btop tree valgrind kitty fastfetch
 			direnv fd bash-completion go emacs-x11 rofi i3
-			polybar picom pasystray feh dunst autotiling
-			slurp grim maim xclip
+			polybar picom pasystray feh yazi
+			dunst autotiling slurp grim maim xclip 
         )
 
         # Development packages (equivalent to Fedora's development groups)

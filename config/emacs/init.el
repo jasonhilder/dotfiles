@@ -20,12 +20,13 @@
 (tool-bar-mode -1)                   ; No toolbar
 (menu-bar-mode -1)                   ; No menubar
 (scroll-bar-mode -1)                 ; No scrollbar
-(setq make-backup-files nil)         ; No backup files
 (global-display-line-numbers-mode 1) ; Show line numbers globally
+(setq make-backup-files nil)         ; No backup files
 (setq-default truncate-lines t)      ; Disable text wrapping
 (setq-default indent-tabs-mode nil)  ; Use spaces instead of tabs by default
 (setq-default tab-width 4)           ; Set default tab width to 4 spaces
 (setq-default c-basic-offset 4)      ; Set basic offset for C-style languages
+(setq use-short-answers t)           ; Use y or n instead of yes or no
 
 ;; Relative line numbers (Vim-style)
 (setq
@@ -38,10 +39,11 @@
 (setq visible-bell nil)
 
 ;; Store auto-save files in a dedicated directory
-(setq auto-save-file-name-transforms `((".*" "~/.config/emacs/auto-save-list/" t)))
+(setq auto-save-file-name-transforms `((".*" "~/.config/emacs/var/auto-save-list/" t)))
 ;; ------------------------------------------------------------------------
 ;; Options end --
 ;; ------------------------------------------------------------------------
+
 ;; ------------------------------------------------------------------------
 ;; Package management setup
 ;; ------------------------------------------------------------------------
@@ -67,9 +69,17 @@
 ;; ------------------------------------------------------------------------
 ;; Store custom variables in separate file
 ;; ------------------------------------------------------------------------
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(setq custom-file (expand-file-name "var/custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
   (load custom-file))
+
+;; ------------------------------------------------------------------------
+;; Store transient data in var directory
+;; ------------------------------------------------------------------------
+(make-directory (expand-file-name "var/transient" user-emacs-directory) t)
+(setq transient-history-file (expand-file-name "var/transient/history.el" user-emacs-directory))
+(setq transient-levels-file (expand-file-name "var/transient/levels.el" user-emacs-directory))
+(setq transient-values-file (expand-file-name "var/transient/values.el" user-emacs-directory))
 
 (provide 'init)
 ;; End of config.

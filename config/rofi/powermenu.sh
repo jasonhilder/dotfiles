@@ -17,13 +17,16 @@ rofi_cmd() {
 
 ## Pass variables to rofi dmenu
 run_rofi() {
-    echo -e "$shutdown\n$reboot\n$logout" | rofi_cmd
+    echo -e "$shutdown\n$reboot\n$logout\n$lock" | rofi_cmd
 }
 
 ## Execute Command
 case "$(run_rofi)" in
     "$logout")
         i3-msg exit
+        ;;
+    "$lock")
+        loginctl lock-session
         ;;
     "$reboot")
         loginctl reboot
