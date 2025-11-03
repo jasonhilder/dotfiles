@@ -52,13 +52,16 @@
   (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
+    ;; Bookmarks
+    "p a" 'bookmark-set
+    "p p" 'bookmark-jump
+    "p i" 'bookmark-bmenu-list
+
     ;; Files
-    "f f" 'find-file
-    "f s" 'save-buffer
+    "f f" 'affe-find
     "f d" 'dired
     "f j" 'dired-jump
-    "f r" 'consult-recent-file
-    "f p" 'projectile-find-file
+    "f s" 'save-buffer
     
     ;; Buffers
     "b b" 'consult-buffer
@@ -84,17 +87,6 @@
     "l d" 'xref-find-definitions
     "l D" 'xref-find-references
     "l h" 'eldoc-doc-buffer
-    
-    ;; Project (using Projectile + Consult)
-    "p f" 'projectile-find-file
-    "p p" 'projectile-switch-project
-    "p s" 'consult-ripgrep
-    "p g" 'consult-git-grep
-    "p b" 'consult-project-buffer
-    "p d" 'projectile-dired
-    "p k" 'projectile-kill-buffers
-    "p r" 'projectile-recentf
-    "p i" 'projectile-invalidate-cache
     
     ;; Search (using Consult)
     "s s" 'consult-line

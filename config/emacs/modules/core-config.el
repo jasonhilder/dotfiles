@@ -25,9 +25,12 @@
   :ensure t
   :hook ((go-mode) . indent-bars-mode)
   :config
-  (setq indent-bars-pattern ".")
+  ;; Show indent guides starting from the first column.
+  (setq indent-bars-starting-column 0)
+  ; make bitmaps thinner
+  (setq indent-bars-width-frac 0.15)
   (setq indent-bars-color-by-depth '(:palette ("gray") :blend 0.65))
-  (setq indent-bars-highlight-current-depth '(:face default :blend 0.4)))
+  (setq indent-bars-highlight-current-depth nil))
 
 ;; Display available keybindings in popup
 (use-package which-key
@@ -73,6 +76,10 @@
   :ensure t
   :init
   (marginalia-mode))
+
+;; Emacs style fzf
+(use-package affe
+  :ensure t)
 
 ;; Dired (directory editor) improvements
 (use-package dired

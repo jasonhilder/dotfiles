@@ -1,4 +1,4 @@
-;; Emacs Configuration
+;; EMACS Configuration
 ;; Main init file - loads all modules
 
 ;; ------------------------------------------------------------------------
@@ -21,12 +21,18 @@
 (menu-bar-mode -1)                   ; No menubar
 (scroll-bar-mode -1)                 ; No scrollbar
 (global-display-line-numbers-mode 1) ; Show line numbers globally
+(pixel-scroll-precision-mode 1)
 (setq make-backup-files nil)         ; No backup files
 (setq-default truncate-lines t)      ; Disable text wrapping
 (setq-default indent-tabs-mode nil)  ; Use spaces instead of tabs by default
 (setq-default tab-width 4)           ; Set default tab width to 4 spaces
 (setq-default c-basic-offset 4)      ; Set basic offset for C-style languages
 (setq use-short-answers t)           ; Use y or n instead of yes or no
+(setq scroll-margin 10)              ; Keep context lines while scrolling
+
+;; Optional: make scrolling less jumpy at margins
+(setq scroll-conservatively 101)
+(setq scroll-preserve-screen-position t)
 
 ;; Relative line numbers (Vim-style)
 (setq
@@ -62,7 +68,6 @@
 ;; ------------------------------------------------------------------------
 (require 'core-config)        ; Core UI and completion packages
 (require 'evil-config)        ; Vim emulation
-(require 'project-config)     ; Project management
 (require 'terminal-config)    ; Terminal/shell configuration
 (require 'programming-config) ; Programming language support
 
@@ -70,8 +75,7 @@
 ;; Store custom variables in separate file
 ;; ------------------------------------------------------------------------
 (setq custom-file (expand-file-name "var/custom.el" user-emacs-directory))
-(when (file-exists-p custom-file)
-  (load custom-file))
+(when (file-exists-p custom-file) (load custom-file))
 
 ;; ------------------------------------------------------------------------
 ;; Store transient data in var directory
