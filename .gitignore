@@ -3,6 +3,7 @@
 /vim/.vim/autoload
 /fish/.config/fish/fish_variables
 
+/config/emacs/bookmarks
 /config/emacs/elpa
 /config/emacs/straight
 /config/emacs/auto-save-list
