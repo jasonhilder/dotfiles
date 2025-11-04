@@ -7,6 +7,8 @@ set $mod Mod4
 # Font for window titles and bar
 font pango:RobotoMono Nerd Font 11
 
+default_orientation horizontal
+
 # Kanagawa Color Palette
 set $fujiWhite #DCD7BA
 set $oldWhite #C8C093
@@ -50,8 +52,7 @@ floating_modifier $mod
 
 # Start a terminal
 #bindsym $mod+Return exec kitty
-bindsym $mod+Return exec --no-startup-id emacs
-bindsym $mod+Shift+Return exec --no-startup-id kitty
+bindsym $mod+Return exec --no-startup-id kitty
 
 # Kill focused window
 bindsym $mod+x kill

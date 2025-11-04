@@ -19,4 +19,4 @@ feh --bg-scale ~/Pictures/wallpapers/kanagawa.jpg &
 picom -b &
 nm-applet &
 dunst &
-autotiling &
+# autotiling &

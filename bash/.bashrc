@@ -73,7 +73,7 @@ export GOPATH="$HOME/.go"
 export GOCACHE="$HOME/.go/cache"
 
 # FZF configuration
-export FZF_DEFAULT_COMMAND='fdfind --exclude={.git,.cache,.xmake,.zig-cache,build,tmp,node_modules} --type f -H'
+export FZF_DEFAULT_COMMAND='fd --exclude={.git,.cache,.xmake,.zig-cache,build,tmp,node_modules,elpa} --type f -H'
 export FZF_DEFAULT_OPTS="
     --height 40%
     --layout=reverse
