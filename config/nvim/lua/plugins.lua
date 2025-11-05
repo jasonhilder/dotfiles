@@ -6,6 +6,7 @@ require("paq")({
     "mikavilpas/yazi.nvim",
     "NeogitOrg/neogit",
     "sindrets/diffview.nvim",
+    "karb94/neoscroll.nvim",
     -- UI additions
     "rebelot/kanagawa.nvim",
     "nvim-treesitter/nvim-treesitter",
@@ -22,22 +23,27 @@ require('neogit').setup()
 
 require('mini.statusline').setup()
 
+require('neoscroll').setup({ 
+    mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>'} ,
+    duration_multiplier = 0.6, 
+})
+
 require("ibl").setup({
     indent = { highlight = { "LineNr" }, char = "│" }, 
     scope  = { enabled = false }
-})
-
-require('kanagawa').setup({
-    undercurl = false,
-    commentStyle = { italic = false },
-    keywordStyle = { italic = false },
-    transparent = false
 })
 
 require'nvim-treesitter.configs'.setup {
     ensure_installed = { "c", "lua", "go" },
     highlight = { enable = true }
 }
+
+require('kanagawa').setup({
+    undercurl = false,
+    commentStyle = { italic = false },
+    keywordStyle = { italic = false },
+    transparent = true
+})
 
 require("telescope").setup({
     defaults = {
@@ -48,16 +54,22 @@ require("telescope").setup({
         file_ignore_patterns = { 
             "^.git/",  -- Ignore .git directory
         },
+	mappings = {
+		i = {
+			['<esc>'] = require('telescope.actions').close,
+            ["<C-c>"] = require("telescope.actions").delete_buffer,
+		}
+	},
         -- Make sure hidden files are shown
         vimgrep_arguments = {
             "rg",
-            "--color=always",
+            "--color=never",
             "--no-heading",
             "--with-filename",
             "--line-number",
             "--column",
             "--smart-case",
-            "--hidden",
+            "--hidden"
         },
     },
     pickers = {

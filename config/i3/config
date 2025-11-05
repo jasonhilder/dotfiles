@@ -141,7 +141,6 @@ bindsym $mod+r mode "resize"
 # Window border settings
 default_border pixel 5
 default_floating_border pixel 5
-# hide_edge_borders smart
 
 # Gaps (requires i3-gaps)
 gaps inner 10

@@ -41,7 +41,7 @@ if [ -n "$selected" ]; then
         pactl list short sink-inputs | cut -f1 | while read -r stream; do
             pactl move-sink-input "$stream" "$sink_name"
         done
-        notify-send "Audio Output" "Switched to: $clean_selection"
+        notify-send --expire-time=3000 "Audio Output" "Switched to: $clean_selection"
     fi
 fi
 

@@ -7,7 +7,7 @@
     width = 300
     height = 300
     origin = top-right
-    offset = 8x25
+    offset = 10x35
     
     scale = 0
     notification_limit = 3
@@ -77,15 +77,15 @@
     # Kanagawa low urgency (subtle)
     background = "#1F1F28"
     foreground = "#C8C093"
-    frame_color = "#363646"
+    frame_color = "#7E9CD8"
     timeout = 5
 
 [urgency_normal]
     # Kanagawa normal urgency
     background = "#1F1F28"
     foreground = "#DCD7BA"
-    frame_color = "#2D4F67"
-    timeout = 10
+    frame_color = "#7E9CD8"
+    timeout = 5
 
 [urgency_critical]
     # Kanagawa critical urgency

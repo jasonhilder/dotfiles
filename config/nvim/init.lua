@@ -46,14 +46,13 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("i", "jj", "<Esc>")
 -- common binds
 vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = "Save file" })
-vim.keymap.set("n", "<leader>q", ":quit<CR>", { desc = "Quit neovim" })
 -- clear search highlights
 vim.keymap.set("n", "<leader>h", ":noh<CR>", { desc = "Clear highlights" })
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 -- Buffer management
-vim.keymap.set("n", "<leader>p", "<cmd>b#<CR>", { desc = "Last edited buffer" })
+vim.keymap.set("n", "<leader>l", "<cmd>b#<CR>", { desc = "Last edited buffer" })
 vim.keymap.set("n", "<leader>x", "<cmd>bd<CR>", { desc = "Close buffer" })
 -- Move to window using the <ctrl> hjkl keys
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
@@ -68,20 +67,22 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "move selection down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "move selection up" })
 -- Diagnostics
 vim.keymap.set("n", "<leader>k", ":lua vim.diagnostic.open_float()<CR>", { desc = "Diagnostic Float" })
-vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
 vim.keymap.set('n', 'L', function() vim.api.nvim_feedkeys(':', 'n', true) end, { noremap = true, silent = true })
 -- Telescope
 local builtin = require('telescope.builtin')
+-- Telescope pickers
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = 'Telescope old files' })
-vim.keymap.set('n', '<leader>bb', builtin.buffers, { desc = 'Telescope buffers' })
-vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = 'Telescope live grep' })
-vim.keymap.set('n', '<leader>si', builtin.grep_string, { desc = 'Telescope live string' })
+vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = 'Telescope find lsp diagnostics' })
+vim.keymap.set('n', '<leader>fq', builtin.quickfix, { desc = 'Telescope search quickfix list' })
+vim.keymap.set('n', '<leader>o', builtin.buffers, { desc = 'Telescope "open" buffers' })
+-- Telescope searching
+vim.keymap.set('n', '<leader>ss', builtin.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = 'Telescope live string' })
+vim.keymap.set('n', '<leader>sb', builtin.current_buffer_fuzzy_find, { desc = 'Telescope search file' })
 vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = 'Telescope help tags' })
 vim.keymap.set('n', '<leader>sm', builtin.man_pages, { desc = 'Telescope man pages' })
-vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = 'Telescope keymaps' })
-vim.keymap.set('n', '<leader>sc', builtin.colorscheme, { desc = 'Telescope colorscheme' })
+vim.keymap.set('n', '<leader>sk', builtin.keymaps,   { desc = 'Telescope keymaps' })
 -- File manager
 vim.keymap.set("n", "-", "<CMD>Yazi<CR>", { desc = "Open parent directory" })
 -- Lazygit
@@ -91,17 +92,6 @@ vim.keymap.set("n", "<leader>gg", "<CMD>Neogit<CR>", { desc = "Open parent direc
 -- [[ COLORSCHEME ]]
 ---------------------------------------------------------------------------------
 vim.cmd("colorscheme kanagawa")
-local bg = "none"
-vim.api.nvim_set_hl(0, "Normal", { bg = bg })
-vim.api.nvim_set_hl(0, "NormalNC", { bg = bg })
-vim.api.nvim_set_hl(0, "SignColumn", { bg = bg })
-vim.api.nvim_set_hl(0, "VertSplit", { bg = bg })
-vim.api.nvim_set_hl(0, "StatusLine", { bg = bg })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = bg })
-vim.api.nvim_set_hl(0, "FloatBorder", { bg = bg })
-vim.api.nvim_set_hl(0, "FzfLuaBorder", { bg = bg })
-vim.api.nvim_set_hl(0, "FzfLuaNormal", { bg = bg })
-vim.api.nvim_set_hl(0, "FzfLuaTitle", { bg = bg, fg = "#aaaaaa" })
 
 --------------------------------------------------------------------------------
 -- [[ AUTOCMDS ]]
@@ -161,11 +151,43 @@ vim.keymap.set("n", "<leader>tj", function()
 end)
 
 ---------------------------------------------------------------------------------
+-- [[ PROJECT MANAGEMENT ]]
+---------------------------------------------------------------------------------
+function SwitchProject()
+    -- Get project selection
+    local handle = io.popen('project-manager')
+    local project_path = handle:read('*l')
+    handle:close()
+    
+    if project_path and project_path ~= '' then
+        -- Close all buffers
+        vim.cmd('silent! %bwipeout!')
+
+        -- Change directory
+        vim.cmd('cd ' .. project_path)
+
+        -- Open file explorer
+        vim.cmd('Telescope find_files')
+
+        print('Switched to: ' .. project_path)
+
+        vim.cmd('silent! bd') 
+    end
+end
+
+-- Project Switcher
+vim.keymap.set('n', '<leader>pp', SwitchProject, { desc = 'Switch Project' })
+
+---------------------------------------------------------------------------------
 -- [[ LSP ]]
 ---------------------------------------------------------------------------------
 vim.diagnostic.config {
     virtual_text = false,
-    float = { header = false, border = 'rounded', focusable = true, },
+    float = { 
+        header = false, 
+        border = 'rounded', 
+        focusable = true, 
+    },
 }
 
 vim.lsp.config.gopls = {

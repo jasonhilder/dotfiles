@@ -249,10 +249,10 @@ alias myip='curl ipinfo.io/ip && echo ""'
 # ==============================================================================
 
 # Enhanced project picker
-pp() {
+pm() {
     clear
 
-    local project_script="$HOME/.local/bin/project-picker"
+    local project_script="$HOME/.local/bin/project-manager"
 
     if [[ ! -x "$project_script" ]]; then
         echo "Error: project-picker script not found or not executable" >&2
@@ -327,20 +327,6 @@ extract() {
         *.lzma)      unlzma "$1"     ;;
         *)           echo "Error: '$1' cannot be extracted via extract()" ;;
     esac
-}
-
-# Safe delete function
-safe_delete() {
-    local trash_dir="$HOME/.trash"
-    [[ ! -d "$trash_dir" ]] && mkdir -p "$trash_dir"
-
-    for item in "$@"; do
-        [[ ! -e "$item" ]] && { echo "Error: '$item' does not exist"; continue; }
-        local basename_item=$(basename "$item")
-        local timestamp=$(date +%Y%m%d_%H%M%S)
-        mv "$item" "$trash_dir/${basename_item}_${timestamp}"
-        echo "Moved '$item' to trash"
-    done
 }
 
 # ==============================================================================
