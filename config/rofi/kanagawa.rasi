@@ -4,7 +4,7 @@
  */
 
 * {
-	font: "RobotoMono Nerd Font 14";
+	font: "JetbrainsMono Nerd Font 15";
 
     /* Kanagawa Colors */
     bg0:     #1F1F28;

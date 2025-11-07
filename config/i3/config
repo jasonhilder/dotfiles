@@ -5,7 +5,7 @@
 set $mod Mod4
 
 # Font for window titles and bar
-font pango:RobotoMono Nerd Font 11
+font pango:JetbrainsMono Nerd Font 12
 
 default_orientation horizontal
 
@@ -65,7 +65,7 @@ bindsym $mod+Shift+x exec --no-startup-id ~/.config/rofi/powermenu.sh
 bindsym $mod+Shift+m exec --no-startup-id ~/.config/rofi/screenshot.sh
 
 # File Manager
-bindsym $mod+shift+f exec kitty yazi
+bindsym $mod+shift+f exec kitty lf
 
 # Browser
 bindsym $mod+shift+b exec firefox
@@ -113,6 +113,15 @@ bindsym $mod+Shift+q move container to workspace number $ws1
 bindsym $mod+Shift+w move container to workspace number $ws2
 bindsym $mod+Shift+e move container to workspace number $ws3
 bindsym $mod+Shift+p move container to workspace number $ws4
+
+# Volume controls
+bindsym $mod+less exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym $mod+greater exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym $mod+m exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# Media controls
+bindsym $mod+n exec --no-startup-id playerctl next
+bindsym $mod+b exec --no-startup-id playerctl previous
 
 # Reload the configuration file
 bindsym $mod+Shift+c reload

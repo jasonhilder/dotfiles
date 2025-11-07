@@ -1,12 +1,14 @@
 require("paq")({
 	"savq/paq-nvim",
     "nvim-lua/plenary.nvim",
+    "akinsho/toggleterm.nvim",
     -- Pickers and tooling
     "nvim-telescope/telescope.nvim",
-    "mikavilpas/yazi.nvim",
     "NeogitOrg/neogit",
     "sindrets/diffview.nvim",
     "karb94/neoscroll.nvim",
+    "folke/which-key.nvim",
+    "lmburns/lf.nvim",
     -- UI additions
     "rebelot/kanagawa.nvim",
     "nvim-treesitter/nvim-treesitter",
@@ -18,6 +20,8 @@ require("paq")({
     "l3mon4d3/luasnip",
     "saadparwaiz1/cmp_luasnip",
 })
+
+require('lf').setup()
 
 require('neogit').setup()
 
@@ -90,4 +94,6 @@ cmp.setup({
     }),
     sources = {{ name = "nvim_lsp" }, { name = "luasnip" }}
 })
+
+vim.g.vimwiki_list = { { path = '~/Documents/wiki/' } }
 
