@@ -156,6 +156,7 @@ gaps inner 10
 gaps outer 5
 
 # Startup applications
+exec --no-startup-id xset s off s noblank -dpms
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec_always --no-startup-id ~/.dotfiles/config/i3/i3_startup.sh
 

@@ -21,7 +21,10 @@ require("paq")({
     "saadparwaiz1/cmp_luasnip",
 })
 
-require('lf').setup()
+require('lf').setup({
+    height = vim.fn.float2nr(vim.fn.round(0.90 * vim.o.lines)),
+    width = vim.fn.float2nr(vim.fn.round(0.90 * vim.o.columns))
+})
 
 require('neogit').setup()
 
@@ -57,6 +60,7 @@ require("telescope").setup({
         layout_strategy = "horizontal",
         file_ignore_patterns = { 
             "^.git/",  -- Ignore .git directory
+            ".cache/",
         },
 	mappings = {
 		i = {

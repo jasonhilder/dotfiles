@@ -25,124 +25,156 @@
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # ---------------------------------------------------------------------------------
-## LINK SYMLINKS IF NOT ALREADY THERE
+## Parse arguments
 # ---------------------------------------------------------------------------------
-read -p "❓ Do you want to create symlinks for your dotfiles? [y/N] " confirm
-case "$confirm" in
-    [Yy]*)
-        echo "🔗 Checking and creating symlinks..."
-        CREATED=0
-        SKIPPED=0
-        
-        # Handle bash symlink directly
-        src="$DOTFILES_DIR/bash/.bashrc"
-        dest="$HOME/.bashrc"
-        
-        if [ -L "$dest" ]; then
-            if [ "$(readlink "$dest")" == "$src" ]; then
-                echo "✅ Symlink already correct: $dest → $src"
-                ((SKIPPED++))
-            else
-                echo "⚠️  $dest is a symlink, but points to the wrong target."
-                echo "   Replacing with correct symlink..."
-                rm "$dest"
-                ln -s "$src" "$dest"
-                echo "🔁 Fixed: $dest → $src"
-                ((CREATED++))
-            fi
-        elif [ -e "$dest" ]; then
-            echo "⚠️  $dest exists but is not a symlink. Skipping."
+DO_LINKS=false
+DO_INSTALL=false
+CONFIRM_MODE=true  # only true when no args are passed
+
+usage() {
+    echo "Usage: $0 [-l] [-i]"
+    echo "  -l   Only create symlinks (no confirmation)"
+    echo "  -i   Only install system packages (no confirmation)"
+    echo "  (no args = do both, with confirmation)"
+    exit 1
+}
+
+if [ $# -eq 0 ]; then
+    DO_LINKS=true
+    DO_INSTALL=true
+    CONFIRM_MODE=true
+else
+    CONFIRM_MODE=false
+    while getopts ":lih" opt; do
+        case $opt in
+            l) DO_LINKS=true ;;
+            i) DO_INSTALL=true ;;
+            h) usage ;;
+            *) usage ;;
+        esac
+    done
+fi
+
+# ---------------------------------------------------------------------------------
+## Helper function for linking
+# ---------------------------------------------------------------------------------
+link_file() {
+    local src="$1"
+    local dest="$2"
+
+    if [ -L "$dest" ]; then
+        if [ "$(readlink "$dest")" == "$src" ]; then
+            echo "✅ Symlink already correct: $dest → $src"
             ((SKIPPED++))
         else
-            mkdir -p "$(dirname "$dest")"
+            echo "⚠️  $dest is a symlink but points to the wrong target."
+            echo "   Replacing with correct symlink..."
+            rm "$dest"
             ln -s "$src" "$dest"
-            echo "✅ Linked: $dest → $src"
+            echo "🔁 Fixed: $dest → $src"
             ((CREATED++))
         fi
-        
-        # Dynamically handle all subdirectories in config/
-        if [ -d "$DOTFILES_DIR/config" ]; then
-            for config_dir in "$DOTFILES_DIR/config"/*/; do
-                [ -d "$config_dir" ] || continue
-                folder_name=$(basename "$config_dir")
-                src="$DOTFILES_DIR/config/$folder_name"
-                dest="$HOME/.config/$folder_name"
-                if [ -L "$dest" ]; then
-                    if [ "$(readlink "$dest")" == "$src" ]; then
-                        echo "✅ Symlink already correct: $dest → $src"
-                        ((SKIPPED++))
-                    else
-                        echo "⚠️  $dest is a symlink, but points to the wrong target."
-                        echo "   Replacing with correct symlink..."
-                        rm "$dest"
-                        ln -s "$src" "$dest"
-                        echo "🔁 Fixed: $dest → $src"
-                        ((CREATED++))
-                    fi
-                elif [ -e "$dest" ]; then
-                    echo "⚠️  $dest exists but is not a symlink. Skipping."
-                    ((SKIPPED++))
-                else
-                    mkdir -p "$HOME/.config"
-                    ln -s "$src" "$dest"
-                    echo "✅ Linked: $dest → $src"
-                    ((CREATED++))
-                fi
-            done
+    elif [ -e "$dest" ]; then
+        echo "⚠️  $dest exists but is not a symlink. Skipping."
+        ((SKIPPED++))
+    else
+        mkdir -p "$(dirname "$dest")"
+        ln -s "$src" "$dest"
+        echo "✅ Linked: $dest → $src"
+        ((CREATED++))
+    fi
+}
+
+# ---------------------------------------------------------------------------------
+## LINK SYMLINKS
+# ---------------------------------------------------------------------------------
+if [ "$DO_LINKS" = true ]; then
+    if [ "$CONFIRM_MODE" = true ]; then
+        read -p "❓ Do you want to create symlinks for your dotfiles? [y/N] " confirm
+        case "$confirm" in
+            [Yy]*) ;;  # continue below
+            *) DO_LINKS=false ;;
+        esac
+    fi
+fi
+
+if [ "$DO_LINKS" = true ]; then
+    echo "🔗 Checking and creating symlinks..."
+    CREATED=0
+    SKIPPED=0
+
+    link_file "$DOTFILES_DIR/bash/.bashrc" "$HOME/.bashrc"
+    link_file "$DOTFILES_DIR/config/dunst" "$HOME/.config/dunst"
+    link_file "$DOTFILES_DIR/config/i3" "$HOME/.config/i3"
+    link_file "$DOTFILES_DIR/config/kitty" "$HOME/.config/kitty"
+    link_file "$DOTFILES_DIR/config/lf" "$HOME/.config/lf"
+    link_file "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
+    link_file "$DOTFILES_DIR/config/picom" "$HOME/.config/picom"
+    link_file "$DOTFILES_DIR/config/polybar" "$HOME/.config/polybar"
+    link_file "$DOTFILES_DIR/config/rofi" "$HOME/.config/rofi"
+
+    echo ""
+    echo "🧾 Summary: $CREATED symlink(s) created or fixed, $SKIPPED skipped."
+    echo ""
+
+    echo "✅ Symlink setup complete."
+    echo ""
+fi
+
+# ---------------------------------------------------------------------------------
+## INSTALL SYSTEM PACKAGES
+# ---------------------------------------------------------------------------------
+if [ "$DO_INSTALL" = true ]; then
+    if [ "$CONFIRM_MODE" = true ]; then
+        read -p "❓ Do you want to install system packages? [y/N] " confirm
+        case "$confirm" in
+            [Yy]*) ;;  # continue below
+            *) DO_INSTALL=false ;;
+        esac
+    fi
+fi
+
+if [ "$DO_INSTALL" = true ]; then
+    REQUIRED_PACKAGES=(
+        # system essentials
+        wget curl fzf fd tree btop fastfetch direnv ripgrep 7zip xclip 
+        # terminal essentials
+        kitty neovim noto-fonts-emoji bash-completion mpv lf trash-cli
+        # i3 specific
+        i3 rofi polybar picom pasystray feh dunst slurp grim maim playerctl 
+        # Void extras
+        vpm xset
+    )
+
+    DEV_PACKAGES=(
+        # C development
+        base-devel git make cmake pkg-config clang-tools-extra Bear valgrind go
+
+        # Raylib deps (Optional comment out if not needed)
+        alsa-lib-devel libglvnd-devel libX11-devel libXrandr-devel glfw-devel
+        libXi-devel libXcursor-devel libXinerama-devel MesaLib-devel 
+    )
+
+    MISSING_PACKAGES=()
+
+    echo "🔍 Checking for missing packages..."
+    echo ""
+
+    for pkg in "${REQUIRED_PACKAGES[@]}" "${DEV_PACKAGES[@]}"; do
+        if ! xbps-query -l | grep -q "^ii $pkg-"; then
+            MISSING_PACKAGES+=("$pkg")
         fi
-        echo ""
-        echo "🧾 Summary: $CREATED symlink(s) created or fixed, $SKIPPED skipped."
-        echo ""
-        ;;
-    *) ;;
-esac
+    done
 
-# ---------------------------------------------------------------------------------
-## Check and install system packages
-# ---------------------------------------------------------------------------------
-read -p "❓ Do you want to install system packages? [y/N] " confirm
-case "$confirm" in
-    [Yy]*)
-        REQUIRED_PACKAGES=(
-            wget curl fzf fd tree btop fastfetch direnv ripgrep 7zip xclip 
-            kitty neovim noto-fonts-emoji bash-completion mpv lf trash-cli
-            rofi i3 polybar picom pasystray feh dunst slurp grim maim playerctl 
-        )
+    if [ ${#MISSING_PACKAGES[@]} -eq 0 ]; then
+        echo "✅ All packages already installed."
+    else
+        echo "📦 Installing missing packages: ${MISSING_PACKAGES[*]}"
+        sudo xbps-install "${MISSING_PACKAGES[@]}"
+    fi
 
-  # Development packages (equivalent to Fedora's development groups)
-  DEV_PACKAGES=(
-      base-devel git make cmake pkg-config valgrind go
-  )
+    echo ""
+    echo "✅ Package setup complete."
+    echo ""
+fi
 
-  MISSING_PACKAGES=()
-
-  echo "🔍 Checking for missing packages..."
-  echo ""
-
-  # Check regular packages
-  for pkg in "${REQUIRED_PACKAGES[@]}" "${DEV_PACKAGES[@]}"; do
-      if ! xbps-query -l | grep -q "^ii $pkg-"; then
-          MISSING_PACKAGES+=("$pkg")
-      fi
-  done
-
-  if [ ${#MISSING_PACKAGES[@]} -eq 0 ]; then
-      echo "✅ All packages already installed."
-  else
-      echo "📦 Installing missing packages: ${MISSING_PACKAGES[*]}"
-      sudo xbps-install "${MISSING_PACKAGES[@]}"
-  fi
-
-  echo ""
-  echo "✅ Package setup complete."
-  echo ""
-  ;;
-*) ;;
-esac
-
-echo "--------------------------------------------"
-echo "Install complete!"
-echo ""
-echo "ℹ️  Note: You may need to restart your shell or source your .bashrc"
-echo "   to pick up any new environment changes."
-echo ""

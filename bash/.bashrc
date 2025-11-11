@@ -240,9 +240,12 @@ alias files='nautilus .'
 # Custom shortcuts
 alias uz='7z'
 alias dotfiles='cd ~/.dotfiles && nvim'
-alias install-system='bash ~/.dotfiles/install.sh'
+alias dotmanager='bash ~/.dotfiles/install.sh'
 alias reload='source ~/.bashrc'
 alias myip='curl ipinfo.io/ip && echo ""'
+
+# C programming specific
+alias make='bear -- make'
 
 # ==============================================================================
 # FUNCTIONS

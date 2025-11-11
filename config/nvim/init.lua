@@ -193,7 +193,13 @@ vim.lsp.config.gopls = {
     root_markers = { 'go.mod', '.git' },
     filetypes = { 'go' },
 }
-vim.lsp.enable({'gopls'})
+vim.lsp.config.clangd = {
+    cmd = { 'clangd', '--compile-commands-dir=.' },
+    root_markers = { 'compile_commands.json', 'compile_flags.txt', '.git' },
+    filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
+}
+
+vim.lsp.enable({'gopls', 'clangd'})
 
 vim.api.nvim_create_autocmd('LspAttach', {
     desc = 'LSP actions',
