@@ -139,7 +139,7 @@ if [ "$DO_INSTALL" = true ]; then
         # system essentials
         wget curl fzf fd tree btop fastfetch direnv ripgrep 7zip xclip 
         # terminal essentials
-        kitty neovim noto-fonts-emoji bash-completion mpv lf trash-cli
+        kitty neovim noto-fonts-emoji bash-completion mpv lf jq trash-cli 
         # i3 specific
         i3 rofi polybar picom pasystray feh dunst slurp grim maim playerctl 
         # Void extras
