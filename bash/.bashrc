@@ -245,7 +245,7 @@ alias reload='source ~/.bashrc'
 alias myip='curl ipinfo.io/ip && echo ""'
 
 # C programming specific
-alias make='bear -- make'
+alias lspmake='bear -- make'
 
 # ==============================================================================
 # FUNCTIONS

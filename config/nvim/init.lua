@@ -37,7 +37,8 @@ vim.o.splitbelow = true                -- Set vertical splits to the bottom as d
 vim.o.completeopt = 'menuone,noselect' -- Configures how the completion menu works
 vim.o.winborder = 'rounded'            -- LSP hover borders
 vim.opt.showmode = false
-
+-- Add :qq to be the same as :q!
+vim.cmd([[ cnoreabbrev <expr> qq  (getcmdtype() ==# ':' && getcmdline() ==# 'qq') ? 'q!' : 'qq' ]])
 ---------------------------------------------------------------------------------
 -- [[ KEYMAPS ]]
 ---------------------------------------------------------------------------------
@@ -85,6 +86,11 @@ vim.keymap.set('n', '<leader>sk', builtin.keymaps,   { desc = 'Telescope keymaps
 vim.keymap.set("n", "<C-e>", "<CMD>Lf<CR>", { desc = "Open parent directory" })
 -- Lazygit
 vim.keymap.set("n", "<leader>gg", "<CMD>Neogit<CR>", { desc = "Open parent directory" })
+-- test
+vim.keymap.set("n", "gx", function()
+  local url = vim.fn.expand("<cWORD>")
+  vim.fn.jobstart({ "firefox", "--new-tab", url }, { detach = true })
+end, { desc = "Open URL under cursor in Firefox" })
 
 ---------------------------------------------------------------------------------
 -- [[ COLORSCHEME ]]
@@ -94,6 +100,7 @@ vim.cmd("colorscheme kanagawa")
 --------------------------------------------------------------------------------
 -- [[ AUTOCMDS ]]
 ---------------------------------------------------------------------------------
+
 -- Highlight on Yank
 vim.api.nvim_create_autocmd('TextYankPost', {
     group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
@@ -215,8 +222,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', 'cr', '<cmd>lua vim.lsp.buf.rename()<cr>', opts)
         vim.keymap.set('n', 'ca', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
 
-        -- Map Ctrl-Space to trigger omni-completion in Insert mode
-        vim.api.nvim_set_keymap('i', '<C-Space>', '<C-X><C-O>', { noremap = true, silent = true })
+        vim.keymap.set("n", "gh", function()
+            vim.cmd("vsplit")
+            vim.lsp.buf.definition()
+        end, { desc = "Go to definition in vertical split" })
     end,
 })
 

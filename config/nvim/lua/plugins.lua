@@ -16,10 +16,10 @@ require("paq")({
     "nvim-mini/mini.statusline",
     -- Auto complete, snippets
     "hrsh7th/nvim-cmp",
-    "hrsh7th/cmp-nvim-lsp",
-    "l3mon4d3/luasnip",
-    "saadparwaiz1/cmp_luasnip",
+    "hrsh7th/cmp-buffer"
 })
+
+vim.g.vimwiki_list = { { path = '~/Documents/wiki/' } }
 
 require('lf').setup({
     height = vim.fn.float2nr(vim.fn.round(0.90 * vim.o.lines)),
@@ -90,14 +90,26 @@ require("telescope").setup({
 local cmp = require("cmp")
 cmp.setup({
     completion = {
-        autocomplete = false 
+        autocomplete = false,   -- important: <Tab> will manually trigger popup
     },
-    mapping = cmp.mapping.preset.insert({
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-Space>'] = cmp.mapping.complete(),
-    }),
-    sources = {{ name = "nvim_lsp" }, { name = "luasnip" }}
+    mapping = {
+        ["<Tab>"] = function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            else
+                cmp.complete()
+            end
+        end,
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = {
+        {
+            name = "buffer",
+            option = {
+                get_bufnrs = function()
+                    return { vim.api.nvim_get_current_buf() }
+                end
+            }
+        },
+    },
 })
-
-vim.g.vimwiki_list = { { path = '~/Documents/wiki/' } }
-
