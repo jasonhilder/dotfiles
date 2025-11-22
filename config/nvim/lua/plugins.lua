@@ -93,13 +93,13 @@ cmp.setup({
         autocomplete = false,   -- important: <Tab> will manually trigger popup
     },
     mapping = {
-        ["<Tab>"] = function(fallback)
+        ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
             else
                 cmp.complete()
             end
-        end,
+        end, { "i" }),  -- Only active in insert mode
         ["<CR>"] = cmp.mapping.confirm({ select = true }),
     },
     sources = {

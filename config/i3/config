@@ -122,6 +122,7 @@ bindsym $mod+m exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 # Media controls
 bindsym $mod+n exec --no-startup-id playerctl next
 bindsym $mod+b exec --no-startup-id playerctl previous
+bindsym $mod+v exec --no-startup-id playerctl play-pause
 
 # Reload the configuration file
 bindsym $mod+Shift+c reload
