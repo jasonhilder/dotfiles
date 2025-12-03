@@ -112,6 +112,24 @@ cmd open ${{
     esac
 }}
 
+# Bind 'o' to open in Neovim
+map o &open_in_nvim
+
+# Command to open a file or directory in Neovim
+cmd open_in_nvim ${{
+    if test -d "$f"; then
+        # If $f is a directory, open Neovim in that directory
+        $EDITOR "$f"
+    elif test -f "$f"; then
+        # If $f is a file, open Neovim with that file
+        $EDITOR "$f"
+    else
+        # If nothing specific is selected (e.g., just the current directory),
+        # open Neovim in the current directory.
+        $EDITOR .
+    fi
+}}
+
 # Key mappings (vim-like)
 
 # Basic movement (default, but explicit)
@@ -130,8 +148,8 @@ map T trash         # Move to trash
 map D delete         # Delete permanently
 
 # Archive operations  
-map az push :compress<space>  # Compress (prompts for format)
-map ax extract                # Extract
+map xc push :compress<space>  # Compress (prompts for format)
+map xe extract                # Extract
 
 # File/directory creation
 map a push :create<space>     # Smart create (file or directory with /)

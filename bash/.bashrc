@@ -1,4 +1,4 @@
-# ~/.bashrc - Enhanced Bash Configuration
+
 # ==============================================================================
 # Exit if not running interactively
 [[ $- != *i* ]] && return
@@ -235,17 +235,16 @@ alias lg='lazygit'
 alias vim='nvim'
 alias v='nvim'
 alias :q='exit'
-alias files='nautilus .'
+alias files='thunar .'
 
 # Custom shortcuts
 alias uz='7z'
-alias dotfiles='cd ~/.dotfiles && nvim'
 alias dotmanager='bash ~/.dotfiles/install.sh'
 alias reload='source ~/.bashrc'
 alias myip='curl ipinfo.io/ip && echo ""'
 
 # C programming specific
-alias lspmake='bear -- make'
+alias lspmake='bear -- make -B'
 
 # ==============================================================================
 # FUNCTIONS
