@@ -1,6 +1,4 @@
-# i3 config file (v4)
-# Kanagawa Theme Configuration
-
+# i3 config file (v4) Kanagawa Theme Configuration
 # Set mod key (Mod1=Alt, Mod4=Super/Windows)
 set $mod Mod4
 
@@ -70,6 +68,8 @@ bindsym $mod+shift+f exec kitty lf
 # Browser
 bindsym $mod+shift+b exec firefox
 
+bindsym $mod+Tab workspace back_and_forth
+
 # Change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -103,16 +103,16 @@ set $ws3 "3"
 set $ws4 "4"
 
 # Switch to workspace
-bindsym $mod+q workspace number $ws1
-bindsym $mod+w workspace number $ws2
-bindsym $mod+e workspace number $ws3
-bindsym $mod+p workspace number $ws4
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
 
 # Move focused container to workspace
-bindsym $mod+Shift+q move container to workspace number $ws1
-bindsym $mod+Shift+w move container to workspace number $ws2
-bindsym $mod+Shift+e move container to workspace number $ws3
-bindsym $mod+Shift+p move container to workspace number $ws4
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
 
 # Volume controls
 bindsym $mod+less exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
@@ -164,6 +164,7 @@ gaps outer 5
 
 # Startup applications
 exec --no-startup-id xset s off s noblank -dpms
-exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec_always --no-startup-id ~/.dotfiles/config/i3/i3_startup.sh
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id /home/jason/.local/bin/kanata
 

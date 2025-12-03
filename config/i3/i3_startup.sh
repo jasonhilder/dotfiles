@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Kill existing processes
+pkill polybar
 pkill picom
 pkill nm-applet
 pkill dunst
