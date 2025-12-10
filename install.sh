@@ -8,13 +8,6 @@
 # * sudo xbps-install -Su
 # * sudo xbps-install git
 # * sudo xbps-install void-repo-nonfree void-repo-multilib
-# * Run ssh script on usb
-# * Download fonts (RobotoMono Nerd Font)
-# * Download Blue icons (https://www.xfce-look.org/p/1273372)
-# * Download cursor icons (https://www.xfce-look.org/p/1607387)
-# * Download kanagawa gtk theme (https://www.xfce-look.org/p/1810560/)
-# * stop xfce4 notifyd
-#   - sudo mv /usr/share/dbus-1/services/org.xfce.xfce4-notifyd.Notifyd.service /usr/share/dbus-1/services/org.xfce.xfce4-notifyd.Notifyd.service.disabled
 # * Clone dotfiles
 # * Run this install script (symlinks configs, install software, install programming languages)
 
@@ -104,14 +97,9 @@ if [ "$DO_LINKS" = true ]; then
     SKIPPED=0
 
     link_file "$DOTFILES_DIR/bash/.bashrc" "$HOME/.bashrc"
-    link_file "$DOTFILES_DIR/config/dunst" "$HOME/.config/dunst"
-    link_file "$DOTFILES_DIR/config/i3" "$HOME/.config/i3"
-    link_file "$DOTFILES_DIR/config/kitty" "$HOME/.config/kitty"
-    link_file "$DOTFILES_DIR/config/lf" "$HOME/.config/lf"
+    link_file "$DOTFILES_DIR/config/kanata" "$HOME/.config/kanata"
     link_file "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
-    link_file "$DOTFILES_DIR/config/picom" "$HOME/.config/picom"
-    link_file "$DOTFILES_DIR/config/polybar" "$HOME/.config/polybar"
-    link_file "$DOTFILES_DIR/config/rofi" "$HOME/.config/rofi"
+    link_file "$DOTFILES_DIR/config/lf" "$HOME/.config/lf"
 
     echo ""
     echo "🧾 Summary: $CREATED symlink(s) created or fixed, $SKIPPED skipped."
@@ -137,22 +125,8 @@ fi
 if [ "$DO_INSTALL" = true ]; then
     REQUIRED_PACKAGES=(
         # system essentials
-        wget curl fzf fd tree btop fastfetch direnv ripgrep 7zip xclip 
-        # terminal essentials
-        kitty neovim noto-fonts-emoji bash-completion mpv lf jq trash-cli 
-        # i3 specific
-        i3 rofi polybar picom pasystray feh dunst slurp grim maim playerctl 
-        # Void extras
-        vpm xset
-    )
-
-    DEV_PACKAGES=(
-        # C development
-        base-devel git make cmake pkg-config clang-tools-extra Bear valgrind go
-
-        # Raylib deps (Optional comment out if not needed)
-        alsa-lib-devel libglvnd-devel libX11-devel libXrandr-devel glfw-devel
-        libXi-devel libXcursor-devel libXinerama-devel MesaLib-devel 
+        fzf fd-find btop fastfetch direnv ripgrep neovim lf
+        build-essential make bear valgrind
     )
 
     MISSING_PACKAGES=()
@@ -160,8 +134,8 @@ if [ "$DO_INSTALL" = true ]; then
     echo "🔍 Checking for missing packages..."
     echo ""
 
-    for pkg in "${REQUIRED_PACKAGES[@]}" "${DEV_PACKAGES[@]}"; do
-        if ! xbps-query -l | grep -q "^ii $pkg-"; then
+    for pkg in "${REQUIRED_PACKAGES[@]}"; do
+        if ! pikman list | grep -q "^ii $pkg-"; then
             MISSING_PACKAGES+=("$pkg")
         fi
     done
@@ -170,7 +144,7 @@ if [ "$DO_INSTALL" = true ]; then
         echo "✅ All packages already installed."
     else
         echo "📦 Installing missing packages: ${MISSING_PACKAGES[*]}"
-        sudo xbps-install "${MISSING_PACKAGES[@]}"
+        pikman "${MISSING_PACKAGES[@]}"
     fi
 
     echo ""

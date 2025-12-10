@@ -10,7 +10,7 @@ require("paq")({
     "folke/which-key.nvim",
     "lmburns/lf.nvim",
     -- UI additions
-    "rebelot/kanagawa.nvim",
+    "vague-theme/vague.nvim",
     "nvim-treesitter/nvim-treesitter",
     "lukas-reineke/indent-blankline.nvim",
     "nvim-mini/mini.statusline",
@@ -18,8 +18,6 @@ require("paq")({
     "hrsh7th/nvim-cmp",
     "hrsh7th/cmp-buffer"
 })
-
-vim.g.vimwiki_list = { { path = '~/Documents/wiki/' } }
 
 require('lf').setup({
     height = vim.fn.float2nr(vim.fn.round(0.90 * vim.o.lines)),
@@ -45,11 +43,10 @@ require'nvim-treesitter.configs'.setup {
     highlight = { enable = true }
 }
 
-require('kanagawa').setup({
-    undercurl = false,
-    commentStyle = { italic = false },
-    keywordStyle = { italic = false },
-    transparent = true
+require("vague").setup({
+    transparent = true, 
+    bold = true,
+    italic = false
 })
 
 require("telescope").setup({
@@ -60,6 +57,7 @@ require("telescope").setup({
         layout_strategy = "horizontal",
         file_ignore_patterns = { 
             "^.git/",  -- Ignore .git directory
+            ".git/",  -- Ignore .git directory
             ".cache/",
         },
 	mappings = {

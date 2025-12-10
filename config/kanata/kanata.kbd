@@ -1,0 +1,28 @@
+(defcfg
+  process-unmapped-keys yes
+)
+
+(defsrc
+  caps lctl lalt lmet
+  esc 1 2 3 4 5 6 7 8 9 0 - =
+  h j k l o p [ ] ; ' \
+  , . /
+)
+
+(defalias
+  fn (layer-toggle arrows)
+)
+
+(deflayer base
+  lctl @fn lmet lalt
+  esc 1 2 3 4 5 6 7 8 9 0 - =
+  h j k l o p [ ] ; ' \
+  , . /
+)
+
+(deflayer arrows
+  lctl _ lmet lalt
+  grv S-1 S-2 S-3 S-4 S-5 S-6 S-7 S-8 S-9 S-0 S-- S-=
+  left down up rght ' S-' S-[ S-] S-; S-' S-\
+  S-, S-. S-/
+)
