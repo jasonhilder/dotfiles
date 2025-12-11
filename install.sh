@@ -1,11 +1,11 @@
 #!/bin/bash
-
 # ---------------------------------------------------------------------------------
 ## Steps taken before running this script
 # ---------------------------------------------------------------------------------
 
 # * pikman update && pikman upgrade
 # * Setup SSH keys
+
 # * Download kanata binary
 # * Setup kanata to start on boot:
 #   - sudo touch /lib/systemd/system/kanata.service
@@ -22,12 +22,13 @@
 #   [Install]
 #   WantedBy=default.target
 # ```  
+
 # * Install paq
 # ```
 #    git clone --depth=1 --branch=debian https://github.com/savq/paq-nvim.git \
 #        "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
 # ```
-#
+
 # * Cleanup software:
 # ```
 #    pikman remove chromium
