@@ -20,8 +20,9 @@ require("paq")({
 })
 
 require('lf').setup({
-    height = vim.fn.float2nr(vim.fn.round(0.90 * vim.o.lines)),
-    width = vim.fn.float2nr(vim.fn.round(0.90 * vim.o.columns))
+    winblend = 0,
+    height = vim.fn.float2nr(vim.fn.round(1.0 * vim.o.lines)),
+    width = vim.fn.float2nr(vim.fn.round(1.0 * vim.o.columns))
 })
 
 require('neogit').setup()
