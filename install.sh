@@ -4,12 +4,38 @@
 ## Steps taken before running this script
 # ---------------------------------------------------------------------------------
 
-# * sudo xbps-install xbps -u
-# * sudo xbps-install -Su
-# * sudo xbps-install git
-# * sudo xbps-install void-repo-nonfree void-repo-multilib
+# * pikman update && pikman upgrade
+# * Setup SSH keys
+# * Download kanata binary
+# * Setup kanata to start on boot:
+#   - sudo touch /lib/systemd/system/kanata.service
+#   ```
+#   [Unit]
+#   Description=Kanata keyboard remapper
+#   Documentation=https://github.com/jtroo/kanata
+#
+#   [Service]
+#   Type=simple
+#   ExecStart=/home/user/.cargo/bin/kanata --cfg /home/user/.config/kanata/config-name.kbd
+#   Restart=never
+#
+#   [Install]
+#   WantedBy=default.target
+# ```  
+# * Install paq
+# ```
+#    git clone --depth=1 --branch=debian https://github.com/savq/paq-nvim.git \
+#        "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
+# ```
+#
+# * Cleanup software:
+# ```
+#    pikman remove chromium
+# ```
+# * Update kitty config font size and color scheme
+# * Disable wifi and bluetooth, and bar active window in pikaOS settings
 # * Clone dotfiles
-# * Run this install script (symlinks configs, install software, install programming languages)
+# * Run this install script (symlinks configs and install software)
 
 # ---------------------------------------------------------------------------------
 ## GLOBAL VARS
@@ -101,8 +127,18 @@ if [ "$DO_LINKS" = true ]; then
     link_file "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
     link_file "$DOTFILES_DIR/config/lf" "$HOME/.config/lf"
 
+    # PikaOS Specific
+    rm ~/.config/hypr/hyprland.conf  
+    link_file "$DOTFILES_DIR/pikaos/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
+    rm ~/.config/hypr/keybinds.conf  
+    link_file "$DOTFILES_DIR/pikaos/hypr/keybinds.conf" "$HOME/.config/hypr/keybinds.conf"
+    rm ~/.config/kitty/kitty.conf  
+    link_file "$DOTFILES_DIR/pikaos/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
+
     echo ""
     echo "🧾 Summary: $CREATED symlink(s) created or fixed, $SKIPPED skipped."
+    echo "Reloading hyprland..."
+    hyprctl reload
     echo ""
 
     echo "✅ Symlink setup complete."
@@ -134,17 +170,25 @@ if [ "$DO_INSTALL" = true ]; then
     echo "🔍 Checking for missing packages..."
     echo ""
 
+    # Check which packages are missing using dpkg
     for pkg in "${REQUIRED_PACKAGES[@]}"; do
-        if ! pikman list | grep -q "^ii $pkg-"; then
+        # dpkg-query checks for the installed status.
+        # We check for a non-zero exit status which indicates the package is NOT installed.
+        if ! dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -q "install ok installed"; then
             MISSING_PACKAGES+=("$pkg")
         fi
     done
 
     if [ ${#MISSING_PACKAGES[@]} -eq 0 ]; then
-        echo "✅ All packages already installed."
+        echo "✅ All required packages are already installed."
     else
+        echo "📦 Updating package lists..."
+        # Update package lists before installing
+        sudo apt update
+        
         echo "📦 Installing missing packages: ${MISSING_PACKAGES[*]}"
-        pikman "${MISSING_PACKAGES[@]}"
+        # Use sudo apt install for installing on Debian
+        sudo apt install "${MISSING_PACKAGES[@]}"
     fi
 
     echo ""
