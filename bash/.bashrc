@@ -242,7 +242,7 @@ alias vim='nvim'
 alias v='nvim'
 alias :q='exit'
 alias files='nemo .'
-alias lg='nvim . +":Neogit"'
+alias lg='nvim -c "lua nvgit()"'
 
 # Custom shortcuts
 alias uz='7z'

@@ -184,6 +184,23 @@ end
 vim.keymap.set('n', '<leader>pp', SwitchProject, { desc = 'Switch Project' })
 
 ---------------------------------------------------------------------------------
+-- [[ VERSION MANAGEMENT ]]
+---------------------------------------------------------------------------------
+_G.nvgit = function()
+  -- Open Neogit in a new tab (default behavior)
+  require('neogit').open({ kind = "tab" })
+  
+  -- Create an autocommand: when the Neogit tab is closed, quit Neovim
+  vim.api.nvim_create_autocmd("TabClosed", {
+    callback = function()
+      -- If we only have one tab left and it's not a neogit one, or 
+      -- if we just closed the neogit tab, exit.
+      vim.cmd("qa!")
+    end,
+  })
+end
+
+---------------------------------------------------------------------------------
 -- [[ LSP ]]
 ---------------------------------------------------------------------------------
 vim.diagnostic.config {
