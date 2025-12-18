@@ -3,17 +3,3 @@
 /vim/.vim/autoload
 /fish/.config/fish/fish_variables
 
-/config/emacs/bookmarks
-/config/emacs/elpa
-/config/emacs/straight
-/config/emacs/auto-save-list
-/config/emacs/var
-/config/emacs/backups
-/config/emacs/eln-cache
-/config/emacs/history
-/config/emacs/places
-/config/emacs/recentf
-/config/emacs/transient
-/config/emacs/projects
-/config/emacs/*.eld
-/config/emacs/projectile-bookmarks.eld
