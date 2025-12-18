@@ -105,7 +105,16 @@ add_to_path "$GOPATH/bin"
 add_to_path "$HOME/.cargo/bin"
 add_to_path "$HOME/.npm-global/bin"
 
+# Flatpak
+if [ -d "/var/lib/flatpak/exports/bin" ]; then
+    PATH="/var/lib/flatpak/exports/bin:$PATH"
+fi
+if [ -d "$HOME/.local/share/flatpak/exports/bin" ]; then
+    PATH="$HOME/.local/share/flatpak/exports/bin:$PATH"
+fi
+
 export PATH
+
 
 # ==============================================================================
 # COLORS & PROMPT
@@ -228,18 +237,16 @@ alias du='du -h'
 alias free='free -h'
 alias top='btop'
 
-# Git aliases
-alias lg='lazygit'
-
 # Application shortcuts
 alias vim='nvim'
 alias v='nvim'
 alias :q='exit'
-alias files='thunar .'
+alias files='nemo .'
+alias lg='nvim . +":Neogit"'
 
 # Custom shortcuts
 alias uz='7z'
-alias dotmanager='bash ~/.dotfiles/install.sh'
+alias dotman='bash ~/.dotfiles/install.sh'
 alias reload='source ~/.bashrc'
 alias myip='curl ipinfo.io/ip && echo ""'
 
