@@ -156,17 +156,16 @@ end)
 -- [[ VERSION MANAGEMENT ]]
 ---------------------------------------------------------------------------------
 _G.nvgit = function()
-  -- Open Neogit in a new tab (default behavior)
-  require('neogit').open({ kind = "tab" })
-  
-  -- Create an autocommand: when the Neogit tab is closed, quit Neovim
-  vim.api.nvim_create_autocmd("TabClosed", {
-    callback = function()
-      -- If we only have one tab left and it's not a neogit one, or 
-      -- if we just closed the neogit tab, exit.
-      vim.cmd("qa!")
-    end,
-  })
+    require('neogit').open({ kind = "tab" })
+
+    -- Target the specific filetype Neogit uses
+    vim.api.nvim_create_autocmd("BufUnload", {
+        pattern = "NeogitStatus",
+        once = true, -- Only run once so it doesn't interfere with future sessions
+        callback = function()
+            vim.cmd("qa!")
+        end,
+    })
 end
 
 ---------------------------------------------------------------------------------
