@@ -1,5 +1,4 @@
-/nvim/.config/nvim/lazy-lock.json
-/vim/.vim/plugged
-/vim/.vim/autoload
-/fish/.config/fish/fish_variables
+/config/nvim/nvim-pack-lock.json
+/config/fish/fish_variables
+
 

@@ -123,7 +123,7 @@ if [ "$DO_LINKS" = true ]; then
     CREATED=0
     SKIPPED=0
 
-    link_file "$DOTFILES_DIR/bash/.bashrc" "$HOME/.bashrc"
+    link_file "$DOTFILES_DIR/config/fish" "$HOME/.config/fish"
     link_file "$DOTFILES_DIR/config/kanata" "$HOME/.config/kanata"
     link_file "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
     link_file "$DOTFILES_DIR/config/lf" "$HOME/.config/lf"
@@ -163,7 +163,7 @@ if [ "$DO_INSTALL" = true ]; then
     REQUIRED_PACKAGES=(
         # system essentials
         fzf fd-find btop fastfetch direnv ripgrep neovim lf
-        build-essential make bear valgrind
+        build-essential make bear valgrind fish
     )
 
     MISSING_PACKAGES=()
