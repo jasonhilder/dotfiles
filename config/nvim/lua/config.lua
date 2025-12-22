@@ -56,8 +56,8 @@ vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = tr
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
 -- Stay in indent mode
-vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "unindent line" })
-vim.keymap.set("v", "<Tab>", ">gv", { desc = "indent line" })
+-- vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "unindent line" })
+-- vim.keymap.set("v", "<Tab>", ">gv", { desc = "indent line" })
 -- Move selection and format
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "move selection down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "move selection up" })
@@ -151,34 +151,6 @@ vim.keymap.set("n", "<leader>tj", function()
     vim.cmd.term()
     vim.cmd.startinsert()  -- Enter insert mode
 end)
-
----------------------------------------------------------------------------------
--- [[ PROJECT MANAGEMENT ]]
----------------------------------------------------------------------------------
-function SwitchProject()
-    -- Get project selection
-    local handle = io.popen('project-manager')
-    local project_path = handle:read('*l')
-    handle:close()
-    
-    if project_path and project_path ~= '' then
-        -- Close all buffers
-        vim.cmd('silent! %bwipeout!')
-
-        -- Change directory
-        vim.cmd('cd ' .. project_path)
-
-        -- Open file explorer
-        vim.cmd('Telescope find_files')
-
-        print('Switched to: ' .. project_path)
-
-        vim.cmd('silent! bd') 
-    end
-end
-
--- Project Switcher
-vim.keymap.set('n', '<leader>pp', SwitchProject, { desc = 'Switch Project' })
 
 ---------------------------------------------------------------------------------
 -- [[ VERSION MANAGEMENT ]]

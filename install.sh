@@ -163,7 +163,7 @@ if [ "$DO_INSTALL" = true ]; then
     REQUIRED_PACKAGES=(
         # system essentials
         fzf fd-find btop fastfetch direnv ripgrep neovim lf
-        build-essential make bear valgrind fish
+        build-essential make bear valgrind fish universal-ctags
     )
 
     MISSING_PACKAGES=()

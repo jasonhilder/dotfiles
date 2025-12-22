@@ -197,10 +197,12 @@ function fish_prompt
         set host_color (set_color magenta)
     end
 
+    set -l real_path (string replace -r "^$HOME" '~' $PWD)
+
     # Print prompt: User@Host Path
     printf '%s%s%s@%s%s %s%s%s' \
         (set_color --bold) $user_color $USER $host_color (prompt_hostname) \
-        $path_color (prompt_pwd) (set_color normal)
+        $path_color $real_path (set_color normal)
 
     # Git integration (Fish built-in)
     printf '%s' (fish_git_prompt)

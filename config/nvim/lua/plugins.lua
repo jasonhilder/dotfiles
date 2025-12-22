@@ -15,7 +15,6 @@ vim.pack.add({
     {src = "https://github.com/vague-theme/vague.nvim"},
     {src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master"},
     {src = "https://github.com/lukas-reineke/indent-blankline.nvim"},
-    {src = "https://github.com/echasnovski/mini.statusline"},
     -- Auto complete, snippets
     {src = "https://github.com/rafamadriz/friendly-snippets"},
     {src = "https://github.com/L3MON4D3/LuaSnip" },
@@ -24,9 +23,14 @@ vim.pack.add({
 
 require('neogit').setup()
 
-require('mini.statusline').setup()
-
-require('blink.cmp').setup({ fuzzy = { implementation = "lua" } })
+require('blink.cmp').setup({ 
+    fuzzy = { implementation = "lua" }, 
+    completion = {menu = { auto_show = false }},
+    signature = { 
+        enabled = true, 
+        trigger = { enabled = false }
+    }
+})
 
 require('neoscroll').setup({ 
     mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>'} ,
