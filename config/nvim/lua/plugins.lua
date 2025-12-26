@@ -69,6 +69,7 @@ require("telescope").setup({
             "^.git/",  -- Ignore .git directory
             ".git/",  -- Ignore .git directory
             ".cache/",
+            "elpa/",
         },
     mappings = {
         i = {

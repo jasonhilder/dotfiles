@@ -56,8 +56,8 @@ vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = tr
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
 -- Stay in indent mode
--- vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "unindent line" })
--- vim.keymap.set("v", "<Tab>", ">gv", { desc = "indent line" })
+vim.keymap.set("v", "<S-Tab>", "<gv", { desc = "unindent line" })
+vim.keymap.set("v", "<Tab>", ">gv", { desc = "indent line" })
 -- Move selection and format
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "move selection down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "move selection up" })
@@ -80,7 +80,7 @@ vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = 'Telescope help ta
 vim.keymap.set('n', '<leader>sm', builtin.man_pages, { desc = 'Telescope man pages' })
 vim.keymap.set('n', '<leader>sk', builtin.keymaps,   { desc = 'Telescope keymaps' })
 -- File manager
-vim.keymap.set("n", "<C-e>", "<CMD>Lf<CR>", { desc = "Open parent directory" })
+vim.keymap.set("n", "<leader>fe", "<CMD>Lf<CR>", { desc = "Open parent directory" })
 -- Lazygit
 vim.keymap.set("n", "<leader>gg", "<CMD>Neogit<CR>", { desc = "Open parent directory" })
 -- test

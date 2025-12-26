@@ -23,15 +23,17 @@ set -gx GOROOT /usr/local/go
 set -gx PATH /usr/local/go/bin $GOPATH/bin $PATH
 
 # FZF configuration
-set -gx FZF_DEFAULT_COMMAND 'fd --exclude={.git,.cache,.xmake,.zig-cache,build,tmp,node_modules,elpa} --type f -H'
+set -gx FZF_DEFAULT_COMMAND 'fdfind --exclude={.git,.cache,.xmake,.zig-cache,build,tmp,node_modules,elpa} --type f -H'
+
 set -gx FZF_DEFAULT_OPTS "
-    --height 40%
-    --layout=reverse
-    --border
-    --preview-window=down:30%
-    --bind 'ctrl-d:preview-page-down,ctrl-u:preview-page-up'
-    --color=fg:#ffffff,header:#f38ba8,info:#cba6ac,pointer:#f5e0dc
-    --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6ac,hl+:#f38ba8"
+     --height 40%
+     --layout=reverse
+     --border
+     --ansi
+     --preview-window=down:30%
+     --bind 'ctrl-d:preview-page-down,ctrl-u:preview-page-up'
+     --color=fg:#ffffff,header:#f38ba8,info:#cba6ac,pointer:#f5e0dc
+     --color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6ac,hl+:#f38ba8"
 
 # ==============================================================================
 # PATH CONFIGURATION
@@ -93,21 +95,32 @@ alias lspmake='bear -- make -B'
 # ==============================================================================
 
 # Project Manager
-function pm
-    clear
-    set -l project_script "$HOME/.local/bin/project-manager"
-
-    if not test -x "$project_script"
-        echo "Error: project-picker script not found or not executable" >&2
-        return 1
+function pp
+    set -l project_file "$HOME/.projects"
+    
+    # Create the file if it doesn't exist
+    if not test -f "$project_file"
+        touch "$project_file"
     end
 
     if count $argv > /dev/null
-        bash "$project_script" $argv
+        # Case 1: Path provided - Add to list
+        set -l absolute_path (realpath $argv[1])
+
+        if grep -Fxq "$absolute_path" "$project_file"
+            echo "Project already exists in list."
+        else
+            echo "$absolute_path" >> "$project_file"
+            echo "Added: $absolute_path"
+        end
     else
-        set -l dir (bash "$project_script")
-        if test -n "$dir"; and test -d "$dir"
-            cd "$dir"; and nvim .
+        # Case 2: No arguments - Select and Open
+        set -l selection (cat "$project_file" | fzf --height 40% --reverse --header="Select Project")
+
+        if test -n "$selection"
+            cd "$selection"
+            commandline -f repaint # Ensures the prompt updates after cd
+            nvim .
         end
     end
 end
@@ -227,9 +240,11 @@ set -g __fish_git_prompt_color_cleanstate green --bold
 # ==============================================================================
 # STARTUP ACTIONS
 # ==============================================================================
-set_color green
-echo "Welcome back, $USER!"
-set_color 666 # Dim/Grey
-echo (date '+%A, %B %d, %Y - %H:%M:%S')
-set_color normal
-echo "---------------------------------------------------------------"
+if status is-interactive
+    set_color green
+    echo "Welcome back, $USER!"
+    set_color 666 
+    echo (date '+%A, %B %d, %Y - %H:%M:%S')
+    set_color normal
+    echo "---------------------------------------------------------------"
+end
