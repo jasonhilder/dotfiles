@@ -6,4 +6,5 @@
 /config/emacs/elpa
 /config/emacs/var
 
+/config/helix/runtime
 

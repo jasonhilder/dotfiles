@@ -125,8 +125,8 @@ if [ "$DO_LINKS" = true ]; then
 
     link_file "$DOTFILES_DIR/config/fish" "$HOME/.config/fish"
     link_file "$DOTFILES_DIR/config/kanata" "$HOME/.config/kanata"
-    link_file "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
-    link_file "$DOTFILES_DIR/config/lf" "$HOME/.config/lf"
+    link_file "$DOTFILES_DIR/config/helix" "$HOME/.config/helix"
+    link_file "$DOTFILES_DIR/config/tmux/.tmux.conf" "$HOME/.tmux.conf"
 
     # PikaOS Specific
     rm ~/.config/hypr/hyprland.conf  
@@ -162,8 +162,8 @@ fi
 if [ "$DO_INSTALL" = true ]; then
     REQUIRED_PACKAGES=(
         # system essentials
-        fzf fd-find btop fastfetch direnv ripgrep neovim lf
-        build-essential make bear valgrind fish universal-ctags
+        fzf fd-find btop fastfetch direnv ripgrep neovim hx yazi
+        tmux build-essential make bear valgrind fish universal-ctags
     )
 
     MISSING_PACKAGES=()

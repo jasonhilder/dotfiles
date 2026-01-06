@@ -10,8 +10,8 @@ set -gx EDITOR nvim
 set -gx VISUAL nvim
 set -gx MANPAGER "nvim +Man!"
 set -gx BROWSER firefox
-set -gx TERM "xterm-256color"
-set -gx COLORTERM "truecolor"
+set -gx TERM xterm-256color
+set -gx COLORTERM truecolor
 set -gx LANG "en_US.UTF-8"
 set -gx LC_ALL "en_US.UTF-8"
 
@@ -19,7 +19,7 @@ set -gx LC_ALL "en_US.UTF-8"
 set -gx DEBUG 1
 set -gx GOPATH "$HOME/.go"
 set -gx GOCACHE "$HOME/.go/cache"
-set -gx GOROOT /usr/local/go 
+set -gx GOROOT /usr/local/go
 set -gx PATH /usr/local/go/bin $GOPATH/bin $PATH
 
 # FZF configuration
@@ -42,16 +42,15 @@ set -gx FZF_DEFAULT_OPTS "
 # Fish's 'fish_add_path' is smart: it checks if the dir exists and prevents duplicates.
 fish_add_path "$HOME/.local/bin"
 fish_add_path "$HOME/bin"
-fish_add_path "/usr/local/bin"
+fish_add_path /usr/local/bin
 fish_add_path "$HOME/.local/apps/nvim/bin"
 fish_add_path "$HOME/.npm-global/bin"
-fish_add_path "/var/lib/flatpak/exports/bin"
+fish_add_path /var/lib/flatpak/exports/bin
 fish_add_path "$HOME/.local/share/flatpak/exports/bin"
-fish_add_path "/usr/local/go/bin"
+fish_add_path /usr/local/go/bin
 fish_add_path $GOPATH/bin
 fish_add_path "$HOME/.local/bin"
 fish_add_path "$HOME/bin"
-
 
 # ==============================================================================
 # ALIASES & ABBREVIATIONS
@@ -77,6 +76,7 @@ alias free='free -h'
 alias top='btop'
 
 # Application shortcuts
+alias e='hx'
 alias vim='nvim'
 alias v='nvim'
 alias :q='exit'
@@ -97,20 +97,20 @@ alias lspmake='bear -- make -B'
 # Project Manager
 function pp
     set -l project_file "$HOME/.projects"
-    
+
     # Create the file if it doesn't exist
     if not test -f "$project_file"
         touch "$project_file"
     end
 
-    if count $argv > /dev/null
+    if count $argv >/dev/null
         # Case 1: Path provided - Add to list
         set -l absolute_path (realpath $argv[1])
 
         if grep -Fxq "$absolute_path" "$project_file"
             echo "Project already exists in list."
         else
-            echo "$absolute_path" >> "$project_file"
+            echo "$absolute_path" >>"$project_file"
             echo "Added: $absolute_path"
         end
     else
@@ -127,7 +127,7 @@ end
 
 # Build wrapper
 function build
-    if contains -- $argv[1] "-h" "--help"
+    if contains -- $argv[1] -h --help
         echo "build - Wrapper function for project build.sh files"
         echo "Usage: build [arguments...]"
         return 0
@@ -243,8 +243,8 @@ set -g __fish_git_prompt_color_cleanstate green --bold
 if status is-interactive
     set_color green
     echo "Welcome back, $USER!"
-    set_color 666 
+    set_color 666
     echo (date '+%A, %B %d, %Y - %H:%M:%S')
     set_color normal
-    echo "---------------------------------------------------------------"
+    echo ---------------------------------------------------------------
 end
