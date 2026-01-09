@@ -123,26 +123,6 @@ function pp
     end
 end
 
-# Build wrapper
-function build
-    if contains -- $argv[1] -h --help
-        echo "build - Wrapper function for project build.sh files"
-        echo "Usage: build [arguments...]"
-        return 0
-    end
-
-    if not test -f "./build.sh"
-        echo "Error: No build.sh found in current directory" >&2
-        return 1
-    end
-
-    if not test -x "./build.sh"
-        chmod +x "./build.sh"
-    end
-
-    ./build.sh $argv
-end
-
 # Extract archive
 function extract
     if test (count $argv) -ne 1
