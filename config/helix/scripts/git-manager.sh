@@ -7,5 +7,5 @@ if [[ $? -eq 0 ]]; then
 	tmux send-keys ":$1"
 	tmux send-keys Enter
 else
-	tmux kill-window -t fx
+	tmux kill-window -t gx
 fi

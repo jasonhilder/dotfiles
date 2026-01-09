@@ -32,7 +32,7 @@ l = "goto_last_accessed_file"
 F = "file_picker"
 f = "file_picker_in_current_directory"
 e = ":sh tmux new-window -n fx '~/.config/helix/scripts/file-manager.sh open'"
-g = ":sh tmux new-window -n fx '~/.config/helix/scripts/git-manager.sh open'"
+g = ":sh tmux new-window -n gx '~/.config/helix/scripts/git-manager.sh open'"
 
 [keys.normal]
 x = "select_line_below"
