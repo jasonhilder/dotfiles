@@ -23,17 +23,10 @@
 #   WantedBy=default.target
 # ```  
 
-# * Install paq
-# ```
-#    git clone --depth=1 --branch=debian https://github.com/savq/paq-nvim.git \
-#        "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
-# ```
-
 # * Cleanup software:
 # ```
 #    pikman remove chromium
 # ```
-# * Update kitty config font size and color scheme
 # * Disable wifi and bluetooth, and bar active window in pikaOS settings
 # * Clone dotfiles
 # * Run this install script (symlinks configs and install software)

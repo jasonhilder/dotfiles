@@ -60,7 +60,7 @@ alias ls='ls -lh --color=auto --group-directories-first'
 alias ll='ls -lAh --color=auto --group-directories-first'
 alias la='ls -la --color=auto --group-directories-first'
 alias l='ls -CF --color=auto'
-alias tree='tree -C'
+alias tree='tree -C  -I ".git|node_modules|__pycache__|runtime"'
 
 # Safety aliases
 alias rm='rm -I --preserve-root'

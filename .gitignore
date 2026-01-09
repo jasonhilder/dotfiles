@@ -1,10 +1,4 @@
 /config/nvim/nvim-pack-lock.json
 /config/fish/fish_variables
-
-/config/emacs/auto-save-list
-/config/emacs/eln-cache
-/config/emacs/elpa
-/config/emacs/var
-
 /config/helix/runtime
 
