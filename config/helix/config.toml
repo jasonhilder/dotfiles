@@ -28,11 +28,11 @@ display-inlay-hints = false
 # -----------------------------
 
 [keys.normal."space"]
+l = "goto_last_accessed_file"
 F = "file_picker"
 f = "file_picker_in_current_directory"
-# e = ":sh tmux new-window -n fx '~/.config/helix/yazi-picker.sh open'"
-e = [ ":write-all", ":new", ":sh '~/.config/helix/yazi-picker.sh open'", ":buffer-close!", ":redraw", ":reload-all" ]
-g = [ ":write-all", ":new", ":insert-output lazygit", ":buffer-close!", ":redraw", ":reload-all" ]
+e = ":sh tmux new-window -n fx '~/.config/helix/scripts/file-manager.sh open'"
+g = ":sh tmux new-window -n fx '~/.config/helix/scripts/git-manager.sh open'"
 
 [keys.normal]
 x = "select_line_below"

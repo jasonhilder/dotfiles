@@ -6,9 +6,9 @@
 set -g fish_greeting
 
 # Core settings
-set -gx EDITOR nvim
-set -gx VISUAL nvim
-set -gx MANPAGER "nvim +Man!"
+set -gx EDITOR hx
+set -gx VISUAL hx
+set -gx MANPAGER "batcat -l man -p"
 set -gx BROWSER firefox
 set -gx TERM xterm-256color
 set -gx COLORTERM truecolor
@@ -43,7 +43,6 @@ set -gx FZF_DEFAULT_OPTS "
 fish_add_path "$HOME/.local/bin"
 fish_add_path "$HOME/bin"
 fish_add_path /usr/local/bin
-fish_add_path "$HOME/.local/apps/nvim/bin"
 fish_add_path "$HOME/.npm-global/bin"
 fish_add_path /var/lib/flatpak/exports/bin
 fish_add_path "$HOME/.local/share/flatpak/exports/bin"
@@ -77,11 +76,10 @@ alias top='btop'
 
 # Application shortcuts
 alias e='hx'
-alias vim='nvim'
-alias v='nvim'
 alias :q='exit'
 alias files='nemo .'
-alias lg='nvim -c "lua nvgit()"'
+alias lg='lazygit'
+alias cat='batcat'
 
 # Custom shortcuts
 alias uz='7z'
@@ -120,7 +118,7 @@ function pp
         if test -n "$selection"
             cd "$selection"
             commandline -f repaint # Ensures the prompt updates after cd
-            nvim .
+            hx .
         end
     end
 end
@@ -236,15 +234,3 @@ set -g __fish_git_prompt_color_branch magenta --bold
 set -g __fish_git_prompt_color_stagedstate yellow
 set -g __fish_git_prompt_color_invalidstate red
 set -g __fish_git_prompt_color_cleanstate green --bold
-
-# ==============================================================================
-# STARTUP ACTIONS
-# ==============================================================================
-if status is-interactive
-    set_color green
-    echo "Welcome back, $USER!"
-    set_color 666
-    echo (date '+%A, %B %d, %Y - %H:%M:%S')
-    set_color normal
-    echo ---------------------------------------------------------------
-end

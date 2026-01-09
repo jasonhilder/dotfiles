@@ -1,0 +1,80 @@
+# Set options
+set drawbox
+set shell sh
+set info size
+set ignorecase true
+set hidden true
+
+# Custom functions
+cmd mkdir %mkdir -p "$@"
+cmd mkfile %touch "$@"
+
+cmd unzip ${{
+  case "$f" in
+      *.zip) unzip "$f" ;;
+      *.tar.gz) tar -xzvf "$f" ;;
+      *.tar.bz2) tar -xjvf "$f" ;;
+      *.tar) tar -xvf "$f" ;;
+      *) echo "Unsupported format" ;;
+  esac
+}}
+
+cmd zip ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    zip -r $1.zip $1
+    rm -rf $1
+}}
+
+cmd yank-path $printf '%s' "$fx" | xclip -i -selection clipboard
+map <c-c> :yank-path
+
+cmd openfilehx ${{
+    printf '%s' "$fx" | xclip -i -selection clipboard
+
+    # Get the current tmux session and pane IDs
+    tmux_info=$(tmux display-message -p '#{session_id} #{pane_id}')
+
+    # Extract session and pane IDs into separate variables
+    tmux_session_id=$(echo "$tmux_info_json" | jq -r '.session_id')
+    tmux_pane_id=$(echo "$tmux_info_json" | jq -r '.pane_id')
+
+    tmux send-keys -t "$tmux_session_id:1" " " "." C-m
+    tmux select-window -t 1
+}}
+map <c-e> :openfilehx
+map <enter> :openfilehx
+
+# function called q so its quick to do :q
+cmd q ${{
+    tmux kill-pane
+}}
+
+# Unbind defaults
+map d
+map n
+map m
+
+# Keymaps
+map . set hidden!
+map x cut
+map y copy
+map R reload
+map C clear
+map dd push :delete<enter>
+# use mf and md to create files and directories
+map md push :mkdir<space>
+map mf push :mkfile<space>
+# use ma and oa to make archive and open archive
+map zc zip
+map zo unzip
+
+# Movement shortcuts
+map gh cd ~/
+map gw cd ~/work
+map gc cd ~/.config
+map gd cd ~/Downloads
+
+# get current directory
+map gp push :getPath<enter>
