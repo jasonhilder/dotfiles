@@ -5,6 +5,7 @@ line-number = "relative"
 bufferline = "never"
 cursorline = true
 true-color = true
+color-modes = true
 
 [editor.cursor-shape]
 insert = "bar"
@@ -22,6 +23,11 @@ hidden = false
 [editor.lsp]
 display-messages = true
 display-inlay-hints = false
+
+[editor.statusline]
+left = ["mode", "file-name", "read-only-indicator", "file-modification-indicator"]
+center = ["diagnostics"]
+right = ["spinner", "selections", "register", "position", "file-encoding"]
 
 # -----------------------------
 # KEYBINDS
