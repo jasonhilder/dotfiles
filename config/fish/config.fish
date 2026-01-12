@@ -6,8 +6,8 @@
 set -g fish_greeting
 
 # Core settings
-set -gx EDITOR hx
-set -gx VISUAL hx
+set -gx EDITOR neovim
+set -gx VISUAL neovim
 set -gx MANPAGER "batcat -l man -p"
 set -gx BROWSER firefox
 set -gx TERM xterm-256color
@@ -75,7 +75,7 @@ alias free='free -h'
 alias top='btop'
 
 # Application shortcuts
-alias e='hx'
+alias v='nvim'
 alias :q='exit'
 alias files='nemo .'
 alias lg='lazygit'
@@ -118,7 +118,7 @@ function pp
         if test -n "$selection"
             cd "$selection"
             commandline -f repaint # Ensures the prompt updates after cd
-            hx .
+            neovim .
         end
     end
 end

@@ -120,6 +120,7 @@ if [ "$DO_LINKS" = true ]; then
     link_file "$DOTFILES_DIR/config/kanata" "$HOME/.config/kanata"
     link_file "$DOTFILES_DIR/config/lf/" "$HOME/.config/lf"
     link_file "$DOTFILES_DIR/config/helix" "$HOME/.config/helix"
+    link_file "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
     link_file "$DOTFILES_DIR/config/tmux/.tmux.conf" "$HOME/.tmux.conf"
 
     # PikaOS Specific
@@ -156,8 +157,8 @@ fi
 if [ "$DO_INSTALL" = true ]; then
     REQUIRED_PACKAGES=(
         # system essentials
-        fzf fd-find btop bat fastfetch direnv ripgrep hx
-        lf tmux build-essential make bear valgrind fish
+        fzf fd-find btop bat fastfetch direnv ripgrep neovim
+        lazygit lf tmux build-essential make bear valgrind fish
     )
 
     MISSING_PACKAGES=()
