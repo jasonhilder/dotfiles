@@ -4,14 +4,14 @@ Minimal terminal-focused configuration for PikaOS, focused around composable CLI
 
 ## Philosophy
 
-These dotfiles make use of tool composition through tmux integration. Programs like Helix launch tools (file managers, git interfaces) in separate tmux windows rather than embedding them directly.
+These dotfiles make use of tool composition through tmux integration. Programs like Neovim launch tools (file managers, git interfaces) in separate tmux windows rather than embedding them directly.
 
 ## Structure
 
 ```
 config/
 ├── fish/          # Shell configuration
-├── helix/         # Text editor + tmux integration scripts
+├── neovim/        # Text editor 
 ├── kanata/        # Keyboard remapping
 ├── lf/            # File manager
 └── tmux/          # Terminal multiplexer
@@ -37,6 +37,6 @@ pikaos/
 The script symlinks configurations to `~/.config` and installs essential packages:
 - **System tools**: fzf, fd-find, ripgrep, direnv, fastfetch, btop
 - **Terminal**: fish, tmux, kitty
-- **Editors**: helix (hx), lf
+- **Editors**: Neovim (nvim), lf
 - **Development**: build-essential, make, bear, valgrind
 - **Utilities**: bat

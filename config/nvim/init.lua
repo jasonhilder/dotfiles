@@ -66,6 +66,8 @@ vim.pack.add({
 ---------------------------------------------------------------------------------
 -- [[ PLUGIN CONFIGURATIONS ]]
 ---------------------------------------------------------------------------------
+-- tmux
+require("tmux").setup({})
 
 -- Colorscheme
 require("vague").setup({ transparent = true, bold = true, italic = false })
@@ -143,10 +145,6 @@ key('n', 'L', function() vim.api.nvim_feedkeys(':', 'n', true) end)
 
 -- Buffer & Window Management
 key("n", "<leader>p", "<cmd>b#<CR>", { desc = "Previous accessed buffer" })
-key("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
-key("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
-key("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
-key("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
 
 -- Visual Mode
 key("v", "<S-Tab>", "<gv")

@@ -6,8 +6,8 @@
 set -g fish_greeting
 
 # Core settings
-set -gx EDITOR neovim
-set -gx VISUAL neovim
+set -gx EDITOR nvim
+set -gx VISUAL nvim
 set -gx MANPAGER "batcat -l man -p"
 set -gx BROWSER firefox
 set -gx TERM xterm-256color
@@ -118,7 +118,7 @@ function pp
         if test -n "$selection"
             cd "$selection"
             commandline -f repaint # Ensures the prompt updates after cd
-            neovim .
+            nvim .
         end
     end
 end
