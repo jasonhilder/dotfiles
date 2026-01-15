@@ -128,8 +128,8 @@ if [ "$DO_LINKS" = true ]; then
     link_file "$DOTFILES_DIR/pikaos/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
     rm ~/.config/hypr/keybinds.conf  
     link_file "$DOTFILES_DIR/pikaos/hypr/keybinds.conf" "$HOME/.config/hypr/keybinds.conf"
-    rm ~/.config/kitty/kitty.conf  
-    link_file "$DOTFILES_DIR/pikaos/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
+    rm -rf ~/.config/kitty  
+    link_file "$DOTFILES_DIR/pikaos/kitty" "$HOME/.config/kitty"
 
     echo ""
     echo "🧾 Summary: $CREATED symlink(s) created or fixed, $SKIPPED skipped."

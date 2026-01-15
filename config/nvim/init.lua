@@ -32,6 +32,7 @@ opt.splitright = true
 opt.splitbelow = true
 opt.completeopt = 'menuone,noselect'
 vim.opt.isfname:append("@-@")
+vim.opt.lazyredraw = true
 
 -- Global bridge for UI/Formatting
 vim.o.breakindent = true
@@ -54,7 +55,7 @@ vim.pack.add({
     { src = "https://github.com/lmburns/lf.nvim" },
     { src = "https://github.com/aserowy/tmux.nvim" },
     -- UI and Colors
-    { src = "https://github.com/vague-theme/vague.nvim" },
+    { src = "https://github.com/aktersnurra/no-clown-fiesta.nvim" },
     { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" },
     { src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
     -- Snippets code completion
@@ -70,8 +71,7 @@ vim.pack.add({
 require("tmux").setup({})
 
 -- Colorscheme
-require("vague").setup({ transparent = true, bold = true, italic = false })
-vim.cmd("colorscheme vague")
+vim.cmd("colorscheme no-clown-fiesta-dark")
 
 -- UI & Navigation
 require('neoscroll').setup({
@@ -214,6 +214,7 @@ vim.lsp.config.gopls = {
     cmd = { '/home/jason/.go/bin/gopls' },
     root_markers = { 'go.mod', '.git' },
     filetypes = { 'go' },
+
 }
 vim.lsp.config.clangd = {
     cmd = { 'clangd', '--compile-commands-dir=.' },
