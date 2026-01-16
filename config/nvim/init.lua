@@ -72,7 +72,13 @@ vim.pack.add({
 require("tmux").setup({})
 
 -- Colorscheme
-vim.cmd("colorscheme no-clown-fiesta-dark")
+require("no-clown-fiesta").setup({
+    theme = "dark",
+    transparent = true,
+    styles = { lsp = { underline = true } }
+})
+-- Set installed colorscheme
+vim.cmd("colorscheme no-clown-fiesta")
 
 -- UI & Navigation
 require('neoscroll').setup({
@@ -84,6 +90,7 @@ require("ibl").setup({
     scope = { enabled = false }
 })
 require('lf').setup({
+    border = "single",
     winblend = 0,
     height = vim.fn.float2nr(vim.fn.round(0.95 * vim.o.lines)),
     width = vim.fn.float2nr(vim.fn.round(0.95 * vim.o.columns))
