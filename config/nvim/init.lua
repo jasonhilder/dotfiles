@@ -58,6 +58,7 @@ vim.pack.add({
     { src = "https://github.com/aktersnurra/no-clown-fiesta.nvim" },
     { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" },
     { src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
+    { src = "https://github.com/norcalli/nvim-colorizer.lua" },
     -- Snippets code completion
     { src = "https://github.com/rafamadriz/friendly-snippets" },
     { src = "https://github.com/L3MON4D3/LuaSnip" },
@@ -94,17 +95,35 @@ require('nvim-treesitter.configs').setup {
     highlight = { enable = true }
 }
 
--- Completion (Blink)
+-- Completion (Blink) - Buffer words only, no LSP completions
 require('blink.cmp').setup({
     fuzzy = { implementation = "lua" },
-    completion = { menu = { auto_show = false } },
-    signature = { enabled = true, trigger = { enabled = false }, window = { show_documentation = false } },
+    sources = {
+        -- Only enable buffer source, disable LSP
+        default = { 'buffer' },
+        providers = {
+            buffer = {
+                name = 'Buffer',
+                module = 'blink.cmp.sources.buffer',
+                opts = {
+                    -- Get words from all visible buffers
+                    get_bufnrs = function()
+                        return vim.api.nvim_list_bufs()
+                    end,
+                },
+            },
+        },
+    },
+    completion = { 
+        menu = { auto_show = true },
+        documentation = { auto_show = true },
+    },
+    signature = { enabled = false },
     keymap = {
         preset = 'default',
         ['<Tab>'] = { 'select_next', 'fallback' },
         ['<S-Tab>'] = { 'select_prev', 'fallback' },
         ['<CR>'] = { 'accept', 'fallback' },
-        ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
     }
 })
 
@@ -173,34 +192,12 @@ key('n', '<leader>la', vim.lsp.buf.code_action, { desc = 'Code actions' })
 key('n', '<leader>lr', vim.lsp.buf.rename, { desc = 'Rename symbol' })
 key('n', '<leader>lf', vim.lsp.buf.format, { desc = 'Format code' })
 key('n', '<leader>ld', vim.diagnostic.open_float, { desc = 'Diagnostic hover' })
-key('n', '<leader>lq', vim.diagnostic.setloclist, { desc = 'Local list' })
 
 -- Diagnostic navigation
 key('n', '[d', vim.diagnostic.goto_prev, { desc = 'Diagnostic Previous' })
 key('n', ']d', vim.diagnostic.goto_next, { desc = 'Diagnostic Next' })
 key('n', '[e', function() vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR}) end, { desc = 'Previous Error' })
 key('n', ']e', function() vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR}) end, { desc = 'Next Error' })
-
----------------------------------------------------------------------------------
--- [[ TERMINAL ]]
----------------------------------------------------------------------------------
-key("t", "<esc><esc>", "<c-\\><c-n>")
-key("t", "<C-h>", "<C-\\><C-n><C-w>h")
-key("t", "<C-l>", "<C-\\><C-n><C-w>l")
-
-key("n", "<leader>tl", function()
-    vim.cmd.vnew()
-    vim.api.nvim_win_set_width(0, math.floor(vim.o.columns * 0.35))
-    vim.wo.winfixwidth = true
-    vim.cmd.term()
-end, { desc = "Terminal Vertical" })
-
-key("n", "<leader>tj", function()
-    vim.cmd.new()
-    vim.api.nvim_win_set_height(0, math.floor(vim.o.lines * 0.35))
-    vim.wo.winfixheight = true
-    vim.cmd.term()
-end, { desc = "Terminal Horizontal" })
 
 ---------------------------------------------------------------------------------
 -- [[ LSP CONFIGURATION ]]
@@ -246,3 +243,26 @@ autocmd("TermOpen", {
         vim.cmd("startinsert")
     end,
 })
+---------------------------------------------------------------------------------
+-- [[ QUICKFIX LIST ]]
+---------------------------------------------------------------------------------
+-- Set diagnostics to location list and toggle it open/closed
+function ToggleQuickfixWithDiagnostics()
+    local qf_exists = false
+    for _, win in pairs(vim.fn.getwininfo()) do
+        if win["loclist"] == 1 then
+            qf_exists = true
+        end
+    end
+    
+    if qf_exists then
+        vim.cmd("lclose")
+    else
+        vim.diagnostic.setloclist({open = true})
+    end
+end
+
+key('n', '<leader>qq', ToggleQuickfixWithDiagnostics, {desc = "Toggle diagnostics list"})
+-- Navigate location list items
+key('n', '<leader>qn', function() pcall(vim.cmd, "lnext") vim.cmd("normal! zz") end, {desc = "Next diagnostic"})
+key('n', '<leader>qp', function() pcall(vim.cmd, "lprev") vim.cmd("normal! zz") end, {desc = "Previous diagnostic"})
