@@ -46,12 +46,11 @@ vim.cmd([[ cnoreabbrev <expr> qq (getcmdtype() ==# ':' && getcmdline() ==# 'qq')
 ---------------------------------------------------------------------------------
 -- Using built-in pack management
 vim.pack.add({
-    { src = "https://github.com/nvim-lua/plenary.nvim" },
-    { src = "https://github.com/akinsho/toggleterm.nvim" },
-    { src = "https://github.com/nvim-telescope/telescope.nvim" },
-    { src = "https://github.com/sindrets/diffview.nvim" },
-    { src = "https://github.com/karb94/neoscroll.nvim" },
     { src = "https://github.com/folke/which-key.nvim" },
+    { src = "https://github.com/nvim-lua/plenary.nvim" },
+    { src = "https://github.com/nvim-telescope/telescope.nvim" },
+    { src = "https://github.com/karb94/neoscroll.nvim" },
+    { src = "https://github.com/akinsho/toggleterm.nvim" },
     { src = "https://github.com/lmburns/lf.nvim" },
     { src = "https://github.com/aserowy/tmux.nvim" },
     -- UI and Colors
@@ -59,10 +58,6 @@ vim.pack.add({
     { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" },
     { src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
     { src = "https://github.com/norcalli/nvim-colorizer.lua" },
-    -- Snippets code completion
-    { src = "https://github.com/rafamadriz/friendly-snippets" },
-    { src = "https://github.com/L3MON4D3/LuaSnip" },
-    { src = "https://github.com/saghen/blink.cmp" },
 })
 
 ---------------------------------------------------------------------------------
@@ -101,38 +96,6 @@ require('nvim-treesitter.configs').setup {
     ensure_installed = { "c", "lua", "go" },
     highlight = { enable = true }
 }
-
--- Completion (Blink) - Buffer words only, no LSP completions
-require('blink.cmp').setup({
-    fuzzy = { implementation = "lua" },
-    sources = {
-        -- Only enable buffer source, disable LSP
-        default = { 'buffer' },
-        providers = {
-            buffer = {
-                name = 'Buffer',
-                module = 'blink.cmp.sources.buffer',
-                opts = {
-                    -- Get words from all visible buffers
-                    get_bufnrs = function()
-                        return vim.api.nvim_list_bufs()
-                    end,
-                },
-            },
-        },
-    },
-    completion = { 
-        menu = { auto_show = true },
-        documentation = { auto_show = true },
-    },
-    signature = { enabled = false },
-    keymap = {
-        preset = 'default',
-        ['<Tab>'] = { 'select_next', 'fallback' },
-        ['<S-Tab>'] = { 'select_prev', 'fallback' },
-        ['<CR>'] = { 'accept', 'fallback' },
-    }
-})
 
 -- Telescope
 require("telescope").setup({
@@ -233,6 +196,31 @@ vim.lsp.enable({'gopls', 'clangd'})
 ---------------------------------------------------------------------------------
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
+
+-- AutoComplete
+autocmd("TextChangedI", {
+    group = augroup("AutoComplete", { clear = true }),
+    callback = function()
+        -- Skip in special buffer types (telescope, terminal, etc.)
+        if vim.bo.buftype ~= '' then
+            return
+        end
+        
+        if vim.fn.pumvisible() == 0 then
+            local col = vim.fn.col('.')
+            local line = vim.fn.getline('.')
+            local before_cursor = line:sub(1, col - 1)
+            
+            -- Get the current word being typed
+            local current_word = before_cursor:match('[%w_]+$') or ''
+            
+            -- Only trigger if we have 2+ characters
+            if #current_word >= 2 then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, false, true), 'n')
+            end
+        end
+    end,
+})
 
 -- Highlight on yank
 autocmd('TextYankPost', {
