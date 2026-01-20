@@ -1,45 +1,42 @@
 ---------------------------------------------------------------------------------
 -- [[ OPTIONS ]]
 ---------------------------------------------------------------------------------
-vim.g.mapleader = " "
-vim.g.loaded_netrw = 1
+-- Leader key
+vim.g.mapleader = " "                          -- Set space as leader key
+vim.g.loaded_netrw = 1                         -- Disable netrw (using lf.nvim instead)
 vim.g.loaded_netrwPlugin = 1
 
 local opt = vim.opt
-opt.mouse = 'a'
-opt.nu = true
-opt.relativenumber = true
-opt.tabstop = 4
-opt.softtabstop = 4
-opt.shiftwidth = 4
-opt.expandtab = true
-opt.smartindent = true
-opt.wrap = false
-opt.swapfile = false
-opt.backup = false
-opt.ignorecase = true
-opt.smartcase = true
-opt.hlsearch = true
-opt.incsearch = true
-opt.termguicolors = true
-opt.scrolloff = 20
-opt.signcolumn = "yes"
-opt.clipboard = "unnamedplus"
-opt.undofile = true
-opt.updatetime = 50
-opt.showmode = false
-opt.splitright = true
-opt.splitbelow = true
-opt.completeopt = 'menuone,noselect'
-vim.opt.isfname:append("@-@")
-vim.opt.lazyredraw = true
 
--- Global bridge for UI/Formatting
-vim.o.breakindent = true
-vim.o.winborder = 'rounded'
-
--- Abbreviation for quitting
-vim.cmd([[ cnoreabbrev <expr> qq (getcmdtype() ==# ':' && getcmdline() ==# 'qq') ? 'q!' : 'qq' ]])
+opt.mouse = 'a'                                -- Enable mouse support in all modes
+opt.nu = true                                  -- Show line numbers
+opt.relativenumber = true                      -- Show relative line numbers
+opt.signcolumn = "yes"                         -- Always show sign column (for LSP, git, etc.)
+opt.showmode = false                           -- Don't show mode (e.g., -- INSERT --) in command line
+opt.termguicolors = true                       -- Enable 24-bit RGB colors
+opt.scrolloff = 20                             -- Keep 20 lines visible above/below cursor
+opt.tabstop = 4                                -- Tab displays as 4 spaces
+opt.softtabstop = 4                            -- Tab key inserts 4 spaces
+opt.shiftwidth = 4                             -- Indent/outdent by 4 spaces
+opt.expandtab = true                           -- Convert tabs to spaces
+opt.smartindent = true                         -- Auto-indent new lines intelligently
+opt.wrap = false                               -- Don't wrap long lines
+opt.swapfile = false                           -- Disable swap files
+opt.backup = false                             -- Disable backup files
+opt.undofile = true                            -- Enable persistent undo history
+opt.ignorecase = true                          -- Case-insensitive search
+opt.smartcase = true                           -- Case-sensitive if search contains capitals
+opt.hlsearch = true                            -- Highlight search matches
+opt.incsearch = true                           -- Show matches while typing search
+opt.clipboard = "unnamedplus"                  -- Use system clipboard for yank/paste
+opt.updatetime = 50                            -- Faster completion and CursorHold events (ms)
+opt.splitright = true                          -- Vertical splits open to the right
+opt.splitbelow = true                          -- Horizontal splits open below
+opt.completeopt = 'menuone,noselect'           -- Show menu even for one item, don't auto-select
+vim.opt.isfname:append("@-@")                  -- Consider @ and - as part of filenames
+vim.opt.lazyredraw = true                      -- Don't redraw screen during macros (faster)
+vim.o.breakindent = true                       -- Wrapped lines continue with same indent
+vim.o.winborder = 'rounded'                    -- Rounded borders for floating windows
 
 ---------------------------------------------------------------------------------
 -- [[ PLUGINS ]]
@@ -228,16 +225,6 @@ autocmd('TextYankPost', {
     callback = function() vim.highlight.on_yank() end,
 })
 
--- Terminal behavior
-local term_group = augroup("custom-term", { clear = true })
-autocmd("TermOpen", {
-    group = term_group,
-    callback = function()
-        vim.wo.number = false
-        vim.wo.relativenumber = false
-        vim.cmd("startinsert")
-    end,
-})
 ---------------------------------------------------------------------------------
 -- [[ QUICKFIX LIST ]]
 ---------------------------------------------------------------------------------
@@ -261,3 +248,4 @@ key('n', '<leader>qq', ToggleQuickfixWithDiagnostics, {desc = "Toggle diagnostic
 -- Navigate location list items
 key('n', '<leader>qn', function() pcall(vim.cmd, "lnext") vim.cmd("normal! zz") end, {desc = "Next diagnostic"})
 key('n', '<leader>qp', function() pcall(vim.cmd, "lprev") vim.cmd("normal! zz") end, {desc = "Previous diagnostic"})
+
