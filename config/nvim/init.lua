@@ -51,7 +51,8 @@ vim.pack.add({
     { src = "https://github.com/lmburns/lf.nvim" },
     { src = "https://github.com/aserowy/tmux.nvim" },
     -- UI and Colors
-    { src = "https://github.com/aktersnurra/no-clown-fiesta.nvim" },
+    { src = "https://github.com/WTFox/jellybeans.nvim" },
+    { src = "https://github.com/xiyaowong/transparent.nvim" },
     { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" },
     { src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
     { src = "https://github.com/norcalli/nvim-colorizer.lua" },
@@ -63,16 +64,13 @@ vim.pack.add({
 -- tmux
 require("tmux").setup({})
 
--- Colorscheme
-require("no-clown-fiesta").setup({
-    theme = "dark",
-    transparent = true,
-    styles = { lsp = { underline = true } }
-})
--- Set installed colorscheme
-vim.cmd("colorscheme no-clown-fiesta")
-
 -- UI & Navigation
+require('jellybeans').setup({
+    transparent = true,
+    italics = false,
+    bold = false,
+})
+vim.cmd [[colorscheme jellybeans]]   
 require('neoscroll').setup({
     mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>' },
     duration_multiplier = 0.6,
@@ -208,16 +206,29 @@ autocmd("TextChangedI", {
             local line = vim.fn.getline('.')
             local before_cursor = line:sub(1, col - 1)
             
-            -- Get the current word being typed
             local current_word = before_cursor:match('[%w_]+$') or ''
             
             -- Only trigger if we have 2+ characters
             if #current_word >= 2 then
-                vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, false, true), 'n')
+                vim.schedule(function()
+                    if vim.fn.mode() == 'i' and vim.fn.pumvisible() == 0 then
+                        vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, false, true), 'n')
+                    end
+                end)
             end
         end
     end,
 })
+
+-- Tab to cycle through completion options
+vim.keymap.set('i', '<Tab>', function()
+    if vim.fn.pumvisible() == 1 then return '<C-n>' else return '<Tab>' end
+end, { expr = true, noremap = true })
+
+-- Shift-Tab to cycle backwards
+vim.keymap.set('i', '<S-Tab>', function()
+    if vim.fn.pumvisible() == 1 then return '<C-p>' else return '<S-Tab>' end
+end, { expr = true, noremap = true })
 
 -- Highlight on yank
 autocmd('TextYankPost', {
@@ -245,7 +256,7 @@ function ToggleQuickfixWithDiagnostics()
 end
 
 key('n', '<leader>qq', ToggleQuickfixWithDiagnostics, {desc = "Toggle diagnostics list"})
--- Navigate location list items
 key('n', '<leader>qn', function() pcall(vim.cmd, "lnext") vim.cmd("normal! zz") end, {desc = "Next diagnostic"})
 key('n', '<leader>qp', function() pcall(vim.cmd, "lprev") vim.cmd("normal! zz") end, {desc = "Previous diagnostic"})
+
 
