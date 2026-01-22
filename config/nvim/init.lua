@@ -44,13 +44,13 @@ vim.o.winborder = 'rounded'                    -- Rounded borders for floating w
 -- Using built-in pack management
 vim.pack.add({
     { src = "https://github.com/folke/which-key.nvim" },
-    { src = "https://github.com/nvim-lua/plenary.nvim" },
     { src = "https://github.com/nvim-telescope/telescope.nvim" },
-    { src = "https://github.com/karb94/neoscroll.nvim" },
+    { src = "https://github.com/aserowy/tmux.nvim" },
+    { src = "https://github.com/nvim-lua/plenary.nvim" },
     { src = "https://github.com/akinsho/toggleterm.nvim" },
     { src = "https://github.com/lmburns/lf.nvim" },
-    { src = "https://github.com/aserowy/tmux.nvim" },
     -- UI and Colors
+    { src = "https://github.com/karb94/neoscroll.nvim" },
     { src = "https://github.com/WTFox/jellybeans.nvim" },
     { src = "https://github.com/xiyaowong/transparent.nvim" },
     { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" },
@@ -120,8 +120,6 @@ require("telescope").setup({
 local key = vim.keymap.set
 
 -- General
-key("i", "<C-c>", "<Esc>")
-key("i", "jj", "<Esc>")
 key("n", "<leader>h", ":noh<CR>", { desc = "Clear highlights" })
 key('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 key('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -192,6 +190,12 @@ vim.lsp.enable({'gopls', 'clangd'})
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
+-- Highlight on yank
+autocmd('TextYankPost', {
+    group = augroup('YankHighlight', { clear = true }),
+    callback = function() vim.highlight.on_yank() end,
+})
+
 -- AutoComplete
 autocmd("TextChangedI", {
     group = augroup("AutoComplete", { clear = true }),
@@ -230,12 +234,6 @@ vim.keymap.set('i', '<S-Tab>', function()
     if vim.fn.pumvisible() == 1 then return '<C-p>' else return '<S-Tab>' end
 end, { expr = true, noremap = true })
 
--- Highlight on yank
-autocmd('TextYankPost', {
-    group = augroup('YankHighlight', { clear = true }),
-    callback = function() vim.highlight.on_yank() end,
-})
-
 ---------------------------------------------------------------------------------
 -- [[ QUICKFIX LIST ]]
 ---------------------------------------------------------------------------------
@@ -258,5 +256,3 @@ end
 key('n', '<leader>qq', ToggleQuickfixWithDiagnostics, {desc = "Toggle diagnostics list"})
 key('n', '<leader>qn', function() pcall(vim.cmd, "lnext") vim.cmd("normal! zz") end, {desc = "Next diagnostic"})
 key('n', '<leader>qp', function() pcall(vim.cmd, "lprev") vim.cmd("normal! zz") end, {desc = "Previous diagnostic"})
-
-
