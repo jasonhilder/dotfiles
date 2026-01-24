@@ -76,8 +76,9 @@ alias top='btop'
 
 # Application shortcuts
 alias v='nvim'
+alias vi='nvim'
+alias vim='nvim'
 alias :q='exit'
-alias files='nemo .'
 alias lg='lazygit'
 alias cat='batcat'
 

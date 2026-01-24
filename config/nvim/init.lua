@@ -7,12 +7,9 @@ vim.g.loaded_netrw = 1                         -- Disable netrw (using lf.nvim i
 vim.g.loaded_netrwPlugin = 1
 
 local opt = vim.opt
-
 opt.mouse = 'a'                                -- Enable mouse support in all modes
 opt.nu = true                                  -- Show line numbers
-opt.relativenumber = true                      -- Show relative line numbers
 opt.signcolumn = "yes"                         -- Always show sign column (for LSP, git, etc.)
-opt.showmode = false                           -- Don't show mode (e.g., -- INSERT --) in command line
 opt.termguicolors = true                       -- Enable 24-bit RGB colors
 opt.scrolloff = 20                             -- Keep 20 lines visible above/below cursor
 opt.tabstop = 4                                -- Tab displays as 4 spaces
@@ -49,6 +46,7 @@ vim.pack.add({
     { src = "https://github.com/nvim-lua/plenary.nvim" },
     { src = "https://github.com/akinsho/toggleterm.nvim" },
     { src = "https://github.com/lmburns/lf.nvim" },
+    { src = "https://github.com/folke/flash.nvim" },
     -- UI and Colors
     { src = "https://github.com/karb94/neoscroll.nvim" },
     { src = "https://github.com/WTFox/jellybeans.nvim" },
@@ -63,6 +61,8 @@ vim.pack.add({
 ---------------------------------------------------------------------------------
 -- tmux
 require("tmux").setup({})
+
+require("flash").setup({})
 
 -- UI & Navigation
 require('jellybeans').setup({
@@ -127,6 +127,8 @@ key('n', 'L', function() vim.api.nvim_feedkeys(':', 'n', true) end)
 
 -- Buffer & Window Management
 key("n", "<leader>p", "<cmd>b#<CR>", { desc = "Previous accessed buffer" })
+key("n", "s", '<cmd>lua require("flash").jump()<cr>', { desc = "Flash" })
+key("n", "S", '<cmd>lua require("flash").treesitter_search()<cr>', { desc = "Flash TS" })
 
 -- Visual Mode
 key("v", "<S-Tab>", "<gv")
@@ -196,6 +198,19 @@ autocmd('TextYankPost', {
     callback = function() vim.highlight.on_yank() end,
 })
 
+-- Swap line numbers on mode change
+vim.api.nvim_create_autocmd("ModeChanged", {
+  pattern = "*",
+  callback = function()
+    local mode = vim.fn.mode()
+    if mode == "v" or mode == "V" or mode == "\22" then -- \22 is visual block mode
+      vim.opt.relativenumber = true
+    else
+      vim.opt.relativenumber = false
+    end
+  end,
+})
+
 -- AutoComplete
 autocmd("TextChangedI", {
     group = augroup("AutoComplete", { clear = true }),
@@ -253,6 +268,4 @@ function ToggleQuickfixWithDiagnostics()
     end
 end
 
-key('n', '<leader>qq', ToggleQuickfixWithDiagnostics, {desc = "Toggle diagnostics list"})
-key('n', '<leader>qn', function() pcall(vim.cmd, "lnext") vim.cmd("normal! zz") end, {desc = "Next diagnostic"})
-key('n', '<leader>qp', function() pcall(vim.cmd, "lprev") vim.cmd("normal! zz") end, {desc = "Previous diagnostic"})
+key('n', '<leader>q', ToggleQuickfixWithDiagnostics, {desc = "Toggle diagnostics list"})
