@@ -2,27 +2,32 @@
   process-unmapped-keys yes
 )
 
+;; HHKB Classic layout
 (defsrc
-  caps lctl lalt lmet
-  esc 1 2 3 4 5 6 7 8 9 0 - =
-  h j k l o p [ ] ; ' \
-  , . /
-)
-
-(defalias
-  fn (layer-toggle arrows)
+  esc  1    2    3    4    5    6    7    8    9    0    -    =    \    grv
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    bspc
+  lctl a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+       lmet lalt           spc            ralt rmet
 )
 
 (deflayer base
-  lctl @fn lmet lalt
-  esc 1 2 3 4 5 6 7 8 9 0 - =
-  h j k l o p [ ] ; ' \
-  , . /
+  esc  1    2    3    4    5    6    7    8    9    0    -    =    \    grv
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    bspc
+  lctl a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+       lmet @enter-nav     spc            ralt rmet
 )
 
-(deflayer arrows
-  lctl _ lmet lalt
-  grv S-1 S-2 S-3 S-4 S-5 S-6 S-7 S-8 S-9 S-0 S-- S-=
-  left down up rght ' S-' S-[ S-] S-; S-' S-\
-  S-, S-. S-/
+(deflayer navigation
+  @exit-nav _  _  _  _  _  _  _  _  _  _  _  _  _  _
+  tab  _    _    _    _    _    _    _    _    _    _    _    _    _
+  lctl _    _    _    _    _    left down up   rght _    _    ret
+  lsft _    _    _    _    _    _    _    _    _    _    rsft
+       lmet lalt           spc            ralt rmet
+)
+
+(defalias
+  enter-nav (tap-hold 200 200 lalt (layer-toggle navigation))
+  exit-nav (layer-switch base)
 )
